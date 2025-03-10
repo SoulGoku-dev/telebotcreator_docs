@@ -1,0 +1,16 @@
+# Table of contents
+
+* [Introduction to Telebot Creator](README.md)
+* [Getting Started](getting-started.md)
+* [Command in TPY](command-in-tpy.md)
+* [TPY Language Reference](tpy-language-reference.md)
+* [TBC Libraries (Libs)](tbc-libraries-libs.md)
+* [Bot Features and Functionalities](bot-features-and-functionalities.md)
+* [Advanced Features](advanced-features.md)
+* [Real-World Use Cases](real-world-use-cases.md)
+* [Tips, Best Practices, and Troubleshooting](tips-best-practices-and-troubleshooting.md)
+* [Frequently Asked Questions (FAQs)](frequently-asked-questions-faqs.md)
+* [Glossary and Key Concepts](glossary-and-key-concepts.md)
+* [Broadcast Function In TBC](broadcast-function-in-tbc.md)
+* [Coinbase Library TBC](coinbase-library-tbc.md)
+* [Conclusion and Next Steps](conclusion-and-next-steps.md)
