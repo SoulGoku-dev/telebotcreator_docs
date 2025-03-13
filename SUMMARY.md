@@ -14,3 +14,4 @@
 * [Broadcast Function In TBC](broadcast-function-in-tbc.md)
 * [Coinbase Library TBC](coinbase-library-tbc.md)
 * [Conclusion and Next Steps](conclusion-and-next-steps.md)
+* [Crypto libraries Documentation](crypto-libraries-documentation.md)

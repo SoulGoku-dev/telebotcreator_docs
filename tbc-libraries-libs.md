@@ -1,6 +1,14 @@
 # TBC Libraries (Libs)
 
-Libraries, often called **libs**, in Telebot Creator (TBC) enhance the basic TPY functionalities by offering pre-built modules for specific tasks. These libraries make it easier and faster to add advanced features to your Telegram bots, such as handling payments, managing blockchain transactions, working with data, generating random values, and more.
+Libraries, often called **libs**, in Telebot Creator (TBC) enhance the basic TPY functionalities by offering pre-built modules for specific tasks. These libraries make it easier and faster to add advanced features to your Telegram bots, such as handling payments, managing blockchain transactions, working with data, generating random values, and more.\
+\
+**DEPRECATION NOTICE:**
+
+The following libraries are deprecated and removed:
+
+`libs.Polygon, libs.ARB, libs.TTcoin, libs.Tomochain.`
+
+Please migrate to libs.web3lib (sendETHER) which now supports all EVM chains, proxy support, and enhanced functionality.
 
 #### **5.1 Overview of Libraries**
 
@@ -16,19 +24,27 @@ TBC libraries are grouped based on their functionalities to help you develop bot
 
 Here are the main libraries available in TBC, along with their key functions and examples of how to use them:
 
-**1. libs.ARB**
+**1. libs.Resources**
 
-Handles transactions on the Arbitrum (ARB) blockchain.
+Manages numeric values tied to users or globally for tracking points or credits.
 
-* **Functions**:
-  * `setKeys(private_key)`: Sets your private key for ARB transactions.
-  * `send(value, to, contract, private_key=None)`: Sends tokens via a contract.
-  * `sendARB(value, to, private_key=None)`: Sends ARB cryptocurrency.
+* **Classes**:
+  * `userRes(name, user)`: Manages resources for a specific user.
+  * `globalRes(name)`: Manages global resources.
+* **Methods**:
+  * `value()`: Gets the current value.
+  * `add(amount)`: Adds to the resource.
+  * `cut(amount)`: Subtracts from the resource.
+  * `set(amount)`: Sets the resource to a specific value.
+  * `reset()`: Resets the resource to zero.
+  * `getAllData(length)`: Retrieves top resource entries.
 *   **Example**:
 
     ```python
-    libs.ARB.setKeys("your_private_key")
-    libs.ARB.sendARB(1.5, "recipient_wallet_address")
+    points = libs.Resources.userRes("points", user)
+    points.add(10)
+    current_points = points.value()
+    bot.sendMessage(f"You now have {current_points} points!")
     ```
 
 **2. libs.CSV**
@@ -98,45 +114,7 @@ Generates random numbers and strings for various uses.
     bot.sendMessage(f"Your random string is: {random_string}")
     ```
 
-**6. libs.Polygon**
-
-Supports transactions on the Polygon blockchain.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your private key for Polygon transactions.
-  * `send(value, to, contract, private_key=None)`: Sends tokens via a contract.
-  * `sendPolygon(value, to, private_key=None)`: Sends MATIC tokens.
-*   **Example**:
-
-    ```python
-    libs.Polygon.setKeys("your_private_key")
-    libs.Polygon.sendPolygon(2.0, "recipient_wallet_address")
-    ```
-
-**7. libs.Resources**
-
-Manages numeric values tied to users or globally for tracking points or credits.
-
-* **Classes**:
-  * `userRes(name, user)`: Manages resources for a specific user.
-  * `globalRes(name)`: Manages global resources.
-* **Methods**:
-  * `value()`: Gets the current value.
-  * `add(amount)`: Adds to the resource.
-  * `cut(amount)`: Subtracts from the resource.
-  * `set(amount)`: Sets the resource to a specific value.
-  * `reset()`: Resets the resource to zero.
-  * `getAllData(length)`: Retrieves top resource entries.
-*   **Example**:
-
-    ```python
-    points = libs.Resources.userRes("points", user)
-    points.add(10)
-    current_points = points.value()
-    bot.sendMessage(f"You now have {current_points} points!")
-    ```
-
-**8. libs.Paytm**
+**7.  libs.Paytm**
 
 Integrates with the Paytm payment gateway for fund transfers and automated payments.
 
@@ -150,36 +128,7 @@ Integrates with the Paytm payment gateway for fund transfers and automated payme
     libs.Paytm.send(100, "9876543210", "Payment for services")
     ```
 
-**9. libs.TTcoin**
-
-Handles transactions using TTcoin cryptocurrency.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your TTcoin private key.
-  * `sendTT(value, to, private_key=None)`: Sends TTcoin to an address.
-*   **Example**:
-
-    ```python
-    libs.TTcoin.setKeys("your_private_key")
-    libs.TTcoin.sendTT(50, "recipient_wallet_address")
-    ```
-
-**10. libs.Tomochain**
-
-Supports transactions on the Tomochain network.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your Tomochain private key.
-  * `sendTRC20(value, to, contract, private_key=None)`: Sends TRC20 tokens.
-  * `sendTomochain(value, to, private_key=None)`: Sends TOMO coins.
-*   **Example**:
-
-    ```python
-    libs.Tomochain.setKeys("your_private_key")
-    libs.Tomochain.sendTomochain(5, "recipient_wallet_address")
-    ```
-
-**11. libs.Webhook**
+**8. libs.Webhook**
 
 The `libs.Webhook` library in Telebot Creator allows you to create and manage webhooks for seamless external integrations. Webhooks enable bots to respond to real-time updates from external systems, such as payment notifications or user actions.
 
@@ -251,7 +200,7 @@ The `libs.Webhook` library in Telebot Creator allows you to create and manage we
 * **Bot-to-Bot Communication**: Use `bot_id` and `api_key` to enable bots to trigger commands in each other.
 * **Dynamic Event Handling**: Pass additional options to customize webhook behavior based on the event.
 
-**12. libs.DateAndTime**
+**9. libs.DateAndTime**
 
 Works with dates and times.
 
@@ -267,7 +216,7 @@ Works with dates and times.
     bot.sendMessage(f"The current UTC time is: {current_time}")
     ```
 
-**13. libs.Oxapay**
+**10. libs.Oxapay**
 
 Integrates the Oxapay payment system for merchants.
 
@@ -280,7 +229,7 @@ Integrates the Oxapay payment system for merchants.
     bot.sendMessage("Oxapay client initialized!")
     ```
 
-**14. libs.customHTTP**
+**11. libs.customHTTP**
 
 Performs HTTP requests with limitations on data size and timeouts, we use it as HTTP class but if you want you can use this lib, this lib provides 30 seconds timeout and it can receive contene upto 20 mb.
 
@@ -300,23 +249,149 @@ Performs HTTP requests with limitations on data size and timeouts, we use it as 
     http_client = libs.customHTTP()
     response = http_client.get("https://api.example.com/data")
     bot.sendMessage(f"Response: {response}")
-    http_client.close()
+    # not close the connect for future requests
     ```
 
-**15. libs.web3lib**
+**12. libs.web3lib**
 
-Enables transactions on Ethereum-compatible blockchains.
+**Overview:**\
+This library is designed to interact with all supported EVM chains. It offers functions to send native coins and tokens (ERC‑20) using advanced features such as automatic gas estimation, retry logic, and optional proxy support. This library is published on Telebot Creator in TPY language.
 
-* **Functions**:
-  * `setKeys(private_key)`: Sets your private key for web3 transactions.
-  * `sendETHER(value, to, contract, rpc_url, gasPrice=None, private_key=None)`: Sends tokens on an Ethereum network.
-  * `sendPolygon(value, to, private_key=None)`: Sends MATIC tokens.
-*   **Example**:
+**Supported Networks (31 Total):**
 
-    ```python
-    libs.web3lib.setKeys("your_private_key")
-    libs.web3lib.sendETHER(1, "recipient_wallet_address", "contract_address", "https://rpc_url")
-    ```
+* **Ethereum** (chainId: 1)
+* **BSC** (chainId: 56)
+* **Polygon** (chainId: 137)
+* **Avalanche** (chainId: 43114)
+* **Fantom** (chainId: 250)
+* **Arbitrum** (chainId: 42161)
+* **Optimism** (chainId: 10)
+* **Harmony** (chainId: 1666600000)
+* **Cronos** (chainId: 25)
+* **Moonriver** (chainId: 1285)
+* **Moonbeam** (chainId: 1284)
+* **Celo** (chainId: 42220)
+* **Heco** (chainId: 128)
+* **Okexchain** (chainId: 66)
+* **Xdai** (chainId: 100)
+* **KCC** (chainId: 321)
+* **Metis** (chainId: 1088)
+* **Aurora** (chainId: 1313161554)
+* **Base** (chainId: 8453)
+* **ZKSync** (chainId: 324)
+* **Scroll** (chainId: 534352)
+* **Linea** (chainId: 59144)
+* **Boba** (chainId: 288)
+* **Kava** (chainId: 2222)
+* **Fuse** (chainId: 122)
+* **Evmos** (chainId: 9001)
+* **Canto** (chainId: 7700)
+* **Astar** (chainId: 592)
+* **Telos** (chainId: 40)
+* **Rootstock** (chainId: 30)
+* **TTcoin** (chainId: 22023)
+
+**Key Functions:**
+
+* **get\_default\_rpc(network: str) -> str**\
+  Returns the default RPC URL for the given network.
+* **get\_supported\_networks() -> Dict\[str, Dict\[str, Any]]**\
+  Provides a list of all supported networks with their chain IDs and RPC endpoints.
+* **setKeys(private\_Key: str) -> str**\
+  Stores the sender's private key (linked to your current bot ID) in the MongoDB collection.
+* **sendNativeCoin(...) -> str**\
+  Sends native coins (like ETH) on the selected EVM chain. Features include automatic gas estimation, retry logic, and optional proxy support.
+* **sendETHER(...) -> str**\
+  When provided with a token contract address, this function sends tokens via the contract’s transfer method. It supports the same features as sendNativeCoin.
+
+Additionally, the following aliases are available for token transfers:\
+`send_ether`, `sendether`, and `sendEther` (all reference the same function).
+
+***
+
+## **Usage Examples**
+
+In TPY language on Telebot Creator, you define your function alias like this:
+
+```tpy
+sendETHER = libs.web3lib.sendETHER
+```
+
+Below are several examples demonstrating how to use these functions:
+
+#### **Example 1: Sending a Native Coin Transfer (ETH)**
+
+```tpy
+dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
+test_rpc = "https://rpc.ankr.com/eth"  ; Use explicit RPC URL or specify network below
+test_recipient = "0xRecipientAddressHere"
+
+; Native transfer example (contract_address omitted)
+tx_hash = libs.web3lib.sendNativeCoin(
+    value = 0.5,                     ; Amount in Ether
+    to = test_recipient,
+    rpc_url = test_rpc,
+    private_key = dummy_private_key,
+    network = "ethereum",            ; If rpc_url is empty, default Ethereum RPC is used
+    retry = True,                    ; Retry once on recoverable errors
+    estimate_gas = True
+)
+
+bot.sendMessage("Native Transfer TX Hash: " + tx_hash)
+```
+
+#### **Example 2: Sending an ERC‑20 Token Transfer**
+
+```tpy
+dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
+dummy_contract = "0xTokenContractAddressHere"
+test_recipient = "0xRecipientAddressHere"
+test_rpc = "https://rpc.ankr.com/eth"
+
+; Token transfer example (using token transfer branch)
+tx_hash = libs.web3lib.sendETHER(
+    value = 1,                       ; Token amount (assumes 18 decimals)
+    to = test_recipient,
+    rpc_url = test_rpc,
+    private_key = dummy_private_key,
+    contract_address = dummy_contract,  ; Token contract address provided triggers token transfer logic
+    network = "ethereum",
+    retry = True,
+    estimate_gas = True
+)
+
+bot.sendMessage("Token Transfer TX Hash: " + tx_hash)
+```
+
+#### **Example 3: Using Network Parameter Only (No Explicit RPC URL)**
+
+```tpy
+dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
+dummy_contract = "0xTokenContractAddressHere"
+test_recipient = "0xRecipientAddressHere"
+
+; Use network parameter to automatically use the default RPC for Polygon
+tx_hash = libs.web3lib.sendETHER(
+    value = 0.25,
+    to = test_recipient,
+    network = "polygon",
+    private_key = dummy_private_key,
+    contract_address = dummy_contract,
+    retry = False,
+    estimate_gas = True
+)
+
+bot.sendMessage("Token Transfer on Polygon TX Hash: " + tx_hash)
+```
+
+***
+
+**Summary:**
+
+* This library supports 31 EVM networks with default RPC endpoints.
+* It offers robust functionality with automatic gas estimation, retry logic, and proxy support.
+* Aliases like `send_ether`, `sendether`, and `sendEther` are provided for convenience.
+* It is published on Telebot Creator and written in TPY language.
 
 #### **5.3 Example Use Cases for Libraries**
 
@@ -324,7 +399,7 @@ Here are some real-world scenarios where these libraries can be applied:
 
 **Payment Automation**
 
-Automate payments for subscriptions or services using payment libraries.
+Automate payments for subscriptions or services using payment libraries.&#x20;
 
 *   **Example**:
 
@@ -377,73 +452,21 @@ Connect your bot with external services using the Webhook library.
     bot.sendMessage(f"Webhook URL: {webhook_url}")
     ```
 
-#### **5.4 Additional Libraries**
+#### **5.4 Summary of Libraries**
 
-Here are the remaining libraries available in TBC:
-
-**libs.TTcoin**
-
-Handles TTcoin cryptocurrency transactions.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your TTcoin private key.
-  * `sendTT(value, to, private_key=None)`: Sends TTcoin to an address.
-*   **Example**:
-
-    ```python
-    libs.TTcoin.setKeys("your_private_key")
-    libs.TTcoin.sendTT(50, "recipient_wallet_address")
-    ```
-
-**libs.Tomochain**
-
-Supports Tomochain network transactions.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your Tomochain private key.
-  * `sendTRC20(value, to, contract, private_key=None)`: Sends TRC20 tokens.
-  * `sendTomochain(value, to, private_key=None)`: Sends TOMO coins.
-*   **Example**:
-
-    ```python
-    libs.Tomochain.setKeys("your_private_key")
-    libs.Tomochain.sendTomochain(5, "recipient_wallet_address")
-    ```
-
-**libs.web3lib**
-
-Enables Ethereum-compatible blockchain transactions.
-
-* **Functions**:
-  * `setKeys(private_key)`: Sets your private key.
-  * `sendETHER(value, to, contract, rpc_url, gasPrice=None, private_key=None)`: Sends Ether or tokens.
-  * `sendPolygon(value, to, private_key=None)`: Sends MATIC tokens.
-*   **Example**:
-
-    ```python
-    libs.web3lib.setKeys("your_private_key")
-    libs.web3lib.sendETHER(1, "recipient_wallet_address", "contract_address", "https://rpc_url")
-    ```
-
-#### **5.5 Summary of Libraries**
-
-| **Library**          | **Purpose**                                 | **Key Functions**                                                   |
-| -------------------- | ------------------------------------------- | ------------------------------------------------------------------- |
-| **libs.ARB**         | Arbitrum blockchain transactions            | `setKeys`, `send`, `sendARB`                                        |
-| **libs.CSV**         | Data management with CSV files              | `create_csv`, `add_row`, `edit_row`, `get`, `delete`                |
-| **libs.Coinbase**    | Coinbase payment integration                | `setKeys`, `post`                                                   |
-| **libs.Crypto**      | Cryptocurrency conversions and pricing      | `convert`, `get_price`                                              |
-| **libs.Random**      | Generating random numbers and strings       | `randomInt`, `randomStr`, `randomFloat`, `randomAscii`              |
-| **libs.Polygon**     | Polygon blockchain transactions             | `setKeys`, `send`, `sendPolygon`                                    |
-| **libs.Resources**   | Managing user and global resources          | `value`, `add`, `cut`, `set`, `reset`, `getAllData`                 |
-| **libs.Paytm**       | Paytm payment integration                   | `setKeys`, `send`                                                   |
-| **libs.TTcoin**      | TTcoin cryptocurrency transactions          | `setKeys`, `sendTT`                                                 |
-| **libs.Tomochain**   | Tomochain network transactions              | `setKeys`, `sendTRC20`, `sendTomochain`                             |
-| **libs.Webhook**     | Creating and managing webhooks              | `genRandomId`, `getUrlFor`                                          |
-| **libs.DateAndTime** | Working with dates and times                | `utcnow`, `date_now`, `time`, `now`                                 |
-| **libs.Oxapay**      | Oxapay payment integration                  | `post`                                                              |
-| **libs.customHTTP**  | Performing HTTP requests with constraints   | `get`, `post`, `put`, `delete`, `head`, `options`, `patch`, `close` |
-| **libs.web3lib**     | Ethereum-compatible blockchain transactions | `setKeys`, `sendETHER`, `sendPolygon`                               |
+| **Library**          | **Purpose**                                                       | **Key Functions**                                                   |
+| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **libs.Resources**   | Managing user and global resources                                | `value`, `add`, `cut`, `set`, `reset`, `getAllData`                 |
+| **libs.Coinbase**    | Coinbase payment integration                                      | `setKeys`, `post`                                                   |
+| **libs.Crypto**      | Cryptocurrency conversions and pricing                            | `convert`, `get_price`                                              |
+| **libs.Random**      | Generating random numbers and strings                             | `randomInt`, `randomStr`, `randomFloat`, `randomAscii`              |
+| **libs.Paytm**       | Paytm payment integration                                         | `setKeys`, `send`                                                   |
+| **libs.CSV**         | Data management with CSV files                                    | `create_csv`, `add_row`, `edit_row`, `get`, `delete`                |
+| **libs.Webhook**     | Creating and managing webhooks                                    | `genRandomId`, `getUrlFor`                                          |
+| **libs.DateAndTime** | Working with dates and times                                      | `utcnow`, `date_now`, `time`, `now`                                 |
+| **libs.Oxapay**      | Oxapay payment integration                                        | `post`                                                              |
+| **libs.customHTTP**  | Performing HTTP requests with constraints                         | `get`, `post`, `put`, `delete`, `head`, `options`, `patch`, `close` |
+| **libs.web3lib**     | Ethereum-compatible blockchain transactions (Supports EVM chains) | `setKeys`, `sendETHER`, `sendNativeCoin`                            |
 
 #### **5.6 Real-World Applications of Libraries**
 
@@ -456,8 +479,22 @@ Handle cryptocurrency payments for services or rewards.
 *   **Example**:
 
     ```python
-    libs.Polygon.setKeys("your_private_key")
-    libs.Polygon.sendPolygon(2.0, "recipient_wallet_address")
+    dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
+    dummy_contract = "0xTokenContractAddressHere"
+    test_recipient = "0xRecipientAddressHere"
+
+    ; Use network parameter to automatically use the default RPC for Polygon
+    tx_hash = libs.web3lib.sendETHER(
+        value = 0.25,
+        to = test_recipient,
+        network = "polygon",
+        private_key = dummy_private_key,
+        contract_address = dummy_contract,
+        retry = False,
+        estimate_gas = True
+    )
+
+    bot.sendMessage("Token Transfer on Polygon TX Hash: " + tx_hash)
     ```
 
 **Referral and Loyalty Systems**
