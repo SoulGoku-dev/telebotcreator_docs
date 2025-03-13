@@ -17,7 +17,95 @@ Please note that the following libraries are now deprecated and no longer suppor
 * **libs.TTcoin**
 * **libs.Tomochain**
 
-We strongly recommend using **libs.web3lib** for all new projects.
+We strongly recommend using **libs.web3lib** for all new projects.\\
+
+#### Below is a comprehensive explanation of each function, its parameters, and how to use them.
+
+***
+
+### **`sendNativeCoin(...)`**
+
+This function allows you to send native coins like **ETH**, **BNB**, **MATIC**, etc., on supported EVM chains. It’s ideal for simple value transfers without smart contracts.
+
+#### **Function Signature**
+
+```tpy
+def sendNativeCoin(
+    value: float,
+    to: str,
+    rpc_url: Optional[str] = None,
+    gas: Optional[int] = None,
+    gasPrice: Optional[int] = None,
+    private_key: Optional[str] = None,
+    increase_gas: Optional[int] = None,
+    wait_for_confirmation: bool = True,
+    confirmation_timeout: int = 15,
+    network: Optional[str] = None,
+    estimate_gas: bool = True,
+    retry: bool = False,
+)
+```
+
+#### **Parameter Details**
+
+| Parameter                   | Type            | Description                                                                                                                                |
+| --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`value`**                 | `float`         | Amount of native coin (e.g., ETH, BNB) to send.                                                                                            |
+| **`to`**                    | `str`           | The recipient's wallet address.                                                                                                            |
+| **`rpc_url`**               | `Optional[str]` | Custom RPC URL for the target network. If not provided, you must define the `network` parameter.                                           |
+| **`gas`**                   | `Optional[int]` | Manually set gas limit. If not provided, gas will be estimated automatically.                                                              |
+| **`gasPrice`**              | `Optional[int]` | Specify the gas price. Defaults to network’s current gas price if omitted.                                                                 |
+| **`private_key`**           | `Optional[str]` | Your wallet’s private key for signing the transaction. Required for successful execution.                                                  |
+| **`increase_gas`**          | `Optional[int]` | Increase the estimated gas price by a percentage. Useful for faster confirmations.                                                         |
+| **`wait_for_confirmation`** | `bool`          | If `True`, the function waits until the transaction is confirmed. Default is `True`.                                                       |
+| **`confirmation_timeout`**  | `int`           | Maximum seconds to wait for confirmation. Default is `15`.                                                                                 |
+| **`network`**               | `Optional[str]` | Instead of defining an `rpc_url`, specify the network name (e.g., `"ethereum"`, `"bsc"`, `"polygon"`).                                     |
+| **`estimate_gas`**          | `bool`          | If `True`, gas will be estimated automatically. Recommended for convenience. Default is `True`.                                            |
+| **`retry`**                 | `bool`          | If `True`, the function retries the transaction once if it fails. Useful to bypass common errors like "nonce too low". Default is `False`. |
+
+***
+
+### **`sendETHER(...)`**
+
+This function is used to send **ERC-20 tokens** by specifying a token contract address. It's designed for token transfers that require interacting with smart contracts.
+
+#### **Function Signature**
+
+```tpy
+def sendETHER(
+    value: float, 
+    to: str, 
+    rpc_url: Optional[str] = None, 
+    gas: Optional[int] = None,
+    gasPrice: Optional[int] = None, 
+    private_key: Optional[str] = None,
+    increase_gas: Optional[int] = None,
+    wait_for_confirmation: bool = True,
+    confirmation_timeout: int = 15,
+    network: Optional[str] = None,
+    contract_address: Optional[str] = None,
+    retry: bool = False,
+    estimate_gas: bool = True,
+)
+```
+
+#### **Parameter Details**
+
+| Parameter                   | Type            | Description                                                                                                                                |
+| --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`value`**                 | `float`         | Amount of tokens to send.                                                                                                                  |
+| **`to`**                    | `str`           | The recipient's wallet address.                                                                                                            |
+| **`rpc_url`**               | `Optional[str]` | Custom RPC URL for the target network. If not provided, you must define the `network` parameter.                                           |
+| **`gas`**                   | `Optional[int]` | Manually set gas limit. If not provided, gas will be estimated automatically.                                                              |
+| **`gasPrice`**              | `Optional[int]` | Specify the gas price. Defaults to network’s current gas price if omitted.                                                                 |
+| **`private_key`**           | `Optional[str]` | Your wallet’s private key for signing the transaction. Required for successful execution.                                                  |
+| **`increase_gas`**          | `Optional[int]` | Increase the estimated gas price by a percentage. Useful for faster confirmations.                                                         |
+| **`wait_for_confirmation`** | `bool`          | If `True`, the function waits until the transaction is confirmed. Default is `True`.                                                       |
+| **`confirmation_timeout`**  | `int`           | Maximum seconds to wait for confirmation. Default is `15`.                                                                                 |
+| **`network`**               | `Optional[str]` | Instead of defining an `rpc_url`, specify the network name (e.g., `"ethereum"`, `"bsc"`, `"polygon"`).                                     |
+| **`contract_address`**      | `Optional[str]` | The ERC-20 contract address. **Required for token transfers.**                                                                             |
+| **`estimate_gas`**          | `bool`          | If `True`, gas will be estimated automatically. Recommended for convenience. Default is `True`.                                            |
+| **`retry`**                 | `bool`          | If `True`, the function retries the transaction once if it fails. Useful to bypass common errors like "nonce too low". Default is `False`. |
 
 ***
 
