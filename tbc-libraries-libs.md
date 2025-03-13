@@ -302,10 +302,11 @@ This library is designed to interact with all supported EVM chains. It offers fu
 * **sendNativeCoin(...) -> str**\
   Sends native coins (like ETH) on the selected EVM chain. Features include automatic gas estimation, retry logic, and optional proxy support.
 * **sendETHER(...) -> str**\
-  When provided with a token contract address, this function sends tokens via the contract’s transfer method. It supports the same features as sendNativeCoin.
+  When provided with a token contract address, this function sends tokens via the contract’s transfer method. It supports the same features as sendNativeCoin.&#x20;
 
 Additionally, the following aliases are available for token transfers:\
-`send_ether`, `sendether`, and `sendEther` (all reference the same function).
+`send_ether`, `sendether`, and `sendEther` (all reference the same function).\
+For more details please read [https://help.telebotcreator.com/crypto-libraries-documentation](https://help.telebotcreator.com/crypto-libraries-documentation).
 
 ***
 
