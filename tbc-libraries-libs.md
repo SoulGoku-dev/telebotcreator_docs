@@ -324,17 +324,17 @@ Below are several examples demonstrating how to use these functions:
 
 ```tpy
 dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
-test_rpc = "https://rpc.ankr.com/eth"  ; Use explicit RPC URL or specify network below
+test_rpc = "https://rpc.ankr.com/eth"  # Use explicit RPC URL or specify network below
 test_recipient = "0xRecipientAddressHere"
 
-; Native transfer example (contract_address omitted)
+# Native transfer example (contract_address omitted)
 tx_hash = libs.web3lib.sendNativeCoin(
-    value = 0.5,                     ; Amount in Ether
+    value = 0.5,                     # Amount in Ether
     to = test_recipient,
     rpc_url = test_rpc,
     private_key = dummy_private_key,
-    network = "ethereum",            ; If rpc_url is empty, default Ethereum RPC is used
-    retry = True,                    ; Retry once on recoverable errors
+    network = "ethereum",            # If rpc_url is empty, default Ethereum RPC is used
+    retry = True,                    # Retry once on recoverable errors
     estimate_gas = True
 )
 
@@ -349,13 +349,13 @@ dummy_contract = "0xTokenContractAddressHere"
 test_recipient = "0xRecipientAddressHere"
 test_rpc = "https://rpc.ankr.com/eth"
 
-; Token transfer example (using token transfer branch)
+# Token transfer example (using token transfer branch)
 tx_hash = libs.web3lib.sendETHER(
-    value = 1,                       ; Token amount (assumes 18 decimals)
+    value = 1,                       # Token amount (assumes 18 decimals)
     to = test_recipient,
     rpc_url = test_rpc,
     private_key = dummy_private_key,
-    contract_address = dummy_contract,  ; Token contract address provided triggers token transfer logic
+    contract_address = dummy_contract,  # Token contract address provided triggers token transfer logic
     network = "ethereum",
     retry = True,
     estimate_gas = True
@@ -371,7 +371,7 @@ dummy_private_key = "0xYOUR_PRIVATE_KEY_HERE"
 dummy_contract = "0xTokenContractAddressHere"
 test_recipient = "0xRecipientAddressHere"
 
-; Use network parameter to automatically use the default RPC for Polygon
+# Use network parameter to automatically use the default RPC for Polygon
 tx_hash = libs.web3lib.sendETHER(
     value = 0.25,
     to = test_recipient,
@@ -484,7 +484,7 @@ Handle cryptocurrency payments for services or rewards.
     dummy_contract = "0xTokenContractAddressHere"
     test_recipient = "0xRecipientAddressHere"
 
-    ; Use network parameter to automatically use the default RPC for Polygon
+    # Use network parameter to automatically use the default RPC for Polygon
     tx_hash = libs.web3lib.sendETHER(
         value = 0.25,
         to = test_recipient,
