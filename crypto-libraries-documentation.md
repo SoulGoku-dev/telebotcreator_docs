@@ -1,7 +1,5 @@
 # Crypto libraries Documentation
 
-## Documentation
-
 **Overview**\
 The new **libs.web3lib** library is designed to simplify and secure transactions on Ethereum-compatible (EVM) blockchains. This library is packed with robust features like:
 
