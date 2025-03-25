@@ -13,5 +13,6 @@
 * [Glossary and Key Concepts](glossary-and-key-concepts.md)
 * [Broadcast Function In TBC](broadcast-function-in-tbc.md)
 * [Coinbase Library TBC](coinbase-library-tbc.md)
+* [Version 4.7.0 Update](version-4.7.0-update.md)
 * [Conclusion and Next Steps](conclusion-and-next-steps.md)
 * [Crypto libraries Documentation](crypto-libraries-documentation.md)

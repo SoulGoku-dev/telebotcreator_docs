@@ -31,20 +31,42 @@ Manages numeric values tied to users or globally for tracking points or credits.
 * **Classes**:
   * `userRes(name, user)`: Manages resources for a specific user.
   * `globalRes(name)`: Manages global resources.
-* **Methods**:
+  * `adminRes(name, user=None)`: Provides administrative access to resources.
+* **Basic Methods**:
   * `value()`: Gets the current value.
   * `add(amount)`: Adds to the resource.
   * `cut(amount)`: Subtracts from the resource.
   * `set(amount)`: Sets the resource to a specific value.
   * `reset()`: Resets the resource to zero.
   * `getAllData(length)`: Retrieves top resource entries.
-*   **Example**:
+* **Admin Methods** (available with adminRes):
+  * `clearAllData(user=None)`: Clears all resource data, optionally for a specific user.
+  * `fetchAllResourcesOfUser(user, output_format)`: Retrieves all resources for a specific user as a file.
+  * `removeDataOfUser(user)`: Removes specific resource data for a user.
+  * `removeAllDataOfUser(user)`: Removes all resource data for a user.
+  * `removeAllData()`: Removes all resource data for the bot.
+*   **Example - Basic Usage**:
 
     ```python
     points = libs.Resources.userRes("points", user)
     points.add(10)
     current_points = points.value()
     bot.sendMessage(f"You now have {current_points} points!")
+    ```
+    
+*   **Example - Admin Operations**:
+
+    ```python
+    # Create admin resource manager
+    admin = libs.Resources.adminRes("points")
+    
+    # Fetch all resources for a specific user
+    user_resources = admin.fetchAllResourcesOfUser("12345678", "json")
+    bot.sendDocument(user_resources)
+    
+    # Clear all data for a specific user
+    admin.clearAllData("12345678")
+    bot.sendMessage("All resource data cleared for user")
     ```
 
 **2. libs.CSV**
@@ -302,7 +324,7 @@ This library is designed to interact with all supported EVM chains. It offers fu
 * **sendNativeCoin(...) -> str**\
   Sends native coins (like ETH) on the selected EVM chain. Features include automatic gas estimation, retry logic, and optional proxy support.
 * **sendETHER(...) -> str**\
-  When provided with a token contract address, this function sends tokens via the contract’s transfer method. It supports the same features as sendNativeCoin.&#x20;
+  When provided with a token contract address, this function sends tokens via the contract's transfer method. It supports the same features as sendNativeCoin.&#x20;
 
 Additionally, the following aliases are available for token transfers:\
 `send_ether`, `sendether`, and `sendEther` (all reference the same function).\
@@ -453,6 +475,111 @@ Connect your bot with external services using the Webhook library.
     bot.sendMessage(f"Webhook URL: {webhook_url}")
     ```
 
+**13. libs.openai_lib**
+
+Provides a client for interacting with OpenAI's API, enabling AI-powered features in your bot.
+
+* **Classes**:
+  * `OpenAIClient`: Core client for interacting with OpenAI API.
+  * `AIAssistant`: Higher-level class for working with OpenAI Assistants.
+* **Error Classes**:
+  * `OpenAIError`: Base exception class for OpenAI errors.
+  * `OpenAITimeoutError`: Error for request timeouts.
+  * `OpenAIAPIError`: Error for API-specific issues.
+* **Key Methods in OpenAIClient**:
+  * `create_chat_completion`: Generates text completions using OpenAI models.
+  * `create_assistant`: Creates a new OpenAI Assistant.
+  * `create_thread`: Creates a new conversation thread.
+  * `create_message`: Adds a message to a conversation thread.
+  * `create_run`: Runs an assistant on a thread to generate a response.
+* **Key Methods in AIAssistant**:
+  * `start_conversation`: Starts a new conversation thread.
+  * `send_message`: Sends a message and returns the assistant's response.
+  * `get_conversation_history`: Retrieves the history of messages in a thread.
+
+*   **Example - Chat Completion**:
+
+    ```python
+    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY")
+    response = client.create_chat_completion(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me about Telegram bots."}
+        ]
+    )
+    bot.sendMessage(response["choices"][0]["message"]["content"])
+    ```
+
+*   **Example - Using Assistant**:
+
+    ```python
+    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY")
+    assistant = libs.openai_lib.AIAssistant(
+        openai_client=client,
+        create_new=True,
+        name="Customer Support Bot",
+        instructions="You are a helpful customer support assistant.",
+        model="gpt-4o"
+    )
+    
+    thread_id = assistant.start_conversation()
+    response = assistant.send_message("How do I reset my password?")
+    bot.sendMessage(response["content"])
+    ```
+
+**14. libs.gemini_lib**
+
+Provides a client for interacting with Google's Gemini AI models, offering an OpenAI-compatible interface.
+
+* **Classes**:
+  * `GeminiClient`: Core client for interacting with Gemini API.
+  * `GeminiAIAssistant`: Higher-level class for working with Gemini in an assistant-like way.
+* **Error Classes**:
+  * `GeminiError`: Base exception class for Gemini errors.
+  * `GeminiTimeoutError`: Error for request timeouts.
+  * `GeminiAPIError`: Error for API-specific issues.
+* **Key Methods in GeminiClient**:
+  * `create_chat_completion`: Generates text completions using Gemini models.
+  * `create_assistant`: Creates a new assistant-like interface.
+  * `create_thread`: Creates a new conversation thread.
+  * `create_message`: Adds a message to a conversation thread.
+  * `create_run`: Runs an assistant on a thread to generate a response.
+* **Key Methods in GeminiAIAssistant**:
+  * `start_conversation`: Starts a new conversation thread.
+  * `send_message`: Sends a message and returns the assistant's response.
+  * `get_conversation_history`: Retrieves the history of messages in a thread.
+
+*   **Example - Chat Completion**:
+
+    ```python
+    client = libs.gemini_lib.GeminiClient(api_key="YOUR_API_KEY")
+    response = client.create_chat_completion(
+        model="gemini-2.0-flash",
+        messages=[
+            {"role": "user", "content": "What are the best practices for Telegram bot development?"}
+        ]
+    )
+    bot.sendMessage(response["choices"][0]["message"]["content"])
+    ```
+
+*   **Example - Using Assistant**:
+
+    ```python
+    client = libs.gemini_lib.GeminiClient(api_key="YOUR_API_KEY")
+    assistant = libs.gemini_lib.GeminiAIAssistant(
+        gemini_client=client,
+        create_new=True,
+        name="Product Advisor",
+        instructions="You are a helpful product recommendation assistant.",
+        model="gemini-2.0-flash"
+    )
+    
+    thread_id = assistant.start_conversation()
+    response = assistant.send_message("I need a new laptop for video editing.")
+    bot.sendMessage(response["content"])
+    ```
+
 #### **5.4 Summary of Libraries**
 
 | **Library**          | **Purpose**                                                       | **Key Functions**                                                   |
@@ -468,6 +595,8 @@ Connect your bot with external services using the Webhook library.
 | **libs.Oxapay**      | Oxapay payment integration                                        | `post`                                                              |
 | **libs.customHTTP**  | Performing HTTP requests with constraints                         | `get`, `post`, `put`, `delete`, `head`, `options`, `patch`, `close` |
 | **libs.web3lib**     | Ethereum-compatible blockchain transactions (Supports EVM chains) | `setKeys`, `sendETHER`, `sendNativeCoin`                            |
+| **libs.openai_lib**  | OpenAI API integration for AI capabilities                        | `OpenAIClient`, `AIAssistant`, create_chat_completion                |
+| **libs.gemini_lib**  | Google Gemini API integration for AI capabilities                 | `GeminiClient`, `GeminiAIAssistant`, create_chat_completion         |
 
 #### **5.6 Real-World Applications of Libraries**
 
@@ -544,6 +673,41 @@ Create random giveaways or generate unique codes.
     bot.sendMessage(f"Your random number is: {random_number}")
     ```
 
+**OpenAI Integration**
+
+Use the OpenAI library to add AI capabilities to your bot.
+
+*   **Example - Chat Completion**:
+
+    ```python
+    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY")
+    response = client.create_chat_completion(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me about Telegram bots."}
+        ]
+    )
+    bot.sendMessage(response["choices"][0]["message"]["content"])
+    ```
+
+**Gemini Integration**
+
+Use the Gemini library to add AI capabilities to your bot.
+
+*   **Example - Chat Completion**:
+
+    ```python
+    client = libs.gemini_lib.GeminiClient(api_key="YOUR_API_KEY")
+    response = client.create_chat_completion(
+        model="gemini-2.0-flash",
+        messages=[
+            {"role": "user", "content": "What are the best practices for Telegram bot development?"}
+        ]
+    )
+    bot.sendMessage(response["choices"][0]["message"]["content"])
+    ```
+
 ***
 
-By using these libraries, you can significantly extend the capabilities of your Telegram bots, making them more interactive, efficient, and feature-rich. Whether you need to handle payments, manage data, or integrate with blockchain technologies, TBC’s libraries provide the tools you need to build powerful bots with ease.
+By using these libraries, you can significantly extend the capabilities of your Telegram bots, making them more interactive, efficient, and feature-rich. Whether you need to handle payments, manage data, or integrate with blockchain technologies, TBC's libraries provide the tools you need to build powerful bots with ease.
