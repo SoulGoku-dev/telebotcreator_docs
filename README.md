@@ -57,7 +57,24 @@ Features of TPY:
 * **Security and Simplicity**: A restricted execution environment ensures safe code while keeping it simple for developers.
 * **Command Management**: Enables chaining, scheduling, and advanced user interactions through `runCommand`, `runCommandAfter`, and `handleNextCommand`.
 
+### **Points System and Advertising Policy**
 
+#### **Points System**
+
+Telebot Creator operates on a generous points system that makes bot hosting completely free:
+
+* **Initial Allocation**: New accounts receive **100,000 points** upon creation.
+* **Cost Per Command**: Each command execution costs just **1 point**.
+* **Additional Points**: Users can request additional points for free by asking admins in the group chat.
+* **Upcoming Points Faucet**: In upcoming updates, a points faucet will allow users to obtain unlimited points.
+
+#### **Minimal Advertising**
+
+Unlike other platforms, Telebot Creator has a user-friendly advertising policy:
+
+* **Low Frequency**: Advertisements appear only 2-4 times per month.
+* **Non-Intrusive**: Ads are delivered as a single broadcast message, not as continuous spam.
+* **User Experience**: This approach ensures that your bot users enjoy an uninterrupted experience.
 
 ### **Benefits of Using Telebot Creator**
 
@@ -77,5 +94,7 @@ The platform is continuously evolving to enhance user experience and expand its 
    * A more streamlined and intuitive design for effortless bot creation and management.
 2. **Custom Telegram API Integration**:
    * Users will be able to select their own Telegram API, enabling support for sending large files and removing several current limitations.
-3. **Improved Scalability**:
-   * Expanded resources to accommodate even more advanced bots and handle higher user traffic.
+3. **Bot Store**:
+   * Coming soon in the next update, the Bot Store will allow users to discover, share, and deploy pre-made bots.
+4. **Points Faucet**:
+   * A system that will enable users to obtain unlimited points for running their bots.

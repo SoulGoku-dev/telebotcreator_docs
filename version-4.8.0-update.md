@@ -9,6 +9,27 @@ The version 4.8.0 update introduces several powerful enhancements to improve you
 3. **Improved Server Stability**: Enhanced server maintenance and durability.
 4. **Command Aliases**: Support for command aliases in the upcoming UI update.
 5. **Bot Recovery System**: Ability to recover deleted bots within 90 days.
+6. **Coming Soon - Bot Store**: A marketplace for discovering, sharing, and deploying pre-made bots.
+7. **Coming Soon - Points Faucet**: System to obtain unlimited points for running your bots.
+
+## Advertising and Points System
+
+### Points System Enhancements
+
+Telebot Creator continues to offer one of the most generous free bot hosting solutions available:
+
+- **Initial Allocation**: New accounts receive **100,000 points** upon creation.
+- **Command Cost**: Each command execution costs just **1 point**.
+- **Free Additional Points**: Users can request additional points at any time by contacting admins in the TBC Help Group.
+- **Upcoming Points Faucet**: In the next update, a points faucet system will allow users to obtain unlimited points.
+
+### Ad Policy Clarification
+
+Telebot Creator maintains a minimal advertising approach to keep the platform free while ensuring a great user experience:
+
+- **Low Frequency**: Advertisements appear only 2-4 times per month.
+- **Non-Intrusive Format**: Ads are delivered as a single broadcast message, not as continuous spam.
+- **User-Friendly**: This approach ensures that bot users enjoy an uninterrupted experience.
 
 ## New Account Class
 
@@ -1424,4 +1445,32 @@ Account.recover_bot("1234567")
 # Get stats about deleted bots
 stats = Account.get_deleted_bots_stats()
 Bot.sendMessage(f"Total deleted: {stats['result']['total']}, Recoverable: {stats['result']['recoverable']}")
-``` 
+```
+
+## Coming Soon Features
+
+### Bot Store
+
+The upcoming Bot Store will revolutionize how users discover and implement Telegram bots:
+
+- **Pre-made Bot Templates**: Access a library of ready-to-use bot templates for various industries and use cases.
+- **Community Sharing**: Share your own bot creations with the TBC community.
+- **One-Click Deployment**: Deploy complete bots with just a single click, without any coding required.
+- **Categorized Listings**: Browse bots by category, popularity, or functionality.
+- **Custom Modifications**: Use templates as starting points and customize them to your specific needs.
+
+This feature will significantly reduce the time and effort needed to create powerful bots, making advanced bot functionality accessible to users of all skill levels.
+
+### Points Faucet
+
+The Points Faucet system will ensure that all users have unlimited access to points for running their bots:
+
+- **Unlimited Points**: Obtain as many points as you need to run your bots without restrictions.
+- **Completely Free**: All points remain 100% free, with no hidden costs or premium tiers.
+- **Automated System**: Request points automatically through the faucet system without needing to contact admins.
+- **Instant Credits**: Points are credited instantly to your account.
+- **No Usage Limits**: Create and run as many bots as you want without worrying about running out of points.
+
+This system reinforces Telebot Creator's commitment to providing a completely free platform for bot creation and hosting.
+
+Both of these features are currently in final development and will be released in an upcoming update. Stay tuned to the TBC announcements channel for release dates and additional information. 

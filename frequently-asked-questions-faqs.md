@@ -2,7 +2,7 @@
 
 #### **10. Frequently Asked Questions (FAQs)**
 
-This section addresses common questions and concerns about using Telebot Creator. Whether you’re a beginner or an experienced user, these FAQs provide quick answers to help you use the platform effectively.
+This section addresses common questions and concerns about using Telebot Creator. Whether you're a beginner or an experienced user, these FAQs provide quick answers to help you use the platform effectively.
 
 ***
 
@@ -38,6 +38,28 @@ points = left_points
 bot.sendMessage(f"You have {points} points remaining.")
 ```
 
+#### **5. Will there be advertisements in my bot?**
+
+Telebot Creator has a minimal advertising policy:
+* Ads appear only 2-4 times per month as a single broadcast message.
+* These are non-intrusive and won't spam your users.
+* The platform prioritizes user experience by keeping advertisements to an absolute minimum.
+
+#### **6. How can I get more points if I run out?**
+
+You can obtain more points in several ways:
+* Request additional points for free by asking admins in the TBC Help Group.
+* In upcoming updates, a points faucet will allow you to obtain unlimited points.
+* All additional points are provided completely free of charge.
+
+#### **7. What is the upcoming Bot Store?**
+
+The Bot Store is a new feature coming in the next update that will allow users to:
+* Discover pre-made bots for various purposes.
+* Share their own bot templates with the community.
+* Deploy ready-to-use bots without having to code them from scratch.
+* Access specialized bot templates for different industries and use cases.
+
 ***
 
 ### **10.2 Commands and Features**
@@ -56,10 +78,10 @@ Commands are added via the "Commands" menu in the bot dashboard. For example, to
 
 #### **2. What is the difference between `handleNextCommand` and `runCommand`?**
 
-*   **`handleNextCommand`**: Waits for the user’s next message and then routes it to a specific command.
+*   **`handleNextCommand`**: Waits for the user's next message and then routes it to a specific command.
 
     ```python
-    bot.sendMessage("What’s your name?")
+    bot.sendMessage("What's your name?")
     Bot.handleNextCommand("save_name")
     ```
 *   **`runCommand`**: Executes another command immediately.
@@ -121,7 +143,7 @@ http_client.close()
 
 Common reasons:
 
-1. You’ve exceeded the maximum of 2 running broadcasts per bot.
+1. You've exceeded the maximum of 2 running broadcasts per bot.
 2. The `function` or `command` used in the broadcast is invalid.
 
 #### **2. What are the limits for broadcasting?**
@@ -195,7 +217,9 @@ No, once a bot is transferred, it cannot be retrieved unless the new owner trans
 
 #### **1. How do I purchase more points?**
 
-Points can be purchased through the dashboard by navigating to the **Points Management** section.
+Points are completely free. You can request additional points by:
+* Asking admins in the TBC Help Group.
+* In future updates, using the points faucet to obtain unlimited points.
 
 #### **2. How are points deducted for bot actions?**
 
@@ -203,7 +227,15 @@ Each command execution costs 1 point. Broadcasts and API integrations may consum
 
 #### **3. What happens if I run out of points?**
 
-Your bot will stop functioning until points are replenished.
+Your bot will stop functioning until points are replenished. You can easily request more points from the TBC Help Group admins at any time, free of charge.
+
+#### **4. How many points do new accounts receive?**
+
+New accounts automatically receive 100,000 points upon creation, enough to execute 100,000 commands.
+
+#### **5. Is there a limit to how many points I can request?**
+
+No, you can request as many points as you need to run your bots. The platform is designed to be generous with points to ensure you can operate your bots without restrictions.
 
 ***
 
@@ -212,14 +244,14 @@ Your bot will stop functioning until points are replenished.
 #### **1. Why is my bot not responding?**
 
 * **Cause**: Command not defined, or bot is not running or maybe the server is down.
-* **Solution**: Check the command list in the dashboard and start the bot if it’s stopped.
+* **Solution**: Check the command list in the dashboard and start the bot if it's stopped.
 
 #### **2. What should I do if my webhook fails?**
 
 * **Cause**: Invalid webhook URL or unreachable endpoint.
 * **Solution**: Regenerate the webhook URL using `libs.Webhook.getUrlFor` and verify the endpoint.
 
-#### **3. How do I debug errors in my bot’s commands?**
+#### **3. How do I debug errors in my bot's commands?**
 
 Use try-except blocks to catch and log errors:
 
