@@ -854,8 +854,7 @@ if info["ok"]:
     "code_length": 31,
     "stats": {
       "executions": 342,
-      "last_executed": "2023-05-15T14:30:22Z",
-      "average_execution_time": 0.12
+      "last_executed": "2023-05-15T14:30:22Z"
     }
   }
 }
@@ -887,17 +886,16 @@ if usage["ok"]:
   "ok": true,
   "result": {
     "command": "/hello",
-    "period": "week",
-    "executions": 123,
-    "unique_users": 45,
-    "average_execution_time": 0.18,
-    "daily_stats": [
-      {"date": "2023-05-10", "executions": 24},
-      {"date": "2023-05-11", "executions": 31},
-      {"date": "2023-05-12", "executions": 19},
-      {"date": "2023-05-13", "executions": 27},
-      {"date": "2023-05-14", "executions": 22}
-    ]
+    "count": 123,
+    "update_types": {
+      "message": 85,
+      "callback_query": 38
+    },
+    "execution_types": {
+      "direct": 95,
+      "celery": 28
+    },
+    "period": "week"
   }
 }
 ```
@@ -1089,18 +1087,31 @@ if usage["ok"]:
 {
   "ok": true,
   "result": {
-    "period": "month",
-    "total_executions": 4325,
-    "unique_users": 456,
     "commands": {
-      "/start": 523,
-      "/help": 186,
-      "/settings": 94
+      "/start": {
+        "count": 523,
+        "update_types": {
+          "message": 400,
+          "callback_query": 123
+        },
+        "execution_types": {
+          "direct": 450,
+          "celery": 73
+        }
+      },
+      "/help": {
+        "count": 186,
+        "update_types": {
+          "message": 150,
+          "callback_query": 36
+        },
+        "execution_types": {
+          "direct": 160,
+          "celery": 26
+        }
+      }
     },
-    "daily_stats": [
-      {"date": "2023-05-01", "executions": 142, "users": 56},
-      {"date": "2023-05-02", "executions": 156, "users": 62}
-    ],
+    "period": "month",
     "bot": {
       "botid": "1234567",
       "name": "Support Bot",
@@ -1134,20 +1145,30 @@ if stats["ok"]:
   "result": {
     "total_bots": 5,
     "total_users": 2584,
-    "total_commands": 68,
     "total_active_users": 943,
-    "bot_stats": [
+    "total_commands": 68,
+    "bots": [
       {
         "botid": "1234567",
         "name": "Support Bot",
+        "username": "support_bot",
+        "status": "working",
         "users": 1250,
-        "active_users": 450
+        "active_users": 450,
+        "commands": 15,
+        "points_used": 5432,
+        "blocked_users": 12
       },
       {
         "botid": "7654321",
         "name": "Quiz Bot",
+        "username": "quiz_master_bot",
+        "status": "working",
         "users": 856,
-        "active_users": 312
+        "active_users": 312,
+        "commands": 8,
+        "points_used": 2345,
+        "blocked_users": 5
       }
     ]
   }
