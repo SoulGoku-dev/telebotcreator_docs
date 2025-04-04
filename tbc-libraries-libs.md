@@ -20,121 +20,6 @@ TBC libraries are grouped based on their functionalities to help you develop bot
 * **Randomization**: Generate random numbers or strings for games and giveaways.
 * **Resource Management**: Track points, credits, or other resources for users or globally.
 
-#### **5.2 Key Libraries and Their Functions**
-
-Here are the main libraries available in TBC, along with their key functions and examples of how to use them:
-
-**1. libs.Resources**
-
-Manages numeric values tied to users or globally for tracking points or credits.
-
-* **Classes**:
-  * `userRes(name, user)`: Manages resources for a specific user.
-  * `globalRes(name)`: Manages global resources.
-  * `adminRes(name, user=None)`: Provides administrative access to resources.
-* **Basic Methods**:
-  * `value()`: Gets the current value.
-  * `add(amount)`: Adds to the resource.
-  * `cut(amount)`: Subtracts from the resource.
-  * `set(amount)`: Sets the resource to a specific value.
-  * `reset()`: Resets the resource to zero.
-  * `getAllData(length)`: Retrieves top resource entries.
-* **Admin Methods** (available with adminRes):
-  * `clearAllData(user=None)`: Clears all resource data, optionally for a specific user.
-  * `fetchAllResourcesOfUser(user, output_format)`: Retrieves all resources for a specific user as a file.
-  * `removeDataOfUser(user)`: Removes specific resource data for a user.
-  * `removeAllDataOfUser(user)`: Removes all resource data for a user.
-  * `removeAllData()`: Removes all resource data for the bot.
-*   **Example - Basic Usage**:
-
-    ```python
-    points = libs.Resources.userRes("points", user)
-    points.add(10)
-    current_points = points.value()
-    bot.sendMessage(f"You now have {current_points} points!")
-    ```
-    
-*   **Example - Admin Operations**:
-
-    ```python
-    # Create admin resource manager
-    admin = libs.Resources.adminRes("points")
-    
-    # Fetch all resources for a specific user
-    user_resources = admin.fetchAllResourcesOfUser("12345678", "json")
-    bot.sendDocument(user_resources)
-    
-    # Clear all data for a specific user
-    admin.clearAllData("12345678")
-    bot.sendMessage("All resource data cleared for user")
-    ```
-
-**2. libs.CSV**
-
-Simplifies data management with CSV files.
-
-* **Class**:
-  * `CSVHandler(filename)`: Manages a specific CSV file.
-* **Methods**:
-  * `create_csv(headers)`: Creates a new CSV file with headers.
-  * `add_row(row)`: Adds a new row of data.
-  * `edit_row(row_index, row)`: Edits an existing row.
-  * `get()`: Retrieves information about the CSV file.
-  * `delete()`: Deletes the CSV file.
-*   **Example**:
-
-    ```python
-    csv = libs.CSV.CSVHandler("data.csv")
-    csv.create_csv(["Name", "Points", "Date"])
-    csv.add_row({"Name": "Alice", "Points": 100, "Date": "2025-01-01"})
-    ```
-
-**3. libs.Coinbase**
-
-Integrates with the Coinbase payment gateway for cryptocurrency transactions.
-
-* **Functions**:
-  * `setKeys(api_key, secret)`: Sets your Coinbase API keys.
-  * `post(api_key=None, secret=None)`: Returns a Coinbase client instance.
-*   **Example**:
-
-    ```python
-    libs.Coinbase.setKeys("your_api_key", "your_secret_key")
-    client = libs.Coinbase.post()
-    ```
-
-**4. libs.Crypto**
-
-Provides tools for cryptocurrency conversions and pricing.
-
-* **Functions**:
-  * `convert(_from, _to, _amount)`: Converts an amount from one cryptocurrency to another.
-  * `get_price(currency, price_in)`: Gets the current price of a cryptocurrency.
-*   **Example**:
-
-    ```python
-    price = libs.Crypto.get_price("BTC", "USD")
-    bot.sendMessage(f"The current price of BTC in USD is {price}.")
-    ```
-
-**5. libs.Random**
-
-Generates random numbers and strings for various uses.
-
-* **Functions**:
-  * `randomInt(min, max)`: Returns a random integer between min and max.
-  * `randomStr(length, char_set=None)`: Returns a random string of the specified length.
-  * `randomFloat(min, max)`: Returns a random float between min and max.
-  * `randomAscii(length)`: Returns a random ASCII string.
-*   **Example**:
-
-    ```python
-    random_number = libs.Random.randomInt(1, 100)
-    bot.sendMessage(f"Your random number is: {random_number}")
-
-    random_string = libs.Random.randomStr(8)
-    bot.sendMessage(f"Your random string is: {random_string}")
-    ```
 
 **7.  libs.Paytm**
 
@@ -584,7 +469,7 @@ Provides a client for interacting with Google's Gemini AI models, offering an Op
 
 | **Library**          | **Purpose**                                                       | **Key Functions**                                                   |
 | -------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
-| **libs.Resources**   | Managing user and global resources                                | `value`, `add`, `cut`, `set`, `reset`, `getAllData`                 |
+| **libs.Resources**   | Managing user and global resources                                | `value`, `add`, `cut`, `set`, `reset`, `getAllData`, `clearAllData`, `fetchAllResourcesOfUser`, `removeDataOfUser`, `removeAllDataOfUser`, `removeAllData`                 |
 | **libs.Coinbase**    | Coinbase payment integration                                      | `setKeys`, `post`                                                   |
 | **libs.Crypto**      | Cryptocurrency conversions and pricing                            | `convert`, `get_price`                                              |
 | **libs.Random**      | Generating random numbers and strings                             | `randomInt`, `randomStr`, `randomFloat`, `randomAscii`              |
@@ -711,3 +596,195 @@ Use the Gemini library to add AI capabilities to your bot.
 ***
 
 By using these libraries, you can significantly extend the capabilities of your Telegram bots, making them more interactive, efficient, and feature-rich. Whether you need to handle payments, manage data, or integrate with blockchain technologies, TBC's libraries provide the tools you need to build powerful bots with ease.
+
+**4. libs.Resources**
+
+The `libs.Resources` library in Telebot Creator provides a simple and efficient way to track and manage numeric values in your bot. These can represent points, credits, scores, or any other numerical resource.
+
+### Resource Classes
+
+#### userRes
+
+Create and manage resources for specific users.
+
+```python
+res = libs.Resources.userRes(name, user=None)
+```
+
+**Parameters:**
+- `name` (Required): The name of the resource.
+- `user` (Optional): User ID to associate with this resource. Defaults to the current user.
+
+#### globalRes
+
+Create and manage global resources that apply across all users.
+
+```python
+res = libs.Resources.globalRes(name)
+```
+
+**Parameters:**
+- `name` (Required): The name of the resource.
+
+#### anotherRes
+
+Create and manage resources for a specific user (even if not the current user).
+
+```python
+res = libs.Resources.anotherRes(name, user)
+```
+
+**Parameters:**
+- `name` (Required): The name of the resource.
+- `user` (Required): User ID to associate with this resource.
+
+#### adminRes
+
+Create and manage resources with administrative privileges.
+
+```python
+res = libs.Resources.adminRes(name, user=None)
+```
+
+**Parameters:**
+- `name` (Required): The name of the resource.
+- `user` (Optional): User ID to scope the admin operations.
+
+#### accountRes
+
+Create and manage account-level resources that persist across all bots.
+
+```python
+res = libs.Resources.accountRes(name)
+```
+
+**Parameters:**
+- `name` (Required): The name of the resource.
+
+### Resource Methods
+
+All resource classes support the following methods:
+
+#### value()
+
+Gets the current value of the resource.
+
+```python
+current_value = res.value()
+```
+
+**Returns:** The current numeric value of the resource.
+
+#### add(value)
+
+Adds the specified amount to the resource.
+
+```python
+new_value = res.add(amount)
+```
+
+**Parameters:**
+- `value` (Required): The amount to add.
+
+**Returns:** The new value after addition.
+
+#### cut(value)
+
+Subtracts the specified amount from the resource.
+
+```python
+new_value = res.cut(amount)
+```
+
+**Parameters:**
+- `value` (Required): The amount to subtract.
+
+**Returns:** The new value after subtraction.
+
+#### set(value)
+
+Sets the resource to a specific value.
+
+```python
+new_value = res.set(amount)
+```
+
+**Parameters:**
+- `value` (Required): The value to set.
+
+**Returns:** The new value.
+
+#### reset()
+
+Resets the resource value to zero.
+
+```python
+new_value = res.reset()
+```
+
+**Returns:** The new value (always 0).
+
+### Examples
+
+**User-specific resources:**
+```python
+# Create or access a user resource
+points = libs.Resources.userRes("points")
+
+# Add points for current user
+points.add(100)
+
+# Check current points
+current = points.value()
+bot.sendMessage(f"You have {current} points")
+
+# Reset points
+points.reset()
+bot.sendMessage("Points reset to 0")
+```
+
+**Global resources:**
+```python
+# Create or access a global resource
+jackpot = libs.Resources.globalRes("jackpot")
+
+# Add to jackpot
+jackpot.add(50)
+
+# Check current jackpot
+current = jackpot.value()
+bot.sendMessage(f"Current jackpot: {current}")
+```
+
+**Managing another user's resources:**
+```python
+# Add points to a specific user
+user_points = libs.Resources.anotherRes("points", "123456789")
+user_points.add(25)
+bot.sendMessage(f"Added 25 points to user. New total: {user_points.value()}")
+```
+
+**Administrative tasks:**
+```python
+# Get top scorers
+admin = libs.Resources.adminRes("score")
+top_scores = admin.getAllData(10)
+
+result = "Top Scores:\n"
+for entry in top_scores:
+    result += f"{entry['user']}: {entry['value']}\n"
+bot.sendMessage(result)
+```
+
+**Account-level resources:**
+```python
+# Create or access an account-level resource
+subscription_points = libs.Resources.accountRes("subscription_points")
+
+# Add points
+subscription_points.add(100)
+
+# Check current account points (accessible across all bots)
+current = subscription_points.value()
+bot.sendMessage(f"Account has {current} subscription points")
+```

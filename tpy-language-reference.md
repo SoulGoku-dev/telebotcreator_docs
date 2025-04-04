@@ -12,6 +12,7 @@ TPY (Telebot Python) is the main programming language used in Telebot Creator (T
   * **Built-in Libraries**: Pre-made modules for blockchain, payments, randomness, and more.
   * **Pre-defined Globals**: Ready-to-use variables and functions for handling user interactions and bot tasks.
   * **Command Chaining and Scheduling**: Run commands in a sequence or at specific times.
+  * **Telegram Update Handling**: Simplified system for processing both standard and special update types.
 
 #### **4.1.1 Security and Restrictions**
 
@@ -440,6 +441,112 @@ In the send\_reminder command:
 ```python
 bot.sendMessage("This is your reminder!")
 ```
+
+#### **4.7 Handling Telegram Updates**
+
+TPY provides a structured system for handling different types of Telegram updates. Understanding how to process these updates is essential for creating responsive and versatile bots.
+
+**4.7.1 Update Types in Telegram**
+
+Telegram sends various types of updates to your bot when events occur. These updates fall into two categories:
+
+1. **Normal Updates**: The most common update types that are directly handled by standard command names
+2. **Special Updates**: Less common update types that require special handler commands
+
+**Normal Updates include:**
+- `message` - Regular text or media messages sent by users
+- `callback_query` - Responses from inline keyboard buttons
+
+**Special Updates include:**
+```
+edited_message, channel_post, edited_channel_post, business_connection, business_message,
+edited_business_message, deleted_business_messages, message_reaction, message_reaction_count,
+inline_query, chosen_inline_result, shipping_query, pre_checkout_query, purchased_paid_media,
+poll, poll_answer, my_chat_member, chat_member, chat_join_request, chat_boost, removed_chat_boost
+```
+
+**4.7.2 Handling Normal Updates**
+
+Normal updates (`message` and `callback_query`) can be handled directly using standard command names:
+
+```python
+# /start command handles message updates with text "/start"
+# Command name in TBC: /start
+bot.sendMessage("Welcome to my bot!")
+
+# /joined command handles new chat join events
+# Command name in TBC: /joined
+bot.sendMessage("Welcome to the group!")
+
+# command for handling callback queries named "show_profile"
+# Command name in TBC: show_profile (callback data name)
+bot.answerCallbackQuery(callback_query_id=message.id, text="Loading profile...")
+```
+
+**4.7.3 Handling Special Updates**
+
+Special updates require specific handler commands using the pattern: `/handler_<update_type>`
+
+For example:
+```python
+# Command name in TBC: /handler_edited_message
+# This processes edited_message updates
+edited_text = message.text
+bot.sendMessage(f"You edited your message to: {edited_text}")
+```
+
+```python
+# Command name in TBC: /handler_inline_query
+# This processes inline_query updates
+query = message.query
+results = [...]  # Define your inline results
+bot.answerInlineQuery(inline_query_id=message.id, results=results)
+```
+
+```python
+# Command name in TBC: /handler_chat_join_request
+# Handles chat join requests
+user_id = message.from_user.id
+bot.approveChatJoinRequest(chat_id=message.chat.id, user_id=user_id)
+```
+
+**4.7.4 Handling All Special Updates**
+
+If you want a single command to handle all special update types, you can create a command named `/handler_special_updates`:
+
+```python
+# Command name in TBC: /handler_special_updates
+# This processes all special update types
+update_type = update_type  # The global variable that contains the current update type
+
+if update_type == "edited_message":
+    # Handle edited messages
+    bot.sendMessage("You edited a message")
+    
+elif update_type == "inline_query":
+    # Handle inline queries
+    query = message.query
+    results = [...]  # Define your inline results
+    bot.answerInlineQuery(inline_query_id=message.id, results=results)
+    
+elif update_type == "chat_join_request":
+    # Handle join requests
+    bot.approveChatJoinRequest(chat_id=message.chat.id, user_id=message.from_user.id)
+    
+# Add handlers for other special update types as needed
+```
+
+**4.7.5 Accessing Update Type Information**
+
+In any command, you can access the current update type using the global variable `update_type`. This is especially useful in the `/handler_special_updates` command:
+
+```python
+# Check what kind of update we're processing
+current_update = update_type
+bot.sendMessage(f"Processing update type: {current_update}")
+```
+
+This system gives you flexible control over how your bot handles different Telegram events, allowing for more interactive and responsive bot experiences.
 
 #### **Summary**
 
