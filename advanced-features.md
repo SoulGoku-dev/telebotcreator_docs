@@ -2,11 +2,83 @@
 
 #### **7. Advanced Features**
 
-In this section, we explore advanced functionalities of Telebot Creator, such as **command chaining**, **custom API integrations**, and multi-bot management. This section also introduces key methods like `Bot.Transfer` for transferring bots and `Bot.info()` for retrieving detailed bot information.
+Telebot Creator offers powerful advanced features that extend basic bot functionality. This section explores these capabilities, including custom data storage, scheduled tasks, integration with external systems, and managing user interactions, among others.
 
 ***
 
-#### **7.1 Command Chaining for Workflows**
+### **7.1 Scheduled Commands**
+
+Telebot Creator allows you to schedule commands to run at specific intervals, creating chatbots that can perform time-based tasks.
+
+#### **Bot.runCommandAfter**
+
+The `Bot.runCommandAfter` function lets you schedule a command to run after a specific time delay.
+
+***
+
+**Function Syntax**:
+
+```python
+Bot.runCommandAfter(
+    delay_seconds: float,
+    command: str,
+    user_id: Optional[str] = None,
+    chat_id: Optional[str] = None,
+    params: Optional[str] = None,
+    bot_id: Optional[str] = None,
+    api_key: Optional[str] = None
+)
+```
+
+> **New in 4.9.0**:
+> - Maximum timeout extended to 1 year (365 days)
+> - Minimum timeout reduced to 0.1 seconds
+> - Smart rate limiting: For ultra-fast commands (under 0.4 seconds), a limit of 5 executions within 5 seconds to prevent abuse
+> - Increased maximum scheduled commands per user from 20 to 100
+
+**Parameters**:
+
+* **`delay_seconds`** (_float_): The delay in seconds before executing the command. Range: 0.1 to 31,536,000 (365 days).
+* **`command`** (_str_): The command to execute after the delay.
+* **`user_id`** (_Optional\[str]_): The user ID for which to execute the command.
+* **`chat_id`** (_Optional\[str]_): The chat ID in which to execute the command.
+* **`params`** (_Optional\[str]_): Parameters to pass to the command.
+* **`bot_id`** (_Optional\[str]_): The bot ID for which to schedule the command.
+* **`api_key`** (_Optional\[str]_): The API key for authentication with external bots.
+
+**Examples**:
+
+1.  **Basic Scheduling**:
+
+    ```python
+    Bot.runCommandAfter(300, "reminder")  # Run the reminder command after 5 minutes
+    ```
+2.  **User-Specific Scheduling**:
+
+    ```python
+    Bot.runCommandAfter(3600, "daily_check", user_id=12345)  # Run for specific user after 1 hour
+    ```
+3.  **With Parameters**:
+
+    ```python
+    Bot.runCommandAfter(60, "send_reminder", params="meeting")  # Pass parameters to the command
+    ```
+4.  **Long-term Scheduling**:
+
+    ```python
+    # Schedule a command to run in 30 days (new in 4.9.0)
+    Bot.runCommandAfter(2592000, "monthly_report") 
+    ```
+5.  **Ultra-fast Task**:
+
+    ```python
+    # Quick follow-up message (subject to rate limiting in 4.9.0)
+    Bot.runCommandAfter(0.2, "send_followup") 
+    ```
+
+***
+
+#### **7.2 Command Chaining for Workflows**
 
 Command chaining allows bots to create step-by-step workflows, guiding users through complex processes such as registration, surveys, or multi-step forms.
 
@@ -15,7 +87,7 @@ Command chaining allows bots to create step-by-step workflows, guiding users thr
 1.  **Start the Workflow**:
 
     ```python
-    bot.sendMessage("Welcome! Let’s start with your name.")
+    bot.sendMessage("Welcome! Let's start with your name.")
     Bot.handleNextCommand("get_name")
     ```
 2.  **Process Name**:
@@ -36,7 +108,7 @@ Command chaining allows bots to create step-by-step workflows, guiding users thr
 
 ***
 
-#### **7.2 Custom API Integrations**
+#### **7.3 Custom API Integrations**
 
 With `libs.customHTTP`, bots can interact with external APIs, enabling dynamic data fetching or triggering external processes.
 
@@ -52,7 +124,7 @@ http_client.close()
 
 ***
 
-#### **7.3 Webhook Management**
+#### **7.4 Webhook Management**
 
 The `libs.Webhook` library facilitates real-time event handling, such as receiving external updates or triggering bot commands.
 
@@ -65,7 +137,7 @@ bot.sendMessage(f"Webhook URL: {webhook_url}")
 
 ***
 
-#### **7.4 Bot.Transfer Function**
+#### **7.5 Bot.Transfer Function**
 
 The `Bot.Transfer` function allows you to transfer a bot from one Telebot Creator account to another. It ensures that the transferred bot retains its commands, configurations, and status while validating points and ownership.
 
@@ -105,7 +177,7 @@ except Exception as e:
 
 ***
 
-#### **7.5 Bot.info() Function**
+#### **7.6 Bot.info() Function**
 
 The `Bot.info()` function retrieves detailed information about a specific bot, including its status, owner details, points, and usage statistics.
 
@@ -147,7 +219,7 @@ except Exception as e:
 
 ***
 
-#### **7.6 Multi-Bot Management**
+#### **7.7 Multi-Bot Management**
 
 For users managing multiple bots, Telebot Creator allows seamless integration between them.
 
@@ -167,7 +239,7 @@ For users managing multiple bots, Telebot Creator allows seamless integration be
 
 ***
 
-#### **7.7 Advanced Error Handling**
+#### **7.8 Advanced Error Handling**
 
 Implement advanced error-handling techniques to ensure smooth workflows.
 
@@ -181,7 +253,7 @@ except Exception as e:
     bot.sendMessage(f"Error occurred: {str(e)}")
 ```
 
-#### **7.8 Bot.Transfer (Expanded Use Cases)**
+#### **7.9 Bot.Transfer (Expanded Use Cases)**
 
 **1. Bot Migration Between Users**
 
@@ -221,7 +293,7 @@ for bot_id in bots_to_transfer:
 
 ***
 
-#### **7.9 Bot.info() (Expanded Details)**
+#### **7.10 Bot.info() (Expanded Details)**
 
 The `Bot.info()` function is a powerful tool for retrieving comprehensive bot details. It provides insight into bot usage, configurations, and ownership.
 
@@ -255,7 +327,7 @@ The `Bot.info()` function is a powerful tool for retrieving comprehensive bot de
 
 ***
 
-#### **7.10 Advanced API Integrations**
+#### **7.11 Advanced API Integrations**
 
 **1. Fetch and Process Data**
 
@@ -294,7 +366,7 @@ bot.sendMessage(f"Webhook URL for updates: {webhook_url}")
 
 ***
 
-#### **7.11 Multi-Bot Management (Expanded)**
+#### **7.12 Multi-Bot Management (Expanded)**
 
 **1. Orchestrating Bots**
 
@@ -333,7 +405,7 @@ for bot_id in bot_ids:
 
 ***
 
-#### **7.12 Enhanced Error Handling**
+#### **7.13 Enhanced Error Handling**
 
 **Logging Errors for Debugging**
 
@@ -363,7 +435,7 @@ except Exception as e:
 
 ***
 
-#### **7.13 Combining Features for Real-World Applications**
+#### **7.14 Combining Features for Real-World Applications**
 
 **Use Case: Survey Bot with API Integration**
 

@@ -10,6 +10,14 @@ The following libraries are deprecated and removed:
 
 Please migrate to libs.web3lib (sendETHER) which now supports all EVM chains, proxy support, and enhanced functionality.
 
+> **New in 4.9.0**: 
+> 
+> - Added native `time.sleep()` function with a maximum limit of 10 seconds
+> - Direct HTTP module usage is now recommended over `libs.customHTTP()`
+> - Code execution timeout increased from 60 to 120 seconds
+> - Do not use `import` statements in your code
+> - For handling inline queries and other update types, use the `/handler_<update_type>` command format
+
 #### **5.1 Overview of Libraries**
 
 TBC libraries are grouped based on their functionalities to help you develop bots efficiently:
@@ -140,6 +148,8 @@ Integrates the Oxapay payment system for merchants.
 
 Performs HTTP requests with limitations on data size and timeouts, we use it as HTTP class but if you want you can use this lib, this lib provides 30 seconds timeout and it can receive contene upto 20 mb.
 
+> **Note**: As of version 4.9.0, it's recommended to use the standard HTTP module instead of libs.customHTTP() for better performance and reliability.
+
 * **Class**:
   * `CustomHTTP()`: Creates an HTTP client.
 * **Methods**:
@@ -159,7 +169,54 @@ Performs HTTP requests with limitations on data size and timeouts, we use it as 
     # not close the connect for future requests
     ```
 
-**12. libs.web3lib**
+**12. TonLib**
+
+> **New in 4.9.0**
+
+Provides comprehensive integration with The Open Network (TON) blockchain. With TonLib, you can create wallets, check balances, send TON, work with jettons (TON's tokens), and integrate TON Connect for user wallet connections.
+
+* **Wallet Management**:
+  * `generateWallet()`: Creates a new TON wallet and returns its address and mnemonic phrase.
+  * `setKeys(mnemonics)`: Stores a mnemonic phrase for later use.
+  * `getWalletAddress(mnemonics=None)`: Retrieves the wallet address from stored keys or specified mnemonics.
+
+* **TON Operations**:
+  * `getBalance(address, api_key=None, endpoint=None)`: Checks the TON balance of an address.
+  * `sendTON(to_address, amount, comment=None, mnemonics=None, api_key=None, endpoint=None, is_testnet=False)`: Sends TON to another address.
+  * `checkTONTransaction(address, api_key=None, endpoint=None, limit=10)`: Gets recent transactions for an address.
+
+* **TON Connect Integration**:
+  * `create_ton_connect_session(user_id, expiry_seconds=86400)`: Creates a session for wallet connection.
+  * `verify_ton_connect_session(session_id)`: Checks if a wallet has connected to the session.
+  * `request_ton_transaction(to_address, amount, comment=None, callback_url="", return_url=None)`: Requests a TON transfer from a connected wallet.
+
+* **Jetton Operations**:
+  * `get_jetton_metadata(jetton_master_address, api_key=None, endpoint=None)`: Retrieves information about a Jetton (token).
+  * `get_jetton_balance(owner_address, jetton_master_address, api_key=None, endpoint=None)`: Checks a Jetton balance.
+  * `request_jetton_transfer(to_address, jetton_master_address, amount, comment=None, callback_url="", return_url=None)`: Requests a Jetton transfer.
+
+* **Example**:
+
+  ```python
+  # Generate a wallet
+  wallet = TonLib.generateWallet()
+  address = wallet["address"]
+  
+  # Check balance
+  balance = TonLib.getBalance(address)
+  bot.sendMessage(f"Balance: {balance} TON")
+  
+  # Send TON
+  TonLib.sendTON(
+      to_address="EQD...",
+      amount=0.1,
+      comment="Test payment"
+  )
+  ```
+
+For detailed documentation, see [TON Library Documentation](ton-library-documentation.md).
+
+**13. libs.web3lib**
 
 **Overview:**\
 This library is designed to interact with all supported EVM chains. It offers functions to send native coins and tokens (ERC‑20) using advanced features such as automatic gas estimation, retry logic, and optional proxy support. This library is published on Telebot Creator in TPY language.
@@ -360,7 +417,7 @@ Connect your bot with external services using the Webhook library.
     bot.sendMessage(f"Webhook URL: {webhook_url}")
     ```
 
-**13. libs.openai_lib**
+**14. libs.openai_lib**
 
 Provides a client for interacting with OpenAI's API, enabling AI-powered features in your bot.
 
@@ -413,7 +470,7 @@ Provides a client for interacting with OpenAI's API, enabling AI-powered feature
     bot.sendMessage(response["content"])
     ```
 
-**14. libs.gemini_lib**
+**15. libs.gemini_lib**
 
 Provides a client for interacting with Google's Gemini AI models, offering an OpenAI-compatible interface.
 

@@ -33,8 +33,13 @@ This section provides essential guidance for optimizing bot performance, managin
     ```python
     Bot.runCommandAfter(3600, "send_reminder")  # Execute a reminder after 1 hour
     ```
+    
+    > **New in 4.9.0**: You can now schedule tasks up to 1 year (365 days) ahead, with a minimum interval of 0.1 seconds. Maximum scheduled tasks per user increased from 20 to 100.
+    
 4. **Minimize Repeated API Calls**:
    * Cache data that doesn't change frequently (e.g., user statistics or configuration).
+   
+   > **New in 4.9.0**: Use standard `HTTP` module instead of `libs.customHTTP()` for better performance and reliability.
 
 ***
 
@@ -55,6 +60,18 @@ This section provides essential guidance for optimizing bot performance, managin
            Bot.saveData("last_error", str(e))
            bot.sendMessage(f"Error occurred: {e}")
        ```
+
+***
+
+#### **Code Execution Limits**
+
+> **New in 4.9.0**:
+> 
+> 1. Code execution timeout has been extended from 60 to 120 seconds.
+> 2. A new `time.sleep()` function is available with a maximum limit of 10 seconds.
+> 3. For ultra-fast commands (under 0.4 seconds), a rate limit of 5 executions within 5 seconds is enforced to prevent abuse.
+> 4. Do not use `import x` statements in your code. Use the built-in libraries instead.
+> 5. For handling inline queries and other update types, use the `/handler_<update_type>` command format.
 
 ***
 
@@ -84,7 +101,7 @@ This section provides essential guidance for optimizing bot performance, managin
     * Break complex processes into smaller steps using `handleNextCommand`.
 
     ```python
-    bot.sendMessage("What’s your name?")
+    bot.sendMessage("What's your name?")
     Bot.handleNextCommand("get_name")
     ```
 2.  **Validate Inputs**:
@@ -127,7 +144,7 @@ This section provides essential guidance for optimizing bot performance, managin
 
 #### **Command Errors**
 
-* **Issue**: The bot doesn’t respond to a command.
+* **Issue**: The bot doesn't respond to a command.
 * **Causes**:
   * Command is misspelled or case-sensitive mismatch.
   * Missing parameters in the command.
@@ -266,7 +283,7 @@ Telebot Creator's `libs.CSV` library allows you to handle large datasets effecti
 csv_handler = libs.CSV.CSVHandler("leaderboard.csv")
 csv_handler.create_csv(["Name", "Points"])
 
-# Add or update a user’s points
+# Add or update a user's points
 csv_handler.add_row({"Name": "Alice", "Points": 100})
 csv_handler.edit_row(0, {"Name": "Alice", "Points": 150})  # Update Alice's points
 
@@ -325,7 +342,7 @@ bot.sendMessage(f"Webhook URL: {webhook_url}")
 **Handle Notifications in the `notify_user` Command**:
 
 ```python
-bot.sendMessage("You’ve received a new notification!")
+bot.sendMessage("You've received a new notification!")
 ```
 
 ***
@@ -339,7 +356,7 @@ Create workflows that interact with users and automate follow-ups.
 1.  Collect user input:
 
     ```python
-    bot.sendMessage("What’s your favorite color?")
+    bot.sendMessage("What's your favorite color?")
     Bot.handleNextCommand("save_color")
     ```
 2.  Save the input and set a reminder:
@@ -353,7 +370,7 @@ Create workflows that interact with users and automate follow-ups.
 3.  Send the reminder:
 
     ```python
-    bot.sendMessage("Don’t forget to tell your friends about our bot!")
+    bot.sendMessage("Don't forget to tell your friends about our bot!")
     ```
 
 ***
@@ -365,13 +382,9 @@ Create workflows that interact with users and automate follow-ups.
 Store error logs with timestamps for later analysis:
 
 ```python
-import time
-
 try:
     risky_action()
 except Exception as e:
-    error_log = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {str(e)}"
-    Bot.saveData("error_log", error_log)
     bot.sendMessage(f"An error occurred: {e}")
 ```
 
@@ -435,7 +448,7 @@ If multiple broadcasts are required:
 
 #### **9.8 Frequently Asked Questions (FAQs)**
 
-**1. Why isn’t my command executing?**
+**1. Why isn't my command executing?**
 
 * **Check**: Ensure the command exists and matches the trigger exactly.
 * **Fix**: Verify case sensitivity and parameter requirements.
