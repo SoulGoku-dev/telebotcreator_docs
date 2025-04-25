@@ -15,7 +15,7 @@ Unlike other libraries, TonLib doesn't require an import statement. It's globall
 # import TonLib  # This will cause an error
 
 # ✅ Instead, use the library directly
-wallet = TonLib.generateWallet()
+wallet = libs.TonLib.generateWallet()
 ```
 
 ## Core Functions
@@ -27,7 +27,7 @@ wallet = TonLib.generateWallet()
 Creates a new TON wallet and returns its address and mnemonic phrase.
 
 ```python
-result = TonLib.generateWallet()
+result = libs.TonLib.generateWallet()
 address = result["address"]
 mnemonics = result["mnemonics"]
 ```
@@ -37,7 +37,7 @@ mnemonics = result["mnemonics"]
 Stores a mnemonic phrase for later use.
 
 ```python
-TonLib.setKeys("word1 word2 ... word24")
+libs.TonLib.setKeys("word1 word2 ... word24")
 ```
 
 #### getWalletAddress(mnemonics=None)
@@ -46,10 +46,10 @@ Retrieves the wallet address from a mnemonic phrase or from stored keys.
 
 ```python
 # Using stored keys
-address = TonLib.getWalletAddress()
+address = libs.TonLib.getWalletAddress()
 
 # Or with specific mnemonics
-address = TonLib.getWalletAddress("word1 word2 ... word24")
+address = libs.TonLib.getWalletAddress("word1 word2 ... word24")
 ```
 
 ### TON Operations
@@ -59,7 +59,7 @@ address = TonLib.getWalletAddress("word1 word2 ... word24")
 Checks the TON balance of an address.
 
 ```python
-balance = TonLib.getBalance("EQD...")
+balance = libs.TonLib.getBalance("EQD...")
 ```
 
 #### sendTON(to_address, amount, comment=None, mnemonics=None, api_key=None, endpoint=None, is_testnet=False)
@@ -67,7 +67,7 @@ balance = TonLib.getBalance("EQD...")
 Sends TON to another address.
 
 ```python
-result = TonLib.sendTON(
+result = libs.TonLib.sendTON(
     to_address="EQD...",
     amount=0.1,  # In TON
     comment="Payment for service"
@@ -79,7 +79,7 @@ result = TonLib.sendTON(
 Gets the recent transactions for an address.
 
 ```python
-transactions = TonLib.checkTONTransaction("EQD...")
+transactions = libs.TonLib.checkTONTransaction("EQD...")
 for tx in transactions:
     if tx["type"] == "incoming":
         from_address = tx["from"]
@@ -94,7 +94,7 @@ for tx in transactions:
 Creates a TON Connect session for wallet connection.
 
 ```python
-session = TonLib.create_ton_connect_session(user_id="12345")
+session = libs.TonLib.create_ton_connect_session(user_id="12345")
 connect_url = session["connect_url"]
 # Send this URL to the user for connection
 ```
@@ -104,7 +104,7 @@ connect_url = session["connect_url"]
 Checks if a wallet has connected to the session.
 
 ```python
-status = TonLib.verify_ton_connect_session(session_id)
+status = libs.TonLib.verify_ton_connect_session(session_id)
 if status["status"] == "connected":
     wallet_address = status["wallet_address"]
     # User wallet is connected
@@ -115,7 +115,7 @@ if status["status"] == "connected":
 Requests a TON transfer from a connected wallet.
 
 ```python
-request = TonLib.request_ton_transaction(
+request = libs.TonLib.request_ton_transaction(
     to_address="EQD...",
     amount=1.5,
     comment="Donation",
@@ -131,7 +131,7 @@ request = TonLib.request_ton_transaction(
 Retrieves information about a Jetton (token).
 
 ```python
-metadata = TonLib.get_jetton_metadata("EQD...")
+metadata = libs.TonLib.get_jetton_metadata("EQD...")
 name = metadata["name"]
 symbol = metadata["symbol"]
 total_supply = metadata["total_supply"]
@@ -142,7 +142,7 @@ total_supply = metadata["total_supply"]
 Checks the Jetton balance of an address.
 
 ```python
-balance = TonLib.get_jetton_balance(
+balance = libs.TonLib.get_jetton_balance(
     owner_address="EQD...",
     jetton_master_address="EQD..."
 )
@@ -153,7 +153,7 @@ balance = TonLib.get_jetton_balance(
 Requests a Jetton transfer from a connected wallet.
 
 ```python
-request = TonLib.request_jetton_transfer(
+request = libs.TonLib.request_jetton_transfer(
     to_address="EQD...",
     jetton_master_address="EQD...",
     amount=10,
@@ -168,10 +168,10 @@ request = TonLib.request_jetton_transfer(
 ```python
 def handle_start(message):
     # Generate a new wallet
-    wallet = TonLib.generateWallet()
+    wallet = libs.TonLib.generateWallet()
     
     # Store the mnemonics
-    TonLib.setKeys(wallet["mnemonics"])
+    libs.TonLib.setKeys(wallet["mnemonics"])
     
     # Send information to the user
     bot.send_message(
@@ -183,10 +183,10 @@ def handle_start(message):
 
 def handle_balance(message):
     # Get wallet address
-    address = TonLib.getWalletAddress()
+    address = libs.TonLib.getWalletAddress()
     
     # Get balance
-    balance = TonLib.getBalance(address)
+    balance = libs.TonLib.getBalance(address)
     
     # Send balance to user
     bot.send_message(
@@ -201,7 +201,7 @@ def handle_balance(message):
 # Step 1: Initialize wallet connection
 def handle_connect_wallet(message):
     user_id = str(message.from_user.id)
-    session = TonLib.create_ton_connect_session(user_id)
+    session = libs.TonLib.create_ton_connect_session(user_id)
     
     # Store session_id for later verification
     db.set_user_data(user_id, "ton_session_id", session["session_id"])
@@ -220,7 +220,7 @@ def handle_check_connection(message):
     if not session_id:
         return bot.send_message(message.chat.id, "You haven't started a connection yet")
     
-    status = TonLib.verify_ton_connect_session(session_id)
+    status = libs.TonLib.verify_ton_connect_session(session_id)
     
     if status["status"] == "connected":
         bot.send_message(
