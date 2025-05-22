@@ -17,6 +17,13 @@ Please migrate to libs.web3lib (sendETHER) which now supports all EVM chains, pr
 > - Code execution timeout increased from 60 to 120 seconds
 > - Do not use `import` statements in your code
 > - For handling inline queries and other update types, use the `/handler_<update_type>` command format
+>
+> **New in 5.0.0**:
+> 
+> - Commands can now run up to 160 seconds (increased from 120 seconds)
+> - New stats tracking capabilities in Account and Bot classes
+> - Data transfer functionality between bots
+> - OpenRouter API support in openai_lib with extended timeouts
 
 #### **5.1 Overview of Libraries**
 
@@ -419,30 +426,34 @@ Connect your bot with external services using the Webhook library.
 
 **14. libs.openai_lib**
 
-Provides a client for interacting with OpenAI's API, enabling AI-powered features in your bot.
+Provides a client for interacting with OpenAI's API and OpenRouter API, enabling AI-powered features in your bot.
 
 * **Classes**:
-  * `OpenAIClient`: Core client for interacting with OpenAI API.
-  * `AIAssistant`: Higher-level class for working with OpenAI Assistants.
+  * `OpenAIClient`: Core client for interacting with OpenAI API or OpenRouter API.
+  * `AIAssistant`: Higher-level class for working with OpenAI Assistants or direct chat completions.
 * **Error Classes**:
   * `OpenAIError`: Base exception class for OpenAI errors.
   * `OpenAITimeoutError`: Error for request timeouts.
   * `OpenAIAPIError`: Error for API-specific issues.
 * **Key Methods in OpenAIClient**:
-  * `create_chat_completion`: Generates text completions using OpenAI models.
-  * `create_assistant`: Creates a new OpenAI Assistant.
-  * `create_thread`: Creates a new conversation thread.
-  * `create_message`: Adds a message to a conversation thread.
-  * `create_run`: Runs an assistant on a thread to generate a response.
+  * `create_chat_completion`: Generates text completions using OpenAI or OpenRouter models.
+  * `create_assistant`: Creates a new OpenAI Assistant (OpenAI API only).
+  * `create_thread`: Creates a new conversation thread (OpenAI API only).
+  * `create_message`: Adds a message to a conversation thread (OpenAI API only).
+  * `create_run`: Runs an assistant on a thread to generate a response (OpenAI API only).
 * **Key Methods in AIAssistant**:
   * `start_conversation`: Starts a new conversation thread.
   * `send_message`: Sends a message and returns the assistant's response.
   * `get_conversation_history`: Retrieves the history of messages in a thread.
+* **New in 5.0.0**:
+  * Extended timeout support up to 160 seconds
+  * OpenRouter API integration with access to various models like Llama
+  * Enhanced error handling and retries
 
-*   **Example - Chat Completion**:
+*   **Example - Chat Completion with OpenAI**:
 
     ```python
-    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY")
+    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY", timeout=120)
     response = client.create_chat_completion(
         model="gpt-4o",
         messages=[
@@ -453,10 +464,10 @@ Provides a client for interacting with OpenAI's API, enabling AI-powered feature
     bot.sendMessage(response["choices"][0]["message"]["content"])
     ```
 
-*   **Example - Using Assistant**:
+*   **Example - Using OpenAI Assistant**:
 
     ```python
-    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY")
+    client = libs.openai_lib.OpenAIClient(api_key="YOUR_API_KEY", timeout=120)
     assistant = libs.openai_lib.AIAssistant(
         openai_client=client,
         create_new=True,
@@ -468,6 +479,29 @@ Provides a client for interacting with OpenAI's API, enabling AI-powered feature
     thread_id = assistant.start_conversation()
     response = assistant.send_message("How do I reset my password?")
     bot.sendMessage(response["content"])
+    ```
+    
+*   **Example - Using OpenRouter API**:
+
+    ```python
+    # Initialize with OpenRouter API key and extended timeout
+    client = libs.openai_lib.OpenAIClient(
+        api_key="YOUR_OPENROUTER_API_KEY",
+        timeout=120,
+        base_url="https://openrouter.ai/api/v1"
+    )
+    
+    # Use with a specific model via AIAssistant
+    assistant = libs.openai_lib.AIAssistant(
+        openai_client=client,
+        model="meta-llama/llama-3.3-8b-instruct:free",
+        system_message="You're a helpful assistant."
+    )
+    
+    # Send message and get response
+    response = assistant.send_message("Tell me about Telegram bots")
+    response_text = str(response.get("content")[0]['text']['value'])
+    bot.sendMessage(response_text)
     ```
 
 **15. libs.gemini_lib**

@@ -17,5 +17,6 @@
 * [Version 4.7.0 Update](version-4.7.0-update.md)
 * [Version 4.8.0 Update](version-4.8.0-update.md)
 * [Version 4.9.0 Update](version-4.9.0-update.md)
+* [Version 5.0.0 Update](version-5.0.0-update.md)
 * [Conclusion and Next Steps](conclusion-and-next-steps.md)
 * [Crypto libraries Documentation](crypto-libraries-documentation.md)
