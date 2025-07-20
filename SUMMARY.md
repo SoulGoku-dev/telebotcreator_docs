@@ -20,3 +20,4 @@
 * [Version 5.0.0 Update](version-5.0.0-update.md)
 * [Conclusion and Next Steps](conclusion-and-next-steps.md)
 * [Crypto libraries Documentation](crypto-libraries-documentation.md)
+* [Telebot Creator API v2 - Flexible Authentication Documentation](telebot-creator-api-v2-flexible-authentication-documentation.md)
