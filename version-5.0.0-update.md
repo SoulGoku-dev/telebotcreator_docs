@@ -1,5 +1,7 @@
 # Version 5.0.0 Update
 
+*Platform version at time of release: 5.0.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*
+
 We're excited to announce the release of TeleBot Creator 5.0.0, featuring significant improvements to performance, stability, and functionality.
 
 ## Major Improvements

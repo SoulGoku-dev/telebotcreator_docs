@@ -1,100 +1,160 @@
 # Introduction to Telebot Creator
 
-### **Introduction to Telebot Creator**
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-Telebot Creator (TBC) is a cutting-edge platform that simplifies the process of building, managing, and hosting Telegram bots. With over **80,000 active Telegram bots** powered by TBC, the platform is accessible globally, providing users with robust tools to create highly customizable bots tailored to their specific needs. Whether for businesses, communities, or personal projects, Telebot Creator offers unmatched speed, flexibility, and scalability.
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
 
-### **What is Telebot Creator?**
+## What is Telebot Creator?
 
-Telebot Creator is a versatile Telegram bot-making platform that empowers users to create and host bots effortlessly. Using its unique custom programming language, **TPY (Telebot Python)**, and a user-friendly interface, TBC allows both beginners and experienced developers to:
+Telebot Creator (TBC) is a **free platform for building, hosting, and managing Telegram bots**. You don't need your own server, you don't need to pay anything, and you can go from zero to a live bot in under 5 minutes.
 
-* Build bots with advanced features.
-* Manage bots through an intuitive dashboard.
-* Host bots for free using the platform's built-in monthly point system.
+TBC uses **TPY (Telebot Python)**, a custom scripting language based on Python. TPY comes with **30+ built-in libraries** for AI, payments, blockchain, data management, webhooks, and more — so you can build powerful bots without installing anything.
 
-**Key Statistics**
+### Platform Statistics (2026)
 
-* **Active Bots**: Over 80,000 Telegram bots currently running on TBC.
-* **Total Bots Created**: More than 150,000 bots since its launch.
-* **User Engagement**: Over 20 million Telegram users interact with bots hosted on TBC.
+| Metric | Value |
+|---|---|
+| **Active Bots** | 80,000+ |
+| **Total Bots Created** | 150,000+ |
+| **Telegram Users Served** | 20,000,000+ |
+| **TBC Platform Version** | 7.1.2 |
+| **Telegram Bot API** | 10.1 |
+| **Libraries** | 30+ built-in |
 
-### **How to Create a Bot in Telebot Creator**
+> **Two version numbers, two different things.** The **TBC platform version** (currently **7.1.2**) tracks the Telebot Creator product itself — its TPY runtime, libraries, dashboard, and services. The **Telegram Bot API version** (currently **10.1**) tracks how much of Telegram's official Bot API the `bot` object supports. They are independent: a platform release can ship without changing the Bot API level, and a Bot API bump can ship without a platform version change.
 
-Creating a bot in TBC is simple and quick:
+---
 
-1. **Register or Log In**: Start by creating an account or logging in at [telebotcreator.com](http://telebotcreator.com/).
-2. **Add a New Bot**: Obtain a Telegram Bot API token from @BotFather on Telegram and add it to the platform.
-3. **Set Up Commands**: Define bot commands using TPY to make your bot interactive and functional.
-4. **Start Your Bot**: Use the dashboard to activate your bot and monitor its performance.
+## Quick Start — Create a Bot in 5 Minutes
 
-For detailed guidance, join the **TBC Help Group**: [http://t.me/telebotcreatorbetachat](http://t.me/telebotcreatorbetachat)
+1. **Register** — Create a free account at [telebotcreator.com](https://telebotcreator.com/register).
+2. **Get a Bot Token** — Open Telegram, message [@BotFather](https://t.me/BotFather), use `/newbot`, and copy the API token.
+3. **Add Your Bot** — On the TBC dashboard, click **"Add New Bot"**, paste your token, and click **"Create Bot"**.
+4. **Write Your First Command** — Click on your bot, go to Commands, add a `/start` command with this code:
+   ```python
+   bot.sendMessage("Hello! Welcome to my bot 🚀")
+   ```
+5. **Start Your Bot** — Click the Start button. Your bot is now live on Telegram!
 
-### **What Are Commands and What Is TPY?**
+> **Need help?** Join the [TBC Community Group](https://t.me/telebotcreatorbetachat) on Telegram.
 
-#### **Commands**
+---
 
-Commands are the building blocks of every bot created on TBC. A command is triggered when a user sends a specific keyword or message to the bot (e.g., `/start` or `/help`). These commands dictate the bot's response and behavior. Each command must have an associated code written in **TPY**.
+## What Are Commands?
 
-Example:
+Commands are the building blocks of every TBC bot. When a Telegram user sends a message like `/start` or `/help`, your bot runs the TPY code you wrote for that command.
 
 ```python
-bot.sendMessage("Hello! This is the /start command.")
+# /start command example
+first_name = message.from_user.first_name
+bot.sendMessage(f"Hey {first_name}! Welcome to my bot. Use /help to see what I can do.")
 ```
 
 Commands can:
+- Send text, photos, videos, files, stickers, and more
+- Ask for user input and process it step by step
+- Store and retrieve user data
+- Make HTTP requests to external APIs
+- Accept payments via crypto or traditional gateways
+- Run AI models (GPT-4, Gemini, etc.)
+- Schedule tasks up to 1 year in the future
+- Broadcast messages to all your bot's users
 
-* Respond to user inputs.
-* Perform actions like sending messages, images, or files.
-* Interact with APIs, manage user data, and much more.
+---
 
-#### **TPY (Telebot Python)**
+## What is TPY?
 
-TPY is a customized version of Python developed specifically for Telebot Creator. It provides an extensive set of built-in tools, libraries, and pre-defined variables to streamline bot development.
+**TPY (Telebot Python)** is TBC's custom scripting language. If you know basic Python, you already know TPY. If you don't know Python, TPY is simple enough to learn in a few hours.
 
-Features of TPY:
+**Key features:**
+- **Python-based syntax** — Variables, if/else, loops, functions, try/except all work the same way
+- **30+ built-in libraries** — AI (OpenAI, Gemini), payments (Coinbase, TON), data (CSV, Resources), HTTP, webhooks, and more
+- **Pre-defined variables** — `msg`, `message`, `bot`, `Bot`, `User`, `Account`, `params`, `u`, `options` are ready to use
+- **Sandboxed environment** — Each bot runs in isolation. No `eval()`, `exec()`, or system module access for security
+- **Up to 160 seconds** execution time per command
 
-* **Pre-Defined Libraries**: Includes integrations for payments (Coinbase, Paytm), blockchain transactions (Polygon, TTcoin), randomization, and more.
-* **Security and Simplicity**: A restricted execution environment ensures safe code while keeping it simple for developers.
-* **Command Management**: Enables chaining, scheduling, and advanced user interactions through `runCommand`, `runCommandAfter`, and `handleNextCommand`.
+---
 
-### **Points System and Advertising Policy**
+## Points System — It's Free
 
-#### **Points System**
+TBC uses a points system for bot hosting. Here's the deal:
 
-Telebot Creator operates on a generous points system that makes bot hosting completely free:
+| Feature | Details |
+|---|---|
+| **New Account Points** | 100,000 points free |
+| **Cost Per Command** | 1 point |
+| **Monthly Renewal** | Yes, every month |
+| **Extra Points** | Request free from admins anytime |
+| **Hidden Fees** | None — it's genuinely free |
 
-* **Initial Allocation**: New accounts receive **100,000 points** upon creation.
-* **Cost Per Command**: Each command execution costs just **1 point**.
-* **Additional Points**: Users can request additional points for free by asking admins in the group chat.
-* **Upcoming Points Faucet**: In upcoming updates, a points faucet will allow users to obtain unlimited points.
+Each command execution (like responding to `/start`) costs 1 point. That means a new account can handle **100,000 command executions per month** for free.
 
-#### **Minimal Advertising**
+### Advertising Policy
 
-Unlike other platforms, Telebot Creator has a user-friendly advertising policy:
+TBC keeps the platform free through minimal, non-intrusive advertising:
+- Ads appear only **2-4 times per month** as a single broadcast message
+- No continuous spam or pop-ups
+- Your bot users get an uninterrupted experience
 
-* **Low Frequency**: Advertisements appear only 2-4 times per month.
-* **Non-Intrusive**: Ads are delivered as a single broadcast message, not as continuous spam.
-* **User Experience**: This approach ensures that your bot users enjoy an uninterrupted experience.
+---
 
-### **Benefits of Using Telebot Creator**
+## Key Features at a Glance
 
-1. **Super-Fast Speed**: TBC is optimized for performance, ensuring bots respond instantly.
-2. **Advanced Customization**: TPY allows users to customize every aspect of their bot and create unique functionalities.
-3. **Generous Monthly Points**: Users receive **100,000 points** every month to run their bots, where executing one command costs just **1 point**.
-4. **Support for All Bot Types**: From refer-and-earn bots to autopay crypto bots, TBC supports every type of bot imaginable.
-5. **Free Hosting**: TBC hosts your bots for free, removing the hassle of managing servers or downtime.
+| Feature | Description |
+|---|---|
+| **Free Hosting** | No servers to manage. TBC hosts your bots for free. |
+| **AI Integration** | Built-in OpenAI (GPT-4o), Gemini, and OpenRouter support |
+| **Crypto Payments** | Coinbase Commerce, TON blockchain, Web3 (all EVM chains) |
+| **Broadcasting** | Send messages to all bot users at once |
+| **Scheduled Commands** | Schedule actions from 1 second to 366 days ahead |
+| **Webhooks** | Real-time integrations with external services |
+| **Data Storage** | User-level and bot-level data storage, CSV files, Resources system |
+| **Multi-Bot Management** | Manage all bots from one account using the Account class |
+| **Bot Transfer** | Transfer bot ownership to another account |
+| **Bot Recovery** | Recover deleted bots within 90 days |
+| **Inline Queries** | Handle inline mode, callback queries, payments, and all Telegram update types |
+| **Telegram Bot API 10.1** | Full coverage of the latest Telegram features — Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, and Stars |
+| **Image Processing** | OpenCV and Pillow libraries for image manipulation |
+| **Code Editor** | Built-in TPY code editor with syntax highlighting and autocomplete |
+| **Bot Export / Import** | Export a bot to a portable file, import it back, and round-trip through the AI assistant |
+| **Docs MCP Server** | Public Model Context Protocol endpoint so any AI assistant can read the live TBC docs |
 
-***
+---
 
-### **The Future of Telebot Creator**
+## Built-in Libraries
 
-The platform is continuously evolving to enhance user experience and expand its capabilities. Upcoming features include:
+TBC includes 30+ libraries you can use directly in your code — no installation needed:
 
-1. **New User Interface (UI)**:
-   * A more streamlined and intuitive design for effortless bot creation and management.
-2. **Custom Telegram API Integration**:
-   * Users will be able to select their own Telegram API, enabling support for sending large files and removing several current limitations.
-3. **Bot Store**:
-   * Coming soon in the next update, the Bot Store will allow users to discover, share, and deploy pre-made bots.
-4. **Points Faucet**:
-   * A system that will enable users to obtain unlimited points for running their bots.
+| Category | Libraries |
+|---|---|
+| **AI** | `libs.openai_lib` (GPT-4o, Assistants API), `libs.gemini_lib` (Gemini Flash/Pro), OpenRouter support |
+| **Payments** | `libs.Coinbase`, `libs.Coinpayments`, `libs.Oxapay`, `libs.MDxchange` |
+| **Blockchain** | `libs.TonLib` (TON), `libs.web3lib` (all EVM chains), `libs.Crypto` |
+| **Data** | `libs.CSV`, `libs.Resources` (points, credits, leaderboards) |
+| **Media** | `libs.OpenCV`, `libs.Pillow` |
+| **HTTP** | `libs.customHTTP`, built-in `HTTP` module |
+| **Webhooks** | `libs.Webhook` |
+| **Utilities** | `libs.Random`, `libs.DateAndTime` |
+
+---
+
+## The New UI (Version 2)
+
+Telebot Creator now features a modern, redesigned dashboard:
+
+- **Dark theme** with a clean, professional design
+- **Bot management** — Add, start, stop, and delete bots from one screen
+- **Command editor** — Built-in TPY code editor with syntax highlighting, autocomplete, and AI-powered code suggestions
+- **Error logs** — View and debug command errors with timestamps
+- **Settings** — Update bot tokens, manage transfers, and configure bot options
+- **Notifications** — Real-time alerts for bot events
+- **Mobile-friendly** — Fully responsive design that works on all devices
+
+---
+
+## Community & Support
+
+- **Telegram Help Group**: [t.me/telebotcreatorbetachat](https://t.me/telebotcreatorbetachat)
+- **Documentation**: [help.telebotcreator.com](https://help.telebotcreator.com)
+- **ChatGPT AI Assistant**: [Telebot Creator AI GPT](https://chatgpt.com/g/g-67ce8f8e7da081918cc244a92dc5aa55-telebot-creator-ai)
+- **Website**: [telebotcreator.com](https://telebotcreator.com)

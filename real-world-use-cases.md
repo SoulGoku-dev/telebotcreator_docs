@@ -1,8 +1,8 @@
 # Real-World Use Cases
 
-#### **8. Real-World Use Cases**
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-This section demonstrates how to apply Telebot Creator’s features and libraries in real-world scenarios. By combining workflows, advanced commands, and external integrations, you can create bots that solve practical problems and enhance user engagement.
+This section demonstrates how to apply Telebot Creator's features and libraries in real-world scenarios. By combining workflows, advanced commands, and external integrations, you can create bots that solve practical problems and enhance user engagement.
 
 ***
 
@@ -159,37 +159,42 @@ bot.sendMessage("Your responses have been saved. Thank you!")
 
 #### **Overview**
 
-This bot automates cryptocurrency distributions using the `libs.Polygon` library.
+This bot automates cryptocurrency distributions using `libs.web3lib` (supports all EVM chains: Ethereum, Polygon, Arbitrum, BSC, etc.).
+
+> **Note**: `libs.Polygon`, `libs.ARB`, `libs.TTcoin`, and `libs.Tomochain` are deprecated. Use `libs.web3lib` for all EVM blockchain operations.
 
 ***
 
 #### **Implementation**
 
-**Step 1: Configure Polygon Keys**
-
-Set the private key for transactions:
+**Step 1: Send Tokens**
 
 ```python
-libs.Polygon.setKeys("your_private_key")
+result = libs.web3lib.sendETHER(
+    private_key="your_private_key",
+    to="0xRecipientAddress",
+    value=0.01,
+    chain="polygon"
+)
+bot.sendMessage(f"Transaction sent: {result}")
 ```
 
-**Step 2: Automate Token Transfers**
-
-Send tokens to multiple recipients:
+**Step 2: Automate Multiple Transfers**
 
 ```python
 recipients = [
-    {"address": "0xRecipient1", "amount": 10},
-    {"address": "0xRecipient2", "amount": 15}
+    {"address": "0xRecipient1", "amount": 0.01},
+    {"address": "0xRecipient2", "amount": 0.015}
 ]
 
 for recipient in recipients:
-    libs.Polygon.send(
-        value=recipient["amount"],
+    result = libs.web3lib.sendETHER(
+        private_key="your_private_key",
         to=recipient["address"],
-        contract="contract_address"
+        value=recipient["amount"],
+        chain="polygon"
     )
-    bot.sendMessage(f"Sent {recipient['amount']} tokens to {recipient['address']}")
+    bot.sendMessage(f"Sent {recipient['amount']} to {recipient['address']}")
 ```
 
 ***
@@ -269,7 +274,51 @@ bot.sendMessage("Reminder: The event starts in 1 hour!")
 
 ***
 
-### **8.7 Tips and Best Practices**
+### **8.7 AI Chatbot**
+
+#### **Overview**
+
+Build a GPT-powered conversational bot using `libs.openai_lib` or `libs.gemini_lib`.
+
+***
+
+#### **Implementation**
+
+**Command: `*` (Wildcard — handles all user messages)**
+
+```python
+client = libs.openai_lib.OpenAIClient(api_key="YOUR_OPENAI_KEY")
+
+# Get conversation history (or start fresh)
+history = User.getData("chat_history")
+if not history:
+    history = []
+
+# Add user message to history
+history.append({"role": "user", "content": msg})
+
+# Get AI response
+response = client.create_chat_completion(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+    ] + history[-10:]  # Keep last 10 messages for context
+)
+
+ai_reply = response["choices"][0]["message"]["content"]
+
+# Save updated history
+history.append({"role": "assistant", "content": ai_reply})
+User.saveData("chat_history", history[-20:])  # Keep last 20 messages
+
+bot.sendMessage(ai_reply)
+```
+
+This creates a full conversational AI bot that remembers context across messages.
+
+***
+
+### **8.8 Tips and Best Practices**
 
 1. **Optimize Point Usage**:
    * Combine commands where possible.
@@ -280,3 +329,10 @@ bot.sendMessage("Reminder: The event starts in 1 hour!")
 3. **Secure Data**:
    * Encrypt sensitive user data.
    * Use HTTPS webhooks for secure communication.
+4. **Use Error Handling**:
+   * Wrap external API calls in try-except blocks.
+   * Log errors for debugging.
+5. **Use the Account Class**:
+   * Share data across all your bots with `Account.saveData(name, data)` and `Account.getData(name)` (up to 10MB per key).
+   * Monitor active users with `Account.getStats(time_frames=["24h", "7d"])`.
+   * Manage bots and commands programmatically — `Account.create_bot`, `Account.clone_bot`, `Account.create_command`, `Account.export_bot` / `Account.import_commands`, and block users with `Account.blockUser` / `Account.unblockUser`.

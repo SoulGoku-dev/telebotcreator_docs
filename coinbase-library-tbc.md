@@ -4,6 +4,8 @@
 
 The `libs.Coinbase` library in Telebot Creator integrates seamlessly with the Coinbase API, enabling bots to handle cryptocurrency payments, create addresses, manage transactions, and automate deposit notifications through webhooks.
 
+> **Important — `libs.Coinbase` only provides two functions of its own:** `setKeys(api_key, api_secret)` (stores your credentials for the current bot) and `post(api_key=None, api_secret=None)` (returns a client). The returned client is a **`Client` object from the official external `coinbase` SDK** (`coinbase.wallet.client.Client`) — methods such as `createAddress`, `sendTransaction`, `createCharge`, `retrieveCharge`, `getBalance` and `refundCharge` are defined and maintained by that SDK, **not** by Telebot Creator. Refer to the official Coinbase SDK documentation for their exact signatures, return shapes and availability.
+
 ***
 
 ### **12.1 Overview**

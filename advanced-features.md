@@ -1,5 +1,7 @@
 # Advanced Features
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
 #### **7. Advanced Features**
 
 Telebot Creator offers powerful advanced features that extend basic bot functionality. This section explores these capabilities, including custom data storage, scheduled tasks, integration with external systems, and managing user interactions, among others.
@@ -19,32 +21,22 @@ The `Bot.runCommandAfter` function lets you schedule a command to run after a sp
 **Function Syntax**:
 
 ```python
-Bot.runCommandAfter(
-    delay_seconds: float,
-    command: str,
-    user_id: Optional[str] = None,
-    chat_id: Optional[str] = None,
-    params: Optional[str] = None,
-    bot_id: Optional[str] = None,
-    api_key: Optional[str] = None
-)
+Bot.runCommandAfter(timeout, command, options=None)
 ```
-
-> **New in 4.9.0**:
-> - Maximum timeout extended to 1 year (365 days)
-> - Minimum timeout reduced to 0.1 seconds
-> - Smart rate limiting: For ultra-fast commands (under 0.4 seconds), a limit of 5 executions within 5 seconds to prevent abuse
-> - Increased maximum scheduled commands per user from 20 to 100
 
 **Parameters**:
 
-* **`delay_seconds`** (_float_): The delay in seconds before executing the command. Range: 0.1 to 31,536,000 (365 days).
-* **`command`** (_str_): The command to execute after the delay.
-* **`user_id`** (_Optional\[str]_): The user ID for which to execute the command.
-* **`chat_id`** (_Optional\[str]_): The chat ID in which to execute the command.
-* **`params`** (_Optional\[str]_): Parameters to pass to the command.
-* **`bot_id`** (_Optional\[str]_): The bot ID for which to schedule the command.
-* **`api_key`** (_Optional\[str]_): The API key for authentication with external bots.
+* **`timeout`**: The delay before the command runs. Either a number of **seconds** or a `datetime` object. Allowed range: **1 second** minimum to **366 days** maximum.
+* **`command`** (_str_): The command to execute when the timer fires.
+* **`options`** (_Optional_): A value passed through to the scheduled command, available there as the `options` global.
+
+The call returns a dict like `{"id": "<job_id>", "command": "<command>", "timeout": <seconds>}`. Save the `id` if you may want to cancel the task.
+
+**Limits**:
+
+* **60 schedules per minute** per user (rate limited).
+* **50,000 outstanding scheduled tasks** per user.
+* The bot must be in the `working` state when you schedule.
 
 **Examples**:
 
@@ -53,28 +45,32 @@ Bot.runCommandAfter(
     ```python
     Bot.runCommandAfter(300, "reminder")  # Run the reminder command after 5 minutes
     ```
-2.  **User-Specific Scheduling**:
+2.  **Passing data through**:
 
     ```python
-    Bot.runCommandAfter(3600, "daily_check", user_id=12345)  # Run for specific user after 1 hour
+    Bot.runCommandAfter(60, "send_reminder", options="meeting")  # available as `options`
     ```
-3.  **With Parameters**:
+3.  **Long-term Scheduling**:
 
     ```python
-    Bot.runCommandAfter(60, "send_reminder", params="meeting")  # Pass parameters to the command
+    Bot.runCommandAfter(2592000, "monthly_report")  # 30 days
     ```
-4.  **Long-term Scheduling**:
+4.  **Scheduling at a specific time** (pass a `datetime`):
 
     ```python
-    # Schedule a command to run in 30 days (new in 4.9.0)
-    Bot.runCommandAfter(2592000, "monthly_report") 
+    from datetime import datetime, timedelta
+    Bot.runCommandAfter(datetime.now() + timedelta(hours=2), "two_hour_followup")
     ```
-5.  **Ultra-fast Task**:
 
-    ```python
-    # Quick follow-up message (subject to rate limiting in 4.9.0)
-    Bot.runCommandAfter(0.2, "send_followup") 
-    ```
+#### **Bot.cancelScheduledTask**
+
+Cancel a task you previously scheduled, using the `id` returned by `runCommandAfter`.
+
+```python
+job = Bot.runCommandAfter(3600, "send_reminder")
+# later, if it is no longer needed:
+Bot.cancelScheduledTask(job["id"])
+```
 
 ***
 
@@ -482,6 +478,202 @@ except Exception as e:
     webhook_url = libs.Webhook.getUrlFor("notify_points", user_id=12345)
     bot.sendMessage(f"Notification sent via webhook: {webhook_url}")
     ```
+
+***
+
+#### **7.15 The `Account` Class**
+
+The `Account` object (available in every command as `Account`) operates on **your whole account** rather than a single chat. Use it to manage bots, commands, blocked users, account-wide data, and stats. Methods generally return a dict shaped like `{"ok": True/False, "result": ...}`.
+
+**Bot lifecycle**
+
+```python
+# Create a new bot from a token (verifies the token and starts it)
+Account.create_bot(bot_token, bot_name=None, bot_username=None)
+
+# Clone an existing bot's commands into a new bot (optionally with a token)
+Account.clone_bot(botid, new_token=None)
+
+# Start / stop / restart a bot you own
+Account.start_bot(botid)
+Account.stop_bot(botid)
+Account.restart_bot(botid)
+
+# Soft-delete (moves to the recycle bin), then later recover or purge it
+Account.delete_bot(botid)                  # recoverable for 90 days
+Account.get_deleted_bots()                 # list recoverable bots + days_remaining
+Account.recover_bot(botid, new_token=None) # restore from recycle bin
+Account.permanent_delete_bot(botid)        # purge immediately (irreversible)
+```
+
+> `delete_bot` is rate-limited to guard against malicious templates that loop over your bots; a normal user calling it a few times is fine.
+
+**Export / import**
+
+```python
+# Export a bot to a file object (json | yaml | txt)
+Account.export_bot(botid, format="json", include_bot_data=False)
+
+# Re-create a whole bot from exported data
+Account.import_bot(import_data, new_token=None, format="json")
+
+# Import only commands into an existing bot
+Account.import_commands(import_data, botid, remove_old_command=False, format="json")
+```
+
+See **7.16** for the export/import round-trip workflow.
+
+**Command management**
+
+```python
+Account.create_command(botid, command, code)
+Account.edit_command(botid, command, code)
+Account.delete_command(botid, command)
+Account.get_command_list(botid)            # names + code length + has_code
+```
+
+**User management**
+
+```python
+Account.blockUser(user_id)     # block (max 500 blocked users per account)
+Account.unblockUser(user_id)
+Account.getBlockedUsers(botid)
+```
+
+**Account-wide data** (shared across all your bots)
+
+```python
+Account.saveData("config", {"theme": "dark"})   # up to 10MB per key
+value = Account.getData("config")
+Account.deleteData("config")
+```
+
+**Statistics**
+
+```python
+# Active-user counts per time frame (e.g. "24h", "7d"); each frame max 365 days
+Account.getStats(time_frames=["24h", "7d"], bot_ids=None)
+# -> {"24h": 123, "7d": 456}
+```
+
+***
+
+#### **7.16 Bot Export / Import and the AI Round-Trip**
+
+Telebot Creator can export a bot's commands and (optionally) its global data to a portable file in **JSON**, **YAML**, or **TXT** format, and import it back. This is the basis of the "edit with AI" workflow.
+
+**Export formats**
+
+* `json` / `yaml` — structured: a `bot` block, a `commands` list (`command` + `code`), optional `global_data`, and an `export_info` block.
+* `txt` — human-friendly. Each command is written as:
+
+  ```text
+  Command: <name>
+  ---
+  <code>
+  ---
+  ```
+
+  The `---` lines fence each command's code; the importer reads commands back out of exactly this structure.
+
+**The AI round-trip**
+
+1. Open the bot's **Manage** tab and **Export** its commands (the backend route is `POST /v2/bots/{botid}/export-bot`).
+2. Hand the exported file to an AI assistant and ask it to add, fix, or refactor commands — keeping the `Command: … / --- / code / ---` structure (for TXT) or the `commands` list shape (for JSON/YAML).
+3. Bring the edited file back through **Import Commands** in the Manage tab (backend route `POST /v2/bots/{botid}/import-commands`). Tick "remove old commands" if you want a clean replace; otherwise existing commands with the same name are updated and new ones are added.
+
+`import_bot` builds a brand-new bot from an export, while `import_commands` only merges commands into a bot that already exists.
+
+***
+
+#### **7.17 Folders**
+
+Telebot Creator supports two kinds of folders to keep large accounts organized:
+
+* **Bot folders** — group bots on your dashboard. Managed via the dashboard (backend routes under `/v2/bot-folders` and `/v2/bots/{botid}/move-to-folder`).
+* **Command folders** — group commands inside a single bot's Commands view (backend routes under `/v2/bots/{botid}/commands/folders`).
+
+Folders are an organizational layer only; they do not change how commands run.
+
+***
+
+#### **7.18 Recycle Bin and Bot Recovery**
+
+Deleting a bot is a **soft delete**: the bot is stopped and moved to a recycle bin instead of being erased. You have a **90-day window** to restore it (commands and data come back with it).
+
+* From the dashboard: **Recycle Bin** lists deleted bots with the days remaining; restore or permanently delete from there.
+* From TPY: `Account.get_deleted_bots()`, `Account.recover_bot(botid)`, and `Account.permanent_delete_bot(botid)`.
+
+After 90 days a deleted bot becomes eligible for permanent cleanup and can no longer be recovered.
+
+***
+
+#### **7.19 The `.env` Command (Injected Globals)**
+
+Create a command named **`.env`** to define configuration that is injected as global variables into every command's execution. Each line is `KEY = value`; values are parsed as Python literals when possible (strings, numbers, lists, dicts, tuples), otherwise kept as text. Multi-line list/dict values are supported, and `#` lines are comments.
+
+```text
+API_KEY = "sk-abc123"
+MAX_RETRIES = 3
+ADMINS = [12345, 67890]
+WELCOME = "Hello and welcome!"
+```
+
+Then use them directly in any command:
+
+```python
+bot.sendMessage(WELCOME)
+if int(u) in ADMINS:
+    bot.sendMessage("You're an admin.")
+```
+
+Keys cannot start with `__` (e.g. `__builtins__` is rejected), and values cannot contain forbidden/unsafe expressions.
+
+***
+
+#### **7.20 Built-in Globals Reference**
+
+Beyond `bot`, `Bot`, `User`, `Account`, `message`, `msg`, `params`, `u`, `options`, `command`, `left_points`, and `libs`, every command runs with these helpers already available — no import needed:
+
+| Global | What it is |
+| --- | --- |
+| `HTTP` | A ready-to-use HTTP client for outbound requests. |
+| `CSV` | CSV helper for building/reading CSV data. |
+| `bunchify` | Wraps a dict so you can use attribute access (`d.key`). |
+| `regex` / `re` | Regular-expression module. |
+| `web3_` | A configured Web3 instance for EVM chains. |
+| `TBC_Web3_` | The `web3lib` library (same as `libs.web3lib`). |
+| `ReturnCommand` (also `returnCommand` / `returncommand`) | Stop the current command and hand control to another command. |
+| `MembershipCheck` | Check whether a user is a member of given channels/groups: `MembershipCheck(channels, u)`. |
+| `isNumeric` | Return whether a value is numeric. |
+| `jsondumps` | Serialize a value to a JSON string. |
+| `encodeURIComponent` / `decodeURIComponent` / `rawurlencode` | URL encoding/decoding helpers. |
+| `parse_qs` | Parse a query string into a dict. |
+| `md5`, `hashlib`, `base64`, `binascii`, `time` | Common hashing/encoding/time utilities. |
+
+For security, names like `eval`, `exec`, `open`, `os`, `subprocess`, `sys`, `globals`, and `locals` are disabled inside command code.
+
+***
+
+#### **7.21 Resources**
+
+`libs.Resources` provides counters/balances you can attach to users or to your whole account:
+
+* **`userRes(name, user)`** — a per-user resource (points, credits, quota, …).
+* **`accountRes`**, **`globalRes`**, **`anotherRes`**, **`adminRes`** — account-wide / cross-scope resources.
+
+Every resource object supports `add`, `cut`, `set`, `reset`, `value`, `getAllData`, and `fetchAllResources`:
+
+```python
+points = libs.Resources.userRes("points", u)
+points.add(10)
+points.cut(3)
+bot.sendMessage(f"Balance: {points.value()}")
+
+leaderboard = libs.Resources.userRes("points").getAllData(5)  # top 5
+```
+
+The **Libraries** doc covers `libs.Resources` in depth.
 
 ***
 

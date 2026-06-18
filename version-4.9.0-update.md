@@ -1,5 +1,7 @@
 # Version 4.9.0 Update
 
+*Platform version at time of release: 4.9.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*
+
 We're excited to announce the release of TeleBot Creator 4.9.0 with significant improvements to stability, performance, and functionality.
 
 ## Major Improvements
@@ -11,11 +13,11 @@ We're excited to announce the release of TeleBot Creator 4.9.0 with significant 
 ### ⏱️ New Timing Controls
 - Added native `time.sleep()` function with a maximum limit of 10 seconds
 - Increased code execution timeout from 60 to 120 seconds
-- Enhanced `run_after` command:
-  - Maximum timeout extended to 1 year (365 days)
-  - Minimum timeout reduced to 0.1 seconds
-  - Smart rate limiting: For ultra-fast commands (under 0.4 seconds), a limit of 5 executions within 5 seconds to prevent abuse
-  - Increased maximum scheduled `run_after` commands per user from 20 to 100
+- Enhanced `run_after` / `runCommandAfter` command:
+  - Maximum timeout: up to 366 days
+  - Minimum timeout: 1 second
+  - Up to 50,000 scheduled tasks per user
+  - `cancelScheduledTask(job_id)` to cancel a pending task
 
 ### 💰 TON Integration
 - Added comprehensive TON blockchain support through the new `TonLib` (see dedicated [TON Library Documentation](ton-library-documentation.md))

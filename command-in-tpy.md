@@ -1,5 +1,7 @@
 # Command in TPY
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
 #### **3. Commands in TPY**
 
 Commands are the backbone of every bot built on Telebot Creator. They define how a bot responds to specific inputs from users, such as messages or commands like `/start` or `/help`. This section explains what commands are, how to write them using **TPY (Telebot Python)**, and advanced techniques for chaining commands, handling user interactions, and adding interactivity.
@@ -93,17 +95,41 @@ bot.runCommand("help")
 
 This schedules a command to execute after a specified delay (in seconds).
 
+**Signature**:
+
+```python
+Bot.runCommandAfter(timeout, command, options=None)
+```
+
+* **`timeout`** — delay in seconds (a number) or a `datetime` object. Allowed range: **minimum 1 second**, **maximum 366 days** (`60 * 60 * 24 * 366` seconds).
+* **`command`** — name of the command to run when the timer fires.
+* **`options`** — optional value passed through to the scheduled command (available there as `options`).
+
+Returns a dict like `{"id": "<job_id>", "command": "<command>", "timeout": <seconds>}`. Keep the `id` if you might want to cancel the task later.
+
+**Limits**: up to **60 schedules per minute** per user, and up to **50,000 outstanding scheduled tasks** per user. The bot must be in the `working` state when you schedule.
+
 **Example**:
 
 ```python
 bot.sendMessage("You will receive a message in 5 seconds.")
-bot.runCommandAfter(5, "delayed_message")
+job = bot.runCommandAfter(5, "delayed_message")
 ```
 
 In the `delayed_message` command:
 
 ```python
 bot.sendMessage("This is the delayed message!")
+```
+
+**4. `cancelScheduledTask`**
+
+Cancels a task previously scheduled with `runCommandAfter`, using the `id` returned by that call.
+
+```python
+job = bot.runCommandAfter(3600, "send_reminder")
+# later, if the reminder is no longer needed:
+bot.cancelScheduledTask(job["id"])
 ```
 
 ***

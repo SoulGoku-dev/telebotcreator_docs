@@ -1,5 +1,7 @@
 # TBC Libraries (Libs)
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
 Libraries, often called **libs**, in Telebot Creator (TBC) enhance the basic TPY functionalities by offering pre-built modules for specific tasks. These libraries make it easier and faster to add advanced features to your Telegram bots, such as handling payments, managing blockchain transactions, working with data, generating random values, and more.\
 \
 **DEPRECATION NOTICE:**
@@ -24,6 +26,12 @@ Please migrate to libs.web3lib (sendETHER) which now supports all EVM chains, pr
 > - New stats tracking capabilities in Account and Bot classes
 > - Data transfer functionality between bots
 > - OpenRouter API support in openai_lib with extended timeouts
+>
+> **New in 7.1.2**:
+>
+> - New `libs.security` library — HMAC, Ed25519 verification, AES encryption, hashing
+> - Webhook commands now receive `options.headers` (HTTP headers) and `options.ip` (caller IP)
+> - Full backward compatibility — existing bot code is not affected
 
 #### **5.1 Overview of Libraries**
 
@@ -36,21 +44,87 @@ TBC libraries are grouped based on their functionalities to help you develop bot
 * **Resource Management**: Track points, credits, or other resources for users or globally.
 
 
-**7.  libs.Paytm**
+**7. libs.PremiumGift**
 
-Integrates with the Paytm payment gateway for fund transfers and automated payments.
+Sends Telegram Premium **gifts** (paid for in Telegram Stars) to users via the bot's own token. The library ships with a built-in `GIFTS` catalog organised into **Budget** (15–25 Stars), **Premium** (50 Stars) and **Luxury** (100 Stars) tiers, and records every send to the bot's gift history for stats and auditing.
 
-* **Functions**:
-  * `setKeys(key, mid, token)`: Sets your Paytm merchant credentials.
-  * `send(amount, number, description=None, key=None, mid=None, token=None)`: Sends a payment to a phone number.
+* **Catalog**:
+  * `GIFTS`: The built-in catalog dictionary (keys like `"heart"`, `"rose"`, `"diamond"`, each with `name`, `id`, `stars`, `category`, `emoji`, `description`).
+  * `get_gift_catalog(category=None)`: Returns the catalog as a list, optionally filtered by `"Budget"`, `"Premium"` or `"Luxury"`.
+  * `get_gift_by_key(gift_key)` / `get_gift_by_id(gift_id)`: Look up a single gift.
+  * `get_gifts_by_category()`: Returns gifts grouped by category.
+  * `search_gifts(query)`: Search by name, description or emoji.
+  * `get_gift_price_range()`: Min/max/average Star prices.
+* **Sending**:
+  * `send_gift(user_id, gift_key, message=None, bot_token=None)`: Sends a catalog gift (by key) to `user_id`. Uses the current bot's token unless `bot_token` is supplied. Returns a dict with `ok` plus details.
+  * `send_gift_by_id(user_id, gift_id, message=None, bot_token=None)`: Sends a gift by its raw Telegram gift ID (works even for gifts not in the catalog).
+* **History & Stats**:
+  * `get_gift_history(limit=50, status=None, recipient_id=None)`: Recent sends for the current bot.
+  * `get_gift_stats()`: Aggregate counts and total Stars sent.
+* **Settings**:
+  * `set_gift_setting(key, value)`, `get_gift_setting(key, default=None)`, `get_all_gift_settings()`.
+
+> **Note**: The recipient must allow gifts from your bot, and the bot's Stars balance must cover the gift price. Sending uses Telegram's `sendGift` Bot API method under the hood.
+
 *   **Example**:
 
     ```python
-    libs.Paytm.setKeys("merchant_key", "merchant_id", "auth_token")
-    libs.Paytm.send(100, "9876543210", "Payment for services")
+    # Show the budget catalog
+    for gift in libs.PremiumGift.get_gift_catalog("Budget"):
+        bot.sendMessage(f"{gift['name']} — {gift['stars']} Stars ({gift['gift_key']})")
+
+    # Send a rose to the current user
+    result = libs.PremiumGift.send_gift(int(user), "rose", message="Thanks for playing!")
+    if result["ok"]:
+        bot.sendMessage("Gift sent! 🌹")
+    else:
+        bot.sendMessage(f"Could not send gift: {result['error']}")
     ```
 
-**8. libs.Webhook**
+**8. libs.MDxchange**
+
+Integrates with the **MDxchange** payment/automation API for crypto deposits, payouts and Telegram Stars / Premium purchases.
+
+* **Functions**:
+  * `set_api_key(api_key)`: Stores your MDxchange API key for the current bot. Returns `True`/`False`.
+  * `get_api_key()`: Returns the stored API key (or `None`).
+  * `deposit(currency, callback_url=None, api_key=None)`: Creates a deposit request and returns the API response (address/details).
+  * `payout(currency, amount, address, description="", callback_url=None, api_key=None)`: Sends a crypto payout to `address`.
+  * `buy_stars(username, currency, amount, callback_url=None, api_key=None)`: Buys Telegram Stars for a username (`amount` must be at least `50`).
+  * `buy_premium(username, currency, duration, callback_url=None, api_key=None)`: Buys Telegram Premium for a username (`duration` must be `3`, `6` or `12` months).
+
+*   **Example**:
+
+    ```python
+    libs.MDxchange.set_api_key("YOUR_MDXCHANGE_API_KEY")
+
+    # Create a deposit address for USDT
+    deposit = libs.MDxchange.deposit("USDT", callback_url=libs.Webhook.getUrlFor("mdx_ipn", user_id=user))
+    bot.sendMessage(f"Send USDT to: {deposit}")
+
+    # Gift 100 Stars to a user
+    libs.MDxchange.buy_stars(username="someuser", currency="USDT", amount=100)
+    ```
+
+**9. libs.Coinpayments**
+
+Thin wrapper around the **CoinPayments** API for crypto payment processing.
+
+* **Functions**:
+  * `setKeys(public_key, private_key)`: Stores your CoinPayments API credentials for the current bot. Returns `{"ok": "success"}`.
+  * `post(public_key=None, private_key=None)`: Returns a configured `CoinPaymentsAPI` client. If keys are omitted, the stored credentials are used.
+
+*   **Example**:
+
+    ```python
+    libs.Coinpayments.setKeys("YOUR_PUBLIC_KEY", "YOUR_PRIVATE_KEY")
+    client = libs.Coinpayments.post()
+    # client is a CoinPaymentsAPI instance — call its methods as documented by CoinPayments
+    ```
+
+> **Note**: The returned client is an instance of `CoinPaymentsAPI` from the external `coinpayments` package; its methods are defined by that library, not by Telebot Creator.
+
+**10. libs.Webhook**
 
 The `libs.Webhook` library in Telebot Creator allows you to create and manage webhooks for seamless external integrations. Webhooks enable bots to respond to real-time updates from external systems, such as payment notifications or user actions.
 
@@ -79,9 +153,11 @@ The `libs.Webhook` library in Telebot Creator allows you to create and manage we
      * **`bot_id`** (_Optional\[str]_): The ID of the bot for which the webhook is being generated. If provided, **`api_key`** is required.
      * **`api_key`** (_Optional\[str]_): The API key of the bot owner. Used for validation when `bot_id` is specified.
      * **`**options`**: Additional options to customize the webhook behavior.
-   * **In webhook commands**, the incoming response data is stored in `options`, not `message`. The `options` dictionary includes two keys:
+   * **In webhook commands**, the incoming response data is stored in `options`, not `message`. The `options` object includes the following keys:
      * **`data`**: The raw incoming data.
      * **`json`**: A parsed JSON object from the webhook payload.
+     * **`headers`**: *(New in 7.1.2)* A dictionary of HTTP request headers (e.g., `options.headers.get("X-Coinsway-Signature", "")`).
+     * **`ip`**: *(New in 7.1.2)* The IP address of the client that called the webhook.
    *   **Examples**:
 
        **Basic Webhook URL**:
@@ -122,7 +198,7 @@ The `libs.Webhook` library in Telebot Creator allows you to create and manage we
 * **Bot-to-Bot Communication**: Use `bot_id` and `api_key` to enable bots to trigger commands in each other.
 * **Dynamic Event Handling**: Pass additional options to customize webhook behavior based on the event.
 
-**9. libs.DateAndTime**
+**11. libs.DateAndTime**
 
 Works with dates and times.
 
@@ -138,7 +214,7 @@ Works with dates and times.
     bot.sendMessage(f"The current UTC time is: {current_time}")
     ```
 
-**10. libs.Oxapay**
+**12. libs.Oxapay**
 
 Integrates the Oxapay payment system for merchants.
 
@@ -151,32 +227,58 @@ Integrates the Oxapay payment system for merchants.
     bot.sendMessage("Oxapay client initialized!")
     ```
 
-**11. libs.customHTTP**
+**13. libs.customHTTP**
 
-Performs HTTP requests with limitations on data size and timeouts, we use it as HTTP class but if you want you can use this lib, this lib provides 30 seconds timeout and it can receive contene upto 20 mb.
+Performs HTTP requests with built-in size and timeout limits, SSRF protection, and rotating proxy support. The platform already exposes a ready-made `HTTP` object built on this class, but you can instantiate your own client when you need custom settings.
 
-> **Note**: As of version 4.9.0, it's recommended to use the standard HTTP module instead of libs.customHTTP() for better performance and reliability.
+The defaults are:
+
+* **Default timeout**: `60` seconds (`default_timeout=60`).
+* **Maximum timeout**: `120` seconds (`max_timeout=120`). Requests exceeding this are rejected unless you pass a `fallback_command` (see below).
+* **Maximum response size**: `50 MB` (`max_data_size`).
+
+> **Note**: As of version 4.9.0, it's recommended to use the standard `HTTP` module for most requests; instantiate `libs.customHTTP()` only when you need a separate client with custom options.
 
 * **Class**:
-  * `CustomHTTP()`: Creates an HTTP client.
+  * `CustomHTTP(default_timeout=60, max_data_size=52428800, use_proxy=True)`: Creates an HTTP client. (`52428800` = 50 MB.)
 * **Methods**:
   * `get(url, **kwargs)`: Performs a GET request.
   * `post(url, **kwargs)`: Performs a POST request.
   * `put(url, **kwargs)`: Performs a PUT request.
+  * `delete(url, **kwargs)`: Performs a DELETE request.
   * `head(url, **kwargs)`: Performs a HEAD request.
   * `options(url, **kwargs)`: Performs an OPTIONS request.
   * `patch(url, **kwargs)`: Performs a PATCH request.
-  * `close()`: Closes the HTTP session.
-*   **Example**:
+  * `close()`: No-op kept for API compatibility (the shared `requests` session is reused).
+
+**`fallback_command` (long-running requests):** Any request method accepts a `fallback_command` keyword. If the requested `timeout` exceeds the 120-second maximum, the request is **offloaded to a background worker** and the response is delivered to the named TBC command via a webhook when it completes. The call then returns immediately with a `{"task_id", "status": "processing", "message": ...}` dict instead of the response. Without `fallback_command`, a timeout over 120 s raises an error.
+
+> **Security**: `customHTTP` only allows `http`/`https` URLs and blocks requests that resolve to internal, loopback, reserved or cloud-metadata addresses (SSRF guard), as well as `.gov` domains.
+
+*   **Example — simple request**:
 
     ```python
     http_client = libs.customHTTP()
     response = http_client.get("https://api.example.com/data")
-    bot.sendMessage(f"Response: {response}")
-    # not close the connect for future requests
+    bot.sendMessage(f"Response: {response.text}")
+    # No need to close — the session is reused for future requests
     ```
 
-**12. TonLib**
+*   **Example — offload a slow request**:
+
+    ```python
+    # This request may take longer than 120s, so hand it to a webhook command.
+    http_client = libs.customHTTP()
+    job = http_client.get(
+        "https://slow.example.com/big-report",
+        timeout=300,
+        fallback_command="handle_report_result"
+    )
+    bot.sendMessage(f"Report queued: {job['task_id']}")
+    # The /handle_report_result command receives the response via options.* later.
+    ```
+
+**14. TonLib**
 
 > **New in 4.9.0**
 
@@ -195,10 +297,13 @@ Provides comprehensive integration with The Open Network (TON) blockchain. With 
 * **TON Connect Integration**:
   * `create_ton_connect_session(user_id, expiry_seconds=86400)`: Creates a session for wallet connection.
   * `verify_ton_connect_session(session_id)`: Checks if a wallet has connected to the session.
+  * `register_ton_connect_wallet(session_id, wallet_address)`: Marks a session as connected and stores the connected wallet address (used by your callback after the user approves).
+  * `create_ton_connect_payload(callback_url, items=None, return_url=None)`: Builds a raw TON Connect payload / deep link for custom request flows.
   * `request_ton_transaction(to_address, amount, comment=None, callback_url="", return_url=None)`: Requests a TON transfer from a connected wallet.
 
 * **Jetton Operations**:
   * `get_jetton_metadata(jetton_master_address, api_key=None, endpoint=None)`: Retrieves information about a Jetton (token).
+  * `get_jetton_wallet_address(owner_address, jetton_master_address, api_key=None, endpoint=None)`: Resolves the Jetton wallet address for an owner on a given Jetton master.
   * `get_jetton_balance(owner_address, jetton_master_address, api_key=None, endpoint=None)`: Checks a Jetton balance.
   * `request_jetton_transfer(to_address, jetton_master_address, amount, comment=None, callback_url="", return_url=None)`: Requests a Jetton transfer.
 
@@ -223,7 +328,7 @@ Provides comprehensive integration with The Open Network (TON) blockchain. With 
 
 For detailed documentation, see [TON Library Documentation](ton-library-documentation.md).
 
-**13. libs.web3lib**
+**15. libs.web3lib**
 
 **Overview:**\
 This library is designed to interact with all supported EVM chains. It offers functions to send native coins and tokens (ERC‑20) using advanced features such as automatic gas estimation, retry logic, and optional proxy support. This library is published on Telebot Creator in TPY language.
@@ -264,19 +369,21 @@ This library is designed to interact with all supported EVM chains. It offers fu
 
 **Key Functions:**
 
-* **get\_default\_rpc(network: str) -> str**\
-  Returns the default RPC URL for the given network.
 * **get\_supported\_networks() -> Dict\[str, Dict\[str, Any]]**\
   Provides a list of all supported networks with their chain IDs and RPC endpoints.
 * **setKeys(private\_Key: str) -> str**\
   Stores the sender's private key (linked to your current bot ID) in the MongoDB collection.
 * **sendNativeCoin(...) -> str**\
   Sends native coins (like ETH) on the selected EVM chain. Features include automatic gas estimation, retry logic, and optional proxy support.
-* **sendETHER(...) -> str**\
-  When provided with a token contract address, this function sends tokens via the contract's transfer method. It supports the same features as sendNativeCoin.&#x20;
+* **sendETHER(..., decimals=None) -> str**\
+  When provided with a token contract address, this function sends ERC‑20 tokens via the contract's transfer method. It supports the same features as sendNativeCoin. Tokens are assumed to have 18 decimals; for tokens that use a different precision (e.g. USDT/USDC with 6 decimals) pass `decimals=6`. Valid range is `0`–`18`.
+* **getBalance(address, rpc_url=None, network=None, unit="ether") -> float**\
+  Returns the native coin balance of an address. `unit` may be `"wei"`, `"gwei"` or `"ether"`. Alias: `get_balance`.
+* **getTokenBalance(address, contract_address, rpc_url=None, network=None, decimals=None, raw=False) -> float**\
+  Returns the ERC‑20 token balance of an address. `decimals` is auto-detected from the contract when omitted (falling back to 18); pass `raw=True` to get the unscaled on-chain integer. Alias: `get_token_balance`.
 
 Additionally, the following aliases are available for token transfers:\
-`send_ether`, `sendether`, and `sendEther` (all reference the same function).\
+`send_ether`, `sendether`, and `sendEther` (all reference the same function as `sendETHER`).\
 For more details please read [https://help.telebotcreator.com/crypto-libraries-documentation](https://help.telebotcreator.com/crypto-libraries-documentation).
 
 ***
@@ -376,8 +483,9 @@ Automate payments for subscriptions or services using payment libraries.&#x20;
 *   **Example**:
 
     ```python
-    libs.Paytm.setKeys("merchant_key", "merchant_id", "auth_token")
-    libs.Paytm.send(500, "1234567890", "Subscription payment")
+    libs.Coinpayments.setKeys("merchant_public_key", "merchant_private_key")
+    client = libs.Coinpayments.post()
+    # Use the client to create a transaction / check balances
     ```
 
 **User Data Tracking**
@@ -393,13 +501,18 @@ Manage user data for referral systems or leaderboards with the CSV library.
 
 **Crypto Payment Bots**
 
-Handle cryptocurrency transactions for services or rewards using blockchain libraries.
+Handle cryptocurrency transactions for services or rewards using `libs.web3lib` (all EVM chains).
 
 *   **Example**:
 
     ```python
-    libs.Polygon.setKeys("your_private_key")
-    libs.Polygon.sendPolygon(2.0, "recipient_wallet_address")
+    tx_hash = libs.web3lib.sendETHER(
+        value=2.0,
+        to="recipient_wallet_address",
+        private_key="your_private_key",
+        network="polygon"
+    )
+    bot.sendMessage(f"TX: {tx_hash}")
     ```
 
 **Random Giveaways**
@@ -424,7 +537,7 @@ Connect your bot with external services using the Webhook library.
     bot.sendMessage(f"Webhook URL: {webhook_url}")
     ```
 
-**14. libs.openai_lib**
+**16. libs.openai_lib**
 
 Provides a client for interacting with OpenAI's API and OpenRouter API, enabling AI-powered features in your bot.
 
@@ -504,9 +617,11 @@ Provides a client for interacting with OpenAI's API and OpenRouter API, enabling
     bot.sendMessage(response_text)
     ```
 
-**15. libs.gemini_lib**
+**17. libs.gemini_lib**
 
 Provides a client for interacting with Google's Gemini AI models, offering an OpenAI-compatible interface.
+
+> **Note**: The Gemini client caps every request at a **40-second timeout** (`MAX_TIMEOUT = 40`). Any larger `timeout` value you pass is clamped down to 40 seconds.
 
 * **Classes**:
   * `GeminiClient`: Core client for interacting with Gemini API.
@@ -556,23 +671,65 @@ Provides a client for interacting with Google's Gemini AI models, offering an Op
     bot.sendMessage(response["content"])
     ```
 
+***
+
+**libs.Random**
+
+Utility functions for generating random values — handy for games, giveaways, codes and tokens. All functions are also available in lowercase (e.g. `randomint`, `randomchoice`).
+
+* **Numbers**:
+  * `randomInt(min, max)`: Random integer in `[min, max]` (inclusive). Alias: `randomInteger`.
+  * `randomFloat(min, max)`: Random float in `[min, max]`.
+  * `randomRange(start, stop, count)`: `count` **unique** integers sampled from `[start, stop]`.
+  * `randomGaussian(mean, stddev)`: Random float from a Gaussian (normal) distribution.
+* **Strings & bytes**:
+  * `randomStr(length, charSet=None)`: Random alphanumeric string (or from a custom `charSet`). Alias: `randomString`.
+  * `randomAscii(length)`: Random string of ASCII letters.
+  * `randomHex(length)`: Random hex string of the given length.
+  * `randomBytes(length)`: Random `bytes` object.
+  * `randomUUID()`: A random UUID4 string.
+  * `randomPassword(length, use_digits=True, use_specials=True)`: Random password with optional digits and special characters.
+* **Collections**:
+  * `randomChoice(data)`: One random element from `data`.
+  * `randomSample(data, k)`: `k` unique random elements from `data`.
+  * `randomShuffle(data)`: A new shuffled copy of `data` (original is left unchanged).
+  * `randomWeightedChoice(data, weights)`: One element chosen according to `weights`.
+* **Misc**:
+  * `randomBoolean()`: Random `True`/`False`.
+
+*   **Example**:
+
+    ```python
+    code = libs.Random.randomStr(8)                       # e.g. "Ax7Qz1Pp"
+    winner = libs.Random.randomChoice(["Alice", "Bob", "Cara"])
+    prize = libs.Random.randomWeightedChoice([10, 50, 100], weights=[70, 25, 5])
+    token = libs.Random.randomHex(16)
+    bot.sendMessage(f"Winner: {winner} — prize {prize} (code {code})")
+    ```
+
 #### **5.4 Summary of Libraries**
 
 | **Library**          | **Purpose**                                                       | **Key Functions**                                                   |
 | -------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
-| **libs.Resources**   | Managing user and global resources                                | `value`, `add`, `cut`, `set`, `reset`, `getAllData`, `clearAllData`, `fetchAllResourcesOfUser`, `removeDataOfUser`, `removeAllDataOfUser`, `removeAllData`                 |
+| **libs.Resources**   | Managing user, global and account resources                       | `value`, `add`, `cut`, `set`, `reset`, `getAllData`, `fetchAllResources`, `fetchAllResourcesOfUser`, `deleteSingleUserData`, `deleteAllUsersData`, `clearAllUserOrAccountData` |
 | **libs.Coinbase**    | Coinbase payment integration                                      | `setKeys`, `post`                                                   |
-| **libs.Crypto**      | Cryptocurrency conversions and pricing                            | `convert`, `get_price`                                              |
-| **libs.Random**      | Generating random numbers and strings                             | `randomInt`, `randomStr`, `randomFloat`, `randomAscii`              |
-| **libs.Paytm**       | Paytm payment integration                                         | `setKeys`, `send`                                                   |
+| **libs.Coinpayments**| CoinPayments crypto payment integration                           | `setKeys`, `post`                                                   |
+| **libs.MDxchange**   | MDxchange deposits, payouts, Stars & Premium                      | `set_api_key`, `deposit`, `payout`, `buy_stars`, `buy_premium`      |
+| **libs.PremiumGift** | Sending Telegram Stars premium gifts                              | `send_gift`, `send_gift_by_id`, `get_gift_catalog`, `get_gift_history`, `get_gift_stats`, `GIFTS` |
+| **libs.Crypto**      | Cryptocurrency conversions and pricing                            | `convert`, `get_price`, `fetch_price`, `get_coin_info`              |
+| **libs.Random**      | Generating random numbers, strings and more                       | `randomInt`, `randomStr`, `randomFloat`, `randomAscii`, `randomChoice`, `randomShuffle`, `randomSample`, `randomBoolean`, `randomHex`, `randomBytes`, `randomUUID`, `randomRange`, `randomGaussian`, `randomWeightedChoice`, `randomPassword` |
 | **libs.CSV**         | Data management with CSV files                                    | `create_csv`, `add_row`, `edit_row`, `get`, `delete`                |
 | **libs.Webhook**     | Creating and managing webhooks                                    | `genRandomId`, `getUrlFor`                                          |
 | **libs.DateAndTime** | Working with dates and times                                      | `utcnow`, `date_now`, `time`, `now`                                 |
 | **libs.Oxapay**      | Oxapay payment integration                                        | `post`                                                              |
 | **libs.customHTTP**  | Performing HTTP requests with constraints                         | `get`, `post`, `put`, `delete`, `head`, `options`, `patch`, `close` |
-| **libs.web3lib**     | Ethereum-compatible blockchain transactions (Supports EVM chains) | `setKeys`, `sendETHER`, `sendNativeCoin`                            |
+| **libs.TonLib**      | TON blockchain, jettons and TON Connect                           | `generateWallet`, `getBalance`, `sendTON`, `get_jetton_balance`, `create_ton_connect_session` |
+| **libs.web3lib**     | EVM-compatible blockchain transactions & balances                 | `setKeys`, `sendETHER`, `sendNativeCoin`, `getBalance`, `getTokenBalance`, `get_supported_networks` |
+| **libs.OpenCV**      | Image processing (OpenCV/NumPy)                                   | `read_image_from_bytes`, `resize`, `detect_faces`, `apply_filter`, `to_bytes` |
+| **libs.Pillow**      | Image editing (PIL)                                              | `open_from_bytes`, `resize`, `draw_text`, `add_watermark`, `to_bytes` |
 | **libs.openai_lib**  | OpenAI API integration for AI capabilities                        | `OpenAIClient`, `AIAssistant`, create_chat_completion                |
 | **libs.gemini_lib**  | Google Gemini API integration for AI capabilities                 | `GeminiClient`, `GeminiAIAssistant`, create_chat_completion         |
+| **libs.security**    | Cryptographic toolkit — HMAC, Ed25519, AES, hashing              | `hmac_sign`, `hmac_verify`, `ed25519_verify`, `encrypt`, `decrypt`  |
 
 #### **5.6 Real-World Applications of Libraries**
 
@@ -629,13 +786,15 @@ Log and analyze user data or create leaderboards using CSV files.
 
 **Automated Payments**
 
-Use Paytm or Coinbase libraries to automate payment transfers.
+Use Coinbase, Coinpayments, Oxapay or MDxchange libraries to automate payment transfers.
 
 *   **Example**:
 
     ```python
-    libs.Paytm.setKeys("merchant_key", "merchant_id", "auth_token")
-    libs.Paytm.send(100, "9876543210", "Payment for services")
+    libs.Coinbase.setKeys("YOUR_API_KEY", "YOUR_API_SECRET")
+    client = libs.Coinbase.post()
+    balances = client.getBalance()
+    bot.sendMessage(f"Wallet balances: {balances}")
     ```
 
 **Random Giveaways**
@@ -686,6 +845,153 @@ Use the Gemini library to add AI capabilities to your bot.
 
 ***
 
+**18. libs.security**
+
+> **New in 7.1.2**
+
+A cryptographic toolkit providing HMAC signatures, Ed25519 asymmetric signature verification, AES encryption/decryption, and hashing functions.
+
+* **HMAC (Symmetric Signatures)**:
+  * `hmac_sign(secret, data, algorithm="sha256")`: Create an HMAC signature. Returns hex string.
+  * `hmac_verify(secret, data, signature, algorithm="sha256")`: Verify an HMAC signature (timing-safe). Returns `True`/`False`.
+
+* **Ed25519 (Asymmetric Verification)**:
+  * `ed25519_verify(public_key_hex, signature_hex, data)`: Verify an Ed25519 signature using a public key. Returns `True`/`False`.
+  * `verify_coinsway_webhook(public_key_hex, signature_hex, raw_body)`: Convenience method for verifying Coinsway webhook signatures.
+
+* **AES Encryption (Fernet)**:
+  * `generate_key()`: Generate a new Fernet encryption key.
+  * `encrypt(plaintext, key)`: Encrypt a string. Returns encrypted token.
+  * `decrypt(token, key)`: Decrypt a Fernet token. Returns plaintext.
+
+* **Hashing**:
+  * `sha256(data)`: SHA-256 hash. Returns hex string.
+  * `sha512(data)`: SHA-512 hash. Returns hex string.
+  * `md5(data)`: MD5 hash. Returns hex string.
+
+*   **Example — Verify a webhook signature**:
+
+    ```python
+    sig = options.headers.get("X-Coinsway-Signature", "")
+    public_key = "300f4313f53eb2a1a5c418bf44bae1d50596f3eed7ca5428e57cea40223bb1ed"
+    
+    if libs.security.verify_coinsway_webhook(public_key, sig, options.data):
+        data = options.json
+        bot.sendMessage(f"Verified deposit: {data.get('amount_human')} USDT")
+    else:
+        Api.setWebhookResult({"ok": False, "error": "Invalid signature"})
+    ```
+
+*   **Example — Encrypt user data**:
+
+    ```python
+    # Store ENCRYPTION_KEY in your .env command
+    encrypted = libs.security.encrypt("user secret data", ENCRYPTION_KEY)
+    User.saveData("encrypted_data", encrypted)
+    
+    # Later, decrypt it
+    stored = User.getData("encrypted_data")
+    decrypted = libs.security.decrypt(stored, ENCRYPTION_KEY)
+    bot.sendMessage(f"Your data: {decrypted}")
+    ```
+
+*   **Example — HMAC webhook verification**:
+
+    ```python
+    secret = "my_shared_secret"
+    sig = options.headers.get("X-Signature", "")
+    
+    if libs.security.hmac_verify(secret, options.data, sig):
+        bot.sendMessage("HMAC verified!")
+    else:
+        bot.sendMessage("Invalid HMAC signature")
+    ```
+
+For detailed documentation, see [Version 7.1.2 Update](version-7.1.2-update.md).
+
+***
+
+**19. libs.OpenCV**
+
+An image-processing toolkit built on **OpenCV (cv2)** and **NumPy**. Images are handled as NumPy arrays: read incoming photo bytes with `read_image_from_bytes`, process them, then convert back to bytes with `to_bytes` before sending. (Telebot Creator sandboxes the filesystem, so always work with in-memory bytes — never local file paths.)
+
+* **I/O**:
+  * `read_image_from_bytes(image_bytes)`: Decode raw bytes into an image array.
+  * `to_bytes(image, format=".jpg", params=None)`: Encode an image array to a `BytesIO` buffer.
+  * `create_blank(width, height, color=(255, 255, 255))`: Create a blank canvas.
+* **Geometry & color**:
+  * `resize(image, width=None, height=None)`, `rotate(image, angle)`, `perspective_transform(image, src_points, dst_points)`.
+  * `convert_color(image, conversion_type)`, `threshold(image, thresh_value=127, max_value=255, ...)`, `adaptive_threshold(image, max_value=255, ...)`.
+* **Filters & effects**:
+  * `apply_filter(image, filter_type)`, `detect_edges(image, threshold1=100, threshold2=200)`, `morph_operations(image, operation, kernel_size=5)`, `blend_images(image1, image2, alpha=0.5)`.
+* **Drawing**:
+  * `draw_text(image, text, position, ...)`, `draw_rectangle(image, pt1, pt2, ...)`, `find_contours(image, ...)`, `draw_contours(image, contours, ...)`.
+* **Faces**:
+  * `detect_faces(image)`: Returns a list of `(x, y, w, h)` face boxes.
+  * `draw_faces(image, faces, ...)`: Draws boxes around detected faces.
+
+*   **Example — resize a photo the user sent**:
+
+    ```python
+    file_info = bot.getFile(message.photo[-1].file_id)
+    raw = HTTP.get(f"https://api.telegram.org/file/bot{bot_token}/{file_info.file_path}").content
+
+    img = libs.OpenCV.read_image_from_bytes(raw)
+    small = libs.OpenCV.resize(img, width=320)
+    out = libs.OpenCV.to_bytes(small, format=".jpg")
+    bot.sendPhoto(out)
+    ```
+
+*   **Example — detect and box faces**:
+
+    ```python
+    img = libs.OpenCV.read_image_from_bytes(raw)
+    faces = libs.OpenCV.detect_faces(img)
+    boxed = libs.OpenCV.draw_faces(img, faces)
+    bot.sendPhoto(libs.OpenCV.to_bytes(boxed, format=".png"))
+    bot.sendMessage(f"Found {len(faces)} face(s)")
+    ```
+
+***
+
+**20. libs.Pillow**
+
+An image-editing toolkit built on **Pillow (PIL)**. Like `libs.OpenCV`, it works entirely with in-memory bytes: `open_from_bytes` to load and `to_bytes` to export.
+
+* **I/O**:
+  * `open_from_bytes(image_bytes)`: Load an image from raw bytes.
+  * `to_bytes(image, format="JPEG", **params)`: Export an image to a `BytesIO` buffer.
+  * `create_image(width, height, color=(255, 255, 255))`, `create_gradient(width, height, start_color, end_color, ...)`.
+* **Transform**:
+  * `resize(image, width=None, height=None, resample=...)`, `crop(image, box)`, `rotate(image, angle, expand=False)`, `mirror(image, direction="horizontal")`.
+* **Adjustments & filters**:
+  * `adjust_brightness(image, factor)`, `adjust_contrast(image, factor)`, `adjust_color(image, factor)`, `adjust_sharpness(image, factor)`, `apply_filter(image, filter_type)`, `invert(image)`.
+* **Composition**:
+  * `composite(image1, image2, mask=None)`, `paste(base_image, image_to_paste, ...)`, `blend(image1, image2, alpha=0.5)`, `add_border(image, border, color="black")`, `add_watermark(image, watermark, ...)`, `apply_mask(image, mask)`.
+* **Drawing**:
+  * `draw_text(image, text, position, ...)`, `draw_rectangle(image, xy, ...)`, `draw_circle(image, xy, ...)`, `draw_line(image, xy, ...)`.
+* **Channels & modes**:
+  * `convert_mode(image, mode)`, `split_channels(image)`, `merge_channels(r, g, b)`.
+
+*   **Example — add a caption and border**:
+
+    ```python
+    img = libs.Pillow.open_from_bytes(raw)
+    img = libs.Pillow.draw_text(img, "Winner!", (20, 20))
+    img = libs.Pillow.add_border(img, 10, color="gold")
+    bot.sendPhoto(libs.Pillow.to_bytes(img, format="PNG"))
+    ```
+
+*   **Example — build a gradient banner**:
+
+    ```python
+    banner = libs.Pillow.create_gradient(600, 200, (255, 0, 128), (0, 128, 255))
+    banner = libs.Pillow.draw_text(banner, "Daily Reward", (40, 80))
+    bot.sendPhoto(libs.Pillow.to_bytes(banner, format="PNG"))
+    ```
+
+***
+
 By using these libraries, you can significantly extend the capabilities of your Telegram bots, making them more interactive, efficient, and feature-rich. Whether you need to handle payments, manage data, or integrate with blockchain technologies, TBC's libraries provide the tools you need to build powerful bots with ease.
 
 **4. libs.Resources**
@@ -699,47 +1005,51 @@ The `libs.Resources` library in Telebot Creator provides a simple and efficient 
 Create and manage resources for specific users.
 
 ```python
-res = libs.Resources.userRes(name, user=None)
+res = libs.Resources.userRes(name, user=None, bot_id=None, api_key=None)
 ```
 
 **Parameters:**
 - `name` (Required): The name of the resource.
 - `user` (Optional): User ID to associate with this resource. Defaults to the current user.
+- `bot_id` / `api_key` (Optional): Target another bot's resources (see **Cross-bot access** below).
 
 #### globalRes
 
 Create and manage global resources that apply across all users.
 
 ```python
-res = libs.Resources.globalRes(name)
+res = libs.Resources.globalRes(name, bot_id=None, api_key=None)
 ```
 
 **Parameters:**
 - `name` (Required): The name of the resource.
+- `bot_id` / `api_key` (Optional): Target another bot's resources (see **Cross-bot access** below).
 
 #### anotherRes
 
 Create and manage resources for a specific user (even if not the current user).
 
 ```python
-res = libs.Resources.anotherRes(name, user)
+res = libs.Resources.anotherRes(name, user, bot_id=None, api_key=None)
 ```
 
 **Parameters:**
 - `name` (Required): The name of the resource.
 - `user` (Required): User ID to associate with this resource.
+- `bot_id` / `api_key` (Optional): Target another bot's resources (see **Cross-bot access** below).
 
 #### adminRes
 
-Create and manage resources with administrative privileges.
+Create and manage resources with administrative privileges. Required for the bulk/fetch/delete methods below.
 
 ```python
-res = libs.Resources.adminRes(name, user=None)
+res = libs.Resources.adminRes(name, user=None, bot_id=None, api_key=None)
 ```
 
 **Parameters:**
 - `name` (Required): The name of the resource.
 - `user` (Optional): User ID to scope the admin operations.
+- `bot_id` / `api_key` (Optional): Target another bot's resources (see **Cross-bot access** below).
 
 #### accountRes
 
@@ -752,9 +1062,20 @@ res = libs.Resources.accountRes(name)
 **Parameters:**
 - `name` (Required): The name of the resource.
 
+#### Cross-bot access (`bot_id` / `api_key`)
+
+`userRes`, `globalRes`, `anotherRes` and `adminRes` accept optional `bot_id` and `api_key` arguments. Pass them together to read or modify the resources of **another** bot you own — `api_key` (the owner's account API key) is validated against `bot_id` before access is granted. When both are omitted, operations target the current bot.
+
+```python
+# Read a "points" resource belonging to a different bot you own
+other = libs.Resources.userRes("points", user="123456789",
+                               bot_id="OTHER_BOT_ID", api_key="YOUR_ACCOUNT_API_KEY")
+bot.sendMessage(f"That bot shows {other.value()} points")
+```
+
 ### Resource Methods
 
-All resource classes support the following methods:
+All resource classes support the value methods (`value`, `add`, `cut`, `set`, `reset`). The data-export and bulk-delete methods (`getAllData`, `fetchAllResources`, `fetchAllResourcesOfUser`, `deleteSingleUserData`, `deleteAllUsersData`, `clearAllUserOrAccountData`) require an **`adminRes`** instance (or `accountRes` for account-level data); calling them on a non-admin resource raises a `PermissionError`.
 
 #### value()
 
@@ -814,6 +1135,89 @@ new_value = res.reset()
 ```
 
 **Returns:** The new value (always 0).
+
+#### getAllData(length)
+
+Returns the top entries for this resource, sorted by value (descending). Useful for leaderboards.
+
+```python
+admin = libs.Resources.adminRes("score")
+top = admin.getAllData(10)
+# Each entry: {"user": "<user_id>", "value": <float>}
+```
+
+**Parameters:**
+- `length` (Required): Maximum number of entries to return.
+
+#### fetchAllResources(output_format)
+
+Exports **all** resource records for the bot (or the whole account, for `accountRes`) as a downloadable file. Requires `adminRes` or `accountRes`.
+
+```python
+admin = libs.Resources.adminRes("points")
+file_obj = admin.fetchAllResources("csv")   # or "json"
+bot.sendDocument(file_obj)
+```
+
+**Parameters:**
+- `output_format` (Required): `"csv"` or `"json"`.
+
+**Returns:** A `BytesIO` file object.
+
+#### fetchAllResourcesOfUser(user, output_format)
+
+Exports all of a single user's resource records as a file. Requires `adminRes`.
+
+```python
+admin = libs.Resources.adminRes("points")
+file_obj = admin.fetchAllResourcesOfUser("123456789", "json")
+bot.sendDocument(file_obj)
+```
+
+**Parameters:**
+- `user` (Required): The user ID to export.
+- `output_format` (Required): `"csv"` or `"json"`.
+
+#### deleteSingleUserData(user, data=None, all_data=False)
+
+Deletes one user's data. Requires `adminRes`.
+
+```python
+admin = libs.Resources.adminRes("points")
+admin.deleteSingleUserData("123456789")              # delete this resource for the user
+admin.deleteSingleUserData("123456789", all_data=True)  # delete ALL of the user's resources
+```
+
+**Parameters:**
+- `user` (Required): The user ID.
+- `data` (Optional): Resource name to delete (defaults to the instance's `name`).
+- `all_data` (Optional): If `True`, delete every resource belonging to the user.
+
+#### deleteAllUsersData(data=None, all_data=False)
+
+Deletes a resource across **all** users of the bot. Requires `adminRes`.
+
+```python
+admin = libs.Resources.adminRes("points")
+admin.deleteAllUsersData()                # delete "points" for every user
+admin.deleteAllUsersData(all_data=True)   # delete ALL resources for every user (use with care)
+```
+
+**Parameters:**
+- `data` (Optional): Resource name (defaults to the instance's `name`).
+- `all_data` (Optional): If `True`, delete every resource for the bot.
+
+#### clearAllUserOrAccountData(data=None)
+
+Clears all records for a named resource (bot scope) or all account-level records (`accountRes`). Requires `adminRes` or `accountRes`.
+
+```python
+admin = libs.Resources.adminRes("points")
+admin.clearAllUserOrAccountData()         # clear all "points" records for the bot
+```
+
+**Parameters:**
+- `data` (Optional): Resource name (defaults to the instance's `name`).
 
 ### Examples
 

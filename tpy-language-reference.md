@@ -1,5 +1,9 @@
 # TPY Language Reference
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
+
 ### **4. TPY Language Reference**
 
 TPY (Telebot Python) is the main programming language used in Telebot Creator (TBC). It is a simplified version of Python specifically designed for building Telegram bots. TPY offers a safe, efficient, and powerful environment for creating bots with built-in functions, global variables, and libraries.
@@ -320,6 +324,63 @@ bot.approve_chat_join_request(chat_id=123456789, user_id=789012345)
 bot.sendPhoto(chat_id=123456789, photo="https://ibb.co/kyjq5Tm", caption="Welcome to the group!")
 ```
 
+**4.4.3 Telegram Bot API 8.x – 10.1 Methods**
+
+TBC now tracks **Telegram Bot API 10.1**. The following methods were added on top of the 7.x baseline above. They follow the same naming rules — call them in **camelCase** (e.g. `bot.getAvailableGifts()`) or **snake\_case** (e.g. `bot.get_available_gifts()`). As with the rest of TBC, media parameters take a Telegram `file_id`, a public URL, or a structured `dict` — local file uploads are not supported in the sandbox.
+
+| **Method** | **Arguments** | **Description** |
+| ----------------------------------- | --- | --- |
+| `getAvailableGifts` | None | Returns the list of gifts the bot can send. |
+| `sendGift` | `gift_id` (Required), `user_id` (Optional), `chat_id` (Optional), `pay_for_upgrade` (Optional), `text` (Optional), `text_parse_mode` (Optional), `text_entities` (Optional) | Sends a gift to a user or channel chat. |
+| `giftPremiumSubscription` | `user_id` (Required), `month_count` (Required), `star_count` (Required), `text` (Optional), `text_parse_mode` (Optional), `text_entities` (Optional) | Gifts a Telegram Premium subscription to a user, paid in Stars. |
+| `getUserGifts` | `user_id` (Required), `exclude_unlimited` (Optional), `exclude_limited_upgradable` (Optional), `exclude_limited_non_upgradable` (Optional), `exclude_from_blockchain` (Optional), `exclude_unique` (Optional), `sort_by_price` (Optional), `offset` (Optional), `limit` (Optional) | Lists gifts received by a user. |
+| `convertGiftToStars` | `business_connection_id` (Required), `owned_gift_id` (Required) | Converts a received gift back into Telegram Stars. |
+| `upgradeGift` | `business_connection_id` (Required), `owned_gift_id` (Required), `keep_original_details` (Optional), `star_count` (Optional) | Upgrades a regular gift to a unique gift. |
+| `transferGift` | `business_connection_id` (Required), `owned_gift_id` (Required), `new_owner_chat_id` (Required), `star_count` (Optional) | Transfers an owned unique gift to another chat. |
+| `postStory` | `business_connection_id` (Required), `content` (Required), `active_period` (Required), `caption` (Optional), `parse_mode` (Optional), `caption_entities` (Optional), `areas` (Optional), `post_to_chat_page` (Optional), `protect_content` (Optional) | Posts a story on behalf of a managed business account. |
+| `editStory` | `business_connection_id` (Required), `story_id` (Required), `content` (Required), `caption` (Optional), `parse_mode` (Optional), `caption_entities` (Optional), `areas` (Optional) | Edits a previously posted story. |
+| `deleteStory` | `business_connection_id` (Required), `story_id` (Required) | Deletes a story posted by a business account. |
+| `readBusinessMessage` | `business_connection_id` (Required), `chat_id` (Required), `message_id` (Required) | Marks an incoming business-account message as read. |
+| `setBusinessAccountName` | `business_connection_id` (Required), `first_name` (Required), `last_name` (Optional) | Sets the connected business account's name. |
+| `setBusinessAccountUsername` | `business_connection_id` (Required), `username` (Optional) | Sets the business account's username. |
+| `setBusinessAccountBio` | `business_connection_id` (Required), `bio` (Optional) | Sets the business account's bio. |
+| `setBusinessAccountProfilePhoto` | `business_connection_id` (Required), `photo` (Required), `is_public` (Optional) | Sets the business account's profile photo. |
+| `removeBusinessAccountProfilePhoto` | `business_connection_id` (Required), `is_public` (Optional) | Removes the business account's profile photo. |
+| `setBusinessAccountGiftSettings` | `business_connection_id` (Required), `show_gift_button` (Required), `accepted_gift_types` (Required) | Configures which gift types the business account accepts. |
+| `getBusinessAccountStarBalance` | `business_connection_id` (Required) | Returns the business account's Star balance. |
+| `transferBusinessAccountStars` | `business_connection_id` (Required), `star_count` (Required) | Transfers Stars from the business account to the bot. |
+| `sendChecklist` | `business_connection_id` (Required), `checklist` (Required), `chat_id` (Optional), `disable_notification` (Optional), `protect_content` (Optional), `message_effect_id` (Optional), `reply_parameters` (Optional), `reply_markup` (Optional) | Sends a checklist message (business accounts). |
+| `editMessageChecklist` | `business_connection_id` (Required), `message_id` (Required), `checklist` (Required), `chat_id` (Optional), `reply_markup` (Optional) | Edits an existing checklist message. |
+| `approveSuggestedPost` | `chat_id` (Required), `message_id` (Required), `send_date` (Optional) | Approves a suggested post in a direct-messages channel. |
+| `declineSuggestedPost` | `chat_id` (Required), `message_id` (Required), `comment` (Optional) | Declines a suggested post. |
+| `verifyUser` | `user_id` (Required), `custom_description` (Optional) | Verifies a user on behalf of an organization. |
+| `verifyChat` | `chat_id` (Required), `custom_description` (Optional) | Verifies a chat on behalf of an organization. |
+| `removeUserVerification` | `user_id` (Required) | Removes a user's verification. |
+| `removeChatVerification` | `chat_id` (Required) | Removes a chat's verification. |
+| `getMyStarBalance` | None | Returns the bot's own Telegram Star balance. |
+| `editUserStarSubscription` | `user_id` (Required), `telegram_payment_charge_id` (Required), `is_canceled` (Required) | Cancels or re-enables a user's Star subscription. |
+| `deleteMessageReaction` | `chat_id` (Required), `message_id` (Required), `user_id` (Optional), `actor_chat_id` (Optional) | Removes a reaction from a message. |
+| `deleteAllMessageReactions` | `chat_id` (Required), `user_id` (Optional), `actor_chat_id` (Optional) | Removes all reactions from a message. |
+| `sendRichMessage` | `rich_message` (Required), `business_connection_id` (Optional), plus standard send options | **TBC-custom** — sends a rich (structured) message. |
+| `sendLivePhoto` | `live_photo` (Required), `photo` (Required), `business_connection_id` (Optional), plus standard send options | **TBC-custom** — sends a live photo. |
+
+> **Note:** Gift, Story, and Business-account methods require a **business connection** (`business_connection_id`) from a user who has linked their account to your bot. `sendGift` / `getAvailableGifts` / `getMyStarBalance` work with the bot's own token.
+
+**Example — list and send a gift:**
+
+```python
+# List the gifts the bot can send
+gifts = bot.getAvailableGifts()
+
+# Send the first available gift to the current user
+if gifts and gifts.gifts:
+    bot.sendGift(gift_id=gifts.gifts[0].id, user_id=u, text="Enjoy! 🎁")
+
+# Check the bot's Star balance
+balance = bot.getMyStarBalance()
+bot.sendMessage(f"Bot Star balance: {balance.amount}")
+```
+
 #### **4.5 Libraries (libs)**
 
 TPY offers various libraries to extend your bot's functionality. These libraries provide pre-built modules for tasks like payments, blockchain transactions, data handling, and more.
@@ -337,16 +398,16 @@ TPY offers various libraries to extend your bot's functionality. These libraries
     libs.Coinbase.setKeys("your_api_key", "your_secret_key")
     client = libs.Coinbase.post()
     ```
-*   **libs.Paytm**
+*   **libs.Coinpayments**
 
-    * `setKeys(key, mid, token)`: Sets Paytm credentials.
-    * `send(amount, number, description=None)`: Transfers funds via Paytm.
+    * `setKeys(public_key, private_key)`: Sets CoinPayments API credentials.
+    * `post()`: Returns a configured CoinPayments API client.
 
     **Example:**
 
     ```python
-    libs.Paytm.setKeys("merchant_key", "merchant_id", "auth_token")
-    libs.Paytm.send(100, "9876543210", "Payment for services")
+    libs.Coinpayments.setKeys("public_key", "private_key")
+    client = libs.Coinpayments.post()
     ```
 
 **2. Blockchain Libraries**

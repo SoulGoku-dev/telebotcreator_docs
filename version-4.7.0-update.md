@@ -1,5 +1,7 @@
 # Version 4.7.0 Update
 
+*Platform version at time of release: 4.7.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*
+
 ## New Features Overview
 
 The version 4.7.0 update introduces several powerful features to enhance your bot development experience:

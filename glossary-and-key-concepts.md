@@ -1,16 +1,12 @@
 # Glossary and Key Concepts
 
-#### **11. Glossary and Key Concepts**
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-This section provides definitions and explanations of key terms and concepts in Telebot Creator. Understanding these terms is crucial for effectively building and managing bots on the platform.
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
 
-***
+Quick reference for key terms and concepts used in Telebot Creator.
 
-### **11.1 Introduction**
-
-The Telebot Creator platform uses a variety of specialized terms and concepts to define its functionality. This glossary serves as a quick reference for users, ensuring they have a clear understanding of the platform's core elements and advanced features.
-
-***
+---
 
 ### **11.2 Key Terms**
 
@@ -152,17 +148,17 @@ The Telebot Creator platform uses a variety of specialized terms and concepts to
 
 ***
 
-#### **4. libs.Polygon**
+#### **4. libs.web3lib (EVM Blockchain)**
 
-* **Definition**: A library for managing cryptocurrency transactions on the Polygon network.
+* **Definition**: A library for sending ETH/tokens on any EVM-compatible blockchain (Ethereum, Polygon, Arbitrum, BSC, etc.). Replaces deprecated `libs.Polygon`, `libs.ARB`, `libs.TTcoin`, and `libs.Tomochain`.
 *   **Example**:
 
     ```python
-    libs.Polygon.setKeys("PRIVATE_KEY")
-    libs.Polygon.send(
-        value=5,
+    libs.web3lib.sendETHER(
+        private_key="PRIVATE_KEY",
         to="0xRecipientAddress",
-        contract="TokenContractAddress"
+        value=0.01,
+        chain="polygon"
     )
     ```
 
@@ -205,7 +201,7 @@ The Telebot Creator platform uses a variety of specialized terms and concepts to
 
 #### **4. Global Broadcast Limits**
 
-* **Definition**: A system-wide limit of 1000 simultaneous broadcasts across all bots to ensure server stability.
+* **Definition**: A system-wide limit of 5000 simultaneous broadcasts across all bots to ensure server stability, plus a per-user limit of 3 concurrent broadcasts.
 
 ***
 
@@ -233,12 +229,35 @@ bot.sendMessage(f"Webhook URL: {webhook_url}")
 #### **Dynamic Data Fetching**
 
 ```python
-http_client = libs.customHTTP()
-response = http_client.get("https://api.example.com/data")
+response = HTTP.get("https://api.example.com/data")
 bot.sendMessage(f"API Response: {response.json()}")
-http_client.close()
 ```
 
 ***
 
-####
+#### **5. Account Class**
+
+* **Definition**: A globally available class (since v4.8.0) for managing account-level operations across all bots — list bots, save/get shared data, get stats, and transfer data between bots.
+*   **Example**:
+
+    ```python
+    stats = Account.getStats(time_frames=["24h", "7d"])
+    bot.sendMessage(f"Active users: {stats}")
+    ```
+
+***
+
+#### **6. libs.openai_lib / libs.gemini_lib**
+
+* **Definition**: Built-in AI libraries for integrating OpenAI (GPT-4o, Assistants API) and Google Gemini models into your bots.
+*   **Example**:
+
+    ```python
+    client = libs.openai_lib.OpenAIClient(api_key="KEY")
+    assistant = libs.openai_lib.AIAssistant(
+        openai_client=client,
+        model="gpt-4o",
+        system_message="You are helpful."
+    )
+    response = assistant.send_message(msg)
+    ```

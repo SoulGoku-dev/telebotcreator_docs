@@ -13,10 +13,9 @@ Most previously reported bugs have been fixed, making your bot development exper
 - Direct HTTP module usage now recommended over libs.customHTTP()
 
 ## 💪 Enhanced run_after Command
-- Maximum timeout extended to 1 YEAR (365 days)!
-- Minimum timeout reduced to 0.1 seconds
-- Smart rate limiting for ultra-fast commands
-- Increased limit from 20 to 100 scheduled commands per user
+- Maximum timeout: up to 366 days!
+- Minimum timeout: 1 second
+- Up to 50,000 scheduled commands per user
 
 ## 💰 TON Blockchain Integration
 - Comprehensive TON support through our new TonLib
@@ -29,8 +28,10 @@ Most previously reported bugs have been fixed, making your bot development exper
 ## 📚 Documentation
 We've added new documentation pages including a comprehensive TON Library guide.
 
-Check out the full release notes at: [Version 4.9.0 Update](https://telebotcreator.docs.com/version-4.9.0-update.html)
+Check out the full release notes at: [Version 4.9.0 Update](version-4.9.0-update.md)
 
 Let us know what you think and what you'd like to see in our next update!
+
+*Posted at platform version 4.9.0. Current platform: 7.1.2 · Telegram Bot API 10.1.*
 
 #TeleBotCreator #Update #Telegram #Bots #TON #Blockchain 

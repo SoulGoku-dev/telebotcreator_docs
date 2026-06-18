@@ -1,5 +1,7 @@
 # Bot Features and Functionalities
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
 #### **6. Bot Features and Functionalities**
 
 This section dives into the various features and functionalities available in Telebot Creator, showing how to apply them effectively in real-world scenarios. From handling user interactions to automating tasks and broadcasting messages, these features enable you to build bots that are both powerful and versatile.
@@ -43,41 +45,67 @@ bot.sendMessage("Processing your request...")
 
 #### **6.3 Broadcasting Messages**
 
-The broadcasting feature allows you to send a message or execute a command for multiple users simultaneously.
+The broadcasting feature (Broadcast V2) lets you send a message or run code/a command for many users at once. It runs in the background through a dedicated daemon, supports speed control, and can target one bot, several bots, or every bot you own.
 
 **Key Functions**:
 
-* **`broadcast`**: Sends a message or runs a command for a group of users.
-* **`clearBroadcast`**: Clears records of completed broadcasts.
+* **`broadcast(...)`** — start a broadcast. Always supply one of `code=`, `command=`, or `function=`.
+* Lifecycle helpers — `stopBroadcast`, `pauseBroadcast`, `resumeBroadcast`, `setBroadcastSpeed`, `getBroadcastProgress`, `getBroadcastStatus`, `listBroadcasts`, `rerunBroadcast`, `clearBroadcast`.
 
-**Example**:
-
-```python
-bot.broadcast("Hello, everyone! This is a broadcast message.")
-```
-
-**Advanced Example with Commands**:
+**Function-mode example** (a Telegram method runs once per recipient):
 
 ```python
-bot.broadcast(command="promo_offer")
+Bot.broadcast(
+    function="send_message",
+    text="Hello, everyone! This is a broadcast message."
+)
 ```
+
+**Command-mode example** (re-runs one of your existing commands for every user):
+
+```python
+Bot.broadcast(command="promo_offer")
+```
+
+**Limits**: up to **3 running broadcasts per bot** and up to **5000 running broadcasts globally** across the platform.
+
+> See **[Broadcast Function In TBC](broadcast-function-in-tbc.md)** for the full signature, the three modes (`single` / `multi` / `all`), speed control, and per-recipient placeholders.
 
 ***
 
-#### **6.4 Captcha Generation and Validation**
+#### **6.4 Captcha Generation**
 
-Telebot Creator supports automatic and manual CAPTCHA generation to ensure security during user interactions.
+Telebot Creator can generate automatic or manual CAPTCHAs to add a verification step to user interactions.
 
-**Key Functions**:
+**Key Function**:
 
-* **`genCaptcha`**: Generates a CAPTCHA.
-* **`validateCaptcha`**: Validates user responses to the CAPTCHA.
+* **`genCaptcha(mode, captcha=None)`** — `mode="auto"` generates a random 5-character CAPTCHA; `mode="manual"` builds a CAPTCHA from a string you supply (length 2–8).
+
+The returned object exposes:
+
+* **`captcha_url`** — image URL to send to the user.
+* **`captcha_text`** — the expected answer (compare it against the user's reply yourself).
+* **`length`** — number of characters.
+* **`captcha_id`** — present only in `manual` mode (a unique id you can store).
+
+There is **no** `validateCaptcha` method and **no** `image_url` key — verify the answer with your own logic by comparing the user's reply to `captcha_text`.
 
 **Example**:
 
 ```python
 captcha = bot.genCaptcha(mode="auto")
-bot.sendMessage(f"Please solve this CAPTCHA: {captcha['image_url']}")
+User.saveData("captcha_answer", captcha.captcha_text)
+bot.sendPhoto(captcha.captcha_url, caption="Please type the characters you see:")
+bot.handleNextCommand("check_captcha")
+```
+
+In the `check_captcha` command:
+
+```python
+if msg.strip() == User.getData("captcha_answer"):
+    bot.sendMessage("Verified! ✅")
+else:
+    bot.sendMessage("That doesn't match. Try /start again.")
 ```
 
 ***
@@ -300,6 +328,8 @@ bot.sendMessage(f"Your unique code is: {random_string}")
 
 Manage user-specific resources such as points, credits, balance or quotas using the `libs.Resources` library.
 
+`libs.Resources` exposes per-user resources via **`userRes(name, user)`** and account-wide resources via **`accountRes`** / **`globalRes`** / **`anotherRes`** / **`adminRes`**. Each resource object supports `add`, `cut`, `set`, `reset`, `value`, `getAllData`, and `fetchAllResources`. (See the **Libraries** doc for the full reference.)
+
 **Use Cases**:
 
 * Awarding points for user actions.
@@ -327,16 +357,22 @@ Broadcasting messages to users can be fine-tuned with custom commands or targeti
 **Advanced Example: Custom Command Broadcast**
 
 ```python
-bot.broadcast(command="special_offer")
+Bot.broadcast(command="special_offer")
 ```
 
-**Targeted Broadcasts**:
+**Broadcast across several of your bots** (`mode="multi"`):
 
 ```python
-users = [12345, 67890]  # List of user IDs
-for user in users:
-    bot.sendMessage(f"Hello, user {user}! Check out our latest offer.")
+Bot.broadcast(
+    function="send_message",
+    text="Hi {first_name}, here's our latest offer!",
+    mode="multi",
+    bot_ids=["123456", "654321"],
+    speed=12
+)
 ```
+
+`{first_name}` is a **literal placeholder** that the broadcast service replaces with each recipient's own name at send time. See the Broadcast doc for the full placeholder list.
 
 ***
 
@@ -431,7 +467,7 @@ Bot.runCommandAfter(5, "send_update")
 In the `send_update` command:
 
 ```python
-bot.broadcast("Thank you for joining! Check out our updates.")
+Bot.broadcast(function="send_message", text="Thank you for joining! Check out our updates.")
 ```
 
 #### **6.21 Example Scenarios for Real-World Use Cases**

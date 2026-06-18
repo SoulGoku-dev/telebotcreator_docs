@@ -86,8 +86,11 @@ def sendETHER(
     contract_address: Optional[str] = None,
     retry: bool = False,
     estimate_gas: bool = True,
+    decimals: Optional[int] = None,
 )
 ```
+
+> **Note:** When `contract_address` is omitted, `sendETHER` simply delegates to `sendNativeCoin`. The aliases `send_ether`, `sendether` and `sendEther` all point to this same function.
 
 #### **Parameter Details**
 
@@ -106,6 +109,85 @@ def sendETHER(
 | **`contract_address`**      | `Optional[str]` | The ERC-20 contract address. **Required for token transfers.**                                                                             |
 | **`estimate_gas`**          | `bool`          | If `True`, gas will be estimated automatically. Recommended for convenience. Default is `True`.                                            |
 | **`retry`**                 | `bool`          | If `True`, the function retries the transaction once if it fails. Useful to bypass common errors like "nonce too low". Default is `False`. |
+| **`decimals`**              | `Optional[int]` | Token precision. Defaults to `18`. Set this for tokens that don't use 18 decimals — e.g. `decimals=6` for USDT/USDC. Valid range is `0`–`18`. |
+
+***
+
+### Reading Balances
+
+In addition to sending, `libs.web3lib` can read on-chain balances.
+
+#### **`getBalance(...)`**
+
+Returns the **native coin** balance of an address.
+
+```tpy
+def getBalance(
+    address: str,
+    rpc_url: Optional[str] = None,
+    network: Optional[str] = None,
+    unit: str = "ether",
+) -> float
+```
+
+| Parameter     | Type            | Description                                                              |
+| ------------- | --------------- | ------------------------------------------------------------------------ |
+| **`address`** | `str`           | Wallet address to query.                                                 |
+| **`rpc_url`** | `Optional[str]` | Explicit RPC endpoint. If omitted, `network` must be provided.           |
+| **`network`** | `Optional[str]` | Supported EVM network name (see `get_supported_networks()`).             |
+| **`unit`**    | `str`           | `"wei"`, `"gwei"` or `"ether"` (default `"ether"`).                       |
+
+Alias: `get_balance`.
+
+```tpy
+bal = libs.web3lib.getBalance("0xRecipientAddressHere", network="ethereum")
+bot.sendMessage(f"Balance: {bal} ETH")
+```
+
+#### **`getTokenBalance(...)`**
+
+Returns the **ERC-20 token** balance of an address.
+
+```tpy
+def getTokenBalance(
+    address: str,
+    contract_address: str,
+    rpc_url: Optional[str] = None,
+    network: Optional[str] = None,
+    decimals: Optional[int] = None,
+    raw: bool = False,
+) -> float
+```
+
+| Parameter              | Type            | Description                                                                                       |
+| ---------------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| **`address`**          | `str`           | Wallet address to query.                                                                          |
+| **`contract_address`** | `str`           | ERC-20 token contract address.                                                                    |
+| **`rpc_url`**          | `Optional[str]` | Explicit RPC endpoint. If omitted, `network` must be provided.                                    |
+| **`network`**          | `Optional[str]` | Supported EVM network name.                                                                       |
+| **`decimals`**         | `Optional[int]` | Token precision. Auto-detected from the contract when omitted (falls back to `18`).               |
+| **`raw`**              | `bool`          | If `True`, return the raw on-chain integer (no decimal scaling). Default `False`.                 |
+
+Alias: `get_token_balance`.
+
+```tpy
+usdt = libs.web3lib.getTokenBalance(
+    "0xWalletAddressHere",
+    contract_address="0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    network="ethereum",
+    decimals=6
+)
+bot.sendMessage(f"USDT balance: {usdt}")
+```
+
+#### **`get_supported_networks()`**
+
+Returns a dictionary of all supported EVM networks with their chain IDs and default RPC endpoints.
+
+```tpy
+networks = libs.web3lib.get_supported_networks()
+bot.sendMessage(f"Supported chains: {list(networks.keys())}")
+```
 
 ***
 
@@ -180,7 +262,7 @@ test_recipient = "0xRecipientAddressHere"
 test_rpc = "https://rpc.ankr.com/eth"
 
 tx_hash = libs.web3lib.sendETHER(
-    value = 1,                     # Token amount (assuming 18 decimals)
+    value = 1,                     # Token amount (defaults to 18 decimals)
     to = test_recipient,
     rpc_url = test_rpc,
     private_key = dummy_private_key,
@@ -188,6 +270,7 @@ tx_hash = libs.web3lib.sendETHER(
     network = "ethereum",
     retry = True,
     estimate_gas = True
+    # decimals = 6                 # uncomment for 6-decimal tokens like USDT/USDC
 )
 
 bot.sendMessage(f"Token Transfer TX Hash: {tx_hash}")

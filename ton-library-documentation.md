@@ -110,6 +110,33 @@ if status["status"] == "connected":
     # User wallet is connected
 ```
 
+#### register_ton_connect_wallet(session_id, wallet_address)
+
+Marks a session as connected and stores the connected wallet address. Use this in your callback/handler once the user approves the connection on their wallet, so that subsequent `verify_ton_connect_session` calls report the wallet.
+
+```python
+result = libs.TonLib.register_ton_connect_wallet(session_id, "EQD...")
+if result["status"] == "success":
+    bot.sendMessage("Wallet linked!")
+```
+
+**Returns:** A dict with `status` (`"success"` or `"error"`), a `message`, and on success the `wallet_address`. Errors are returned for unknown or expired sessions.
+
+#### create_ton_connect_payload(callback_url, items=None, return_url=None)
+
+Builds a raw TON Connect payload and deep link (`connect_url`) for custom request flows. This is the lower-level primitive used by `request_ton_transaction` / `request_jetton_transfer`; call it directly when you need to bundle custom items.
+
+```python
+payload = libs.TonLib.create_ton_connect_payload(
+    callback_url="https://your-app.com/callback",
+    items=[],
+    return_url="https://t.me/your_bot"
+)
+bot.sendMessage(f"Open: {payload['connect_url']}")
+```
+
+**Returns:** A dict with `request_id`, `connect_url`, and the raw `payload`.
+
 #### request_ton_transaction(to_address, amount, comment=None, callback_url="", return_url=None)
 
 Requests a TON transfer from a connected wallet.
@@ -135,6 +162,17 @@ metadata = libs.TonLib.get_jetton_metadata("EQD...")
 name = metadata["name"]
 symbol = metadata["symbol"]
 total_supply = metadata["total_supply"]
+```
+
+#### get_jetton_wallet_address(owner_address, jetton_master_address, api_key=None, endpoint=None)
+
+Resolves the address of the Jetton wallet that an owner holds for a given Jetton master contract. (Each owner has a distinct Jetton wallet per token.) `get_jetton_balance` uses this internally, but you can call it directly when you need the wallet address itself.
+
+```python
+jetton_wallet = libs.TonLib.get_jetton_wallet_address(
+    owner_address="EQD...",
+    jetton_master_address="EQD..."
+)
 ```
 
 #### get_jetton_balance(owner_address, jetton_master_address, api_key=None, endpoint=None)

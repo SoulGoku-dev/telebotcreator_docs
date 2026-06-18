@@ -1,265 +1,228 @@
 # Frequently Asked Questions (FAQs)
 
-#### **10. Frequently Asked Questions (FAQs)**
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-This section addresses common questions and concerns about using Telebot Creator. Whether you're a beginner or an experienced user, these FAQs provide quick answers to help you use the platform effectively.
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
 
-***
+Quick answers to the most common questions about Telebot Creator. If your question isn't covered here, ask in the [TBC Community Group](https://t.me/telebotcreatorbetachat).
 
-### **10.1 General Questions**
+---
 
-#### **1. What is Telebot Creator, and how does it work?**
+## General Questions
 
-Telebot Creator is a platform for building and hosting Telegram bots. It uses a custom programming language called TPY (Telebot Python) to simplify bot creation, allowing you to add commands, integrate libraries, and host bots without managing your own servers.
+### What is Telebot Creator?
 
-#### **2. How do I create my first bot?**
+Telebot Creator (TBC) is a free online platform for building, hosting, and managing Telegram bots. It uses TPY (Telebot Python), a custom scripting language based on Python, which includes over 30 built-in libraries for AI integration, cryptocurrency payments, data management, webhooks, and more. The platform hosts over 80,000 active bots serving more than 20 million Telegram users as of 2026. You don't need your own server — TBC handles all hosting, scaling, and infrastructure. Every new account receives 100,000 free execution points per month, making it completely free to build and run bots. Whether you're a complete beginner or an experienced developer, TBC provides the tools to create anything from simple auto-reply bots to complex AI-powered applications.
 
-To create your first bot:
+### Is Telebot Creator really free?
 
-1. Get a Bot API token from @BotFather on Telegram.
-2. Log in to Telebot Creator.
-3. Click **"Add New Bot"** on the dashboard and paste the API token.
-4. Start adding commands and customizing your bot.
+Yes, Telebot Creator is 100% free to use. Every new account receives 100,000 execution points per month, where each bot command execution costs just 1 point. This means you can handle 100,000 user interactions per month at no cost. There are no hidden fees, no credit card required, no premium tiers, and no limits on the number of bots you can create. If you need more points, you can request them for free from the admin team in the TBC Help Group on Telegram. The platform sustains itself through minimal, non-intrusive advertising — just 2-4 broadcast messages per month. All 30+ libraries, the code editor, broadcasting, webhooks, and every feature are available to all users at no charge.
 
-#### **3. What are the limitations of the free plan?**
+### How do I create my first bot?
 
-The free plan includes:
+Creating your first bot on Telebot Creator takes less than 5 minutes. First, register a free account at telebotcreator.com. Next, open Telegram and message @BotFather — use the `/newbot` command to create a new bot and copy the API token it gives you. Then go to the TBC dashboard, click "Add New Bot," paste your token, and click "Create Bot." Your bot appears on the dashboard in Stopped status. Click on it, go to Commands, add a `/start` command with code like `bot.sendMessage("Hello!")`, save it, and click Start. Your bot is now live on Telegram. For a detailed walkthrough with code examples, see the [Getting Started guide](getting-started.md).
 
-* 100,000 points per month for bot operations.
-* Each command execution costs 1 point.
-* A maximum of 2 simultaneous broadcasts per bot.
+### What are the limitations of the free plan?
 
-#### **4. How do I check my remaining points?**
+The free plan includes 100,000 execution points per month (1 point per command execution), a maximum of 2 simultaneous broadcasts per bot, and up to 160 seconds of execution time per command. There is a global limit of 1,000 simultaneous broadcasts across all platform users. Scheduled commands are limited to 100 per user per bot, with scheduling possible up to one year in advance. There are no limits on the number of bots you can create, the number of commands per bot, or which libraries you can use. All features including AI integration, blockchain libraries, webhooks, broadcasting, and the full Telegram Bot API are available to every user. If you need more points, simply request them for free from the admin team.
 
-Use the following code to display your remaining points:
+### How do I check my remaining points?
+
+You can check your remaining points directly from your bot's code using the built-in `left_points` variable. Add a command like `/points` to your bot with this code:
 
 ```python
 points = left_points
-bot.sendMessage(f"You have {points} points remaining.")
+bot.sendMessage(f"You have {points} points remaining this month.")
 ```
 
-#### **5. Will there be advertisements in my bot?**
+You can also check your points from the TBC dashboard in the account settings section.
 
-Telebot Creator has a minimal advertising policy:
-* Ads appear only 2-4 times per month as a single broadcast message.
-* These are non-intrusive and won't spam your users.
-* The platform prioritizes user experience by keeping advertisements to an absolute minimum.
+### Will there be advertisements in my bot?
 
-#### **6. How can I get more points if I run out?**
+Telebot Creator uses a minimal advertising model to keep the platform free for everyone. Advertisements appear only 2 to 4 times per month, delivered as a single broadcast message to your bot's users. These ads are non-intrusive and non-repetitive — they won't spam your users or interrupt their experience. This approach is fundamentally different from other bot platforms that insert ads into every bot response or show pop-ups. The TBC team prioritizes user experience, so advertising frequency is kept to an absolute minimum. This revenue model allows the platform to provide free hosting, free libraries, and free points to all users without requiring paid subscriptions or premium tiers.
 
-You can obtain more points in several ways:
-* Request additional points for free by asking admins in the TBC Help Group.
-* In upcoming updates, a points faucet will allow you to obtain unlimited points.
-* All additional points are provided completely free of charge.
+---
 
-#### **7. What is the upcoming Bot Store?**
+## Commands and Features
 
-The Bot Store is a new feature coming in the next update that will allow users to:
-* Discover pre-made bots for various purposes.
-* Share their own bot templates with the community.
-* Deploy ready-to-use bots without having to code them from scratch.
-* Access specialized bot templates for different industries and use cases.
+### How do I create a command?
 
-***
+Commands are created through the Commands tab in your bot's dashboard. Click "Add Command," enter a command name (like `/start` or `/help`), and write your TPY code in the built-in editor. Every command must have a name and associated code.
 
-### **10.2 Commands and Features**
+```python
+# Example /start command
+bot.sendMessage("Welcome to my bot! Type /help to see available commands.")
+```
 
-#### **1. How do I create a command?**
+Save the command, make sure your bot is started, and test it by messaging your bot on Telegram. Commands can be simple one-line responses or complex multi-step workflows using `Bot.handleNextCommand()`, `Bot.runCommand()`, and `Bot.runCommandAfter()`.
 
-Commands are added via the "Commands" menu in the bot dashboard. For example, to create a `/start` command:
+### What is the difference between handleNextCommand and runCommand?
 
-1. Open the **Commands** menu.
-2. Click **"Add Command"**.
-3.  Define the command name (`/start`) and write its logic in TPY:
+These are two fundamental command flow tools in TBC. `Bot.handleNextCommand("command_name")` tells the bot to wait for the user's next message and then route that message to the specified command — this is how you create multi-step conversations, forms, and interactive flows. `Bot.runCommand("command_name")` executes another command immediately without waiting for user input — useful for redirecting flow, running shared logic, or building modular bots. There's also `Bot.runCommandAfter(seconds, "command_name")` which schedules a command to run after a delay, from 1 second up to 366 days. Understanding these three functions is essential for building any interactive Telegram bot on TBC.
 
-    ```python
-    bot.sendMessage("Welcome to the bot!")
-    ```
+### What are the special commands (* and @)?
 
-#### **2. What is the difference between `handleNextCommand` and `runCommand`?**
+TBC has two special command types. The **wildcard command (`*`)** triggers when a user sends any message that doesn't match a defined command. Use it for fallback responses, AI chatbot logic, or handling free-text input. The **at handler command (`@`)** runs before every other command — use it for preprocessing messages, logging user activity, checking banned users, or setting global variables. Together with `handleNextCommand`, these special commands give you complete control over how your bot handles every possible user interaction.
 
-*   **`handleNextCommand`**: Waits for the user's next message and then routes it to a specific command.
+### Can I execute a command for another bot?
 
-    ```python
-    bot.sendMessage("What's your name?")
-    Bot.handleNextCommand("save_name")
-    ```
-*   **`runCommand`**: Executes another command immediately.
+Yes, TBC supports cross-bot communication. You can use the `bot_id` and `api_key` parameters with functions like `libs.Webhook.getUrlFor()`, `Bot.runCommandAfter()`, and `Bot.broadcast()` to execute commands on another bot you own. This enables powerful multi-bot architectures where bots can coordinate actions, share data, and trigger each other's workflows. You need the target bot's ID and the account API key for authentication.
 
-    ```python
-    bot.sendMessage("Redirecting to the help menu...")
-    Bot.runCommand("help")
-    ```
+---
 
-#### **3. Can I execute a command for another bot?**
+## Libraries and Integrations
 
-Yes, you can use the `bot_id` and `api_key` parameters with certain functions like `libs.Webhook.getUrlFor` to execute commands for another bot.
+### How do I integrate AI into my bot?
 
-***
+TBC includes built-in AI libraries for OpenAI and Google Gemini. Here's a quick example using OpenAI:
 
-### **10.3 Libraries and Integrations**
+```python
+client = libs.openai_lib.OpenAIClient(api_key="YOUR_OPENAI_KEY")
+assistant = libs.openai_lib.AIAssistant(
+    openai_client=client,
+    model="gpt-4o",
+    system_message="You are a helpful assistant."
+)
+response = assistant.send_message(msg)
+bot.sendMessage(str(response.get("content")[0]['text']['value']))
+```
 
-#### **1. How do I integrate payments using Coinbase?**
+TBC also supports Gemini via `libs.gemini_lib` and OpenRouter for access to 100+ AI models. AI commands can run up to 160 seconds, giving plenty of time for complex AI responses.
 
-Set up the Coinbase library:
+### How do I accept crypto payments?
+
+Use the `libs.Coinbase` library for Coinbase Commerce payments:
 
 ```python
 libs.Coinbase.setKeys("API_KEY", "SECRET")
 client = libs.Coinbase.post()
-```
-
-Create a payment request:
-
-```python
 payment = client.createCharge({
-    "name": "Subscription",
-    "description": "Monthly fee",
+    "name": "Premium Subscription",
+    "description": "Monthly access",
     "local_price": {"amount": "10.00", "currency": "USD"},
     "pricing_type": "fixed_price"
 })
 bot.sendMessage(f"Pay here: {payment['hosted_url']}")
 ```
 
-#### **2. Can I use multiple libraries in a single bot?**
+For TON blockchain, use `libs.TonLib`. For EVM chains (Ethereum, Polygon, Arbitrum, etc.), use `libs.web3lib`.
 
-Yes, multiple libraries can be combined seamlessly. For example, you can use `libs.CSV` for data storage and `libs.Webhook` for real-time updates in the same bot.
+### Can I use multiple libraries in a single bot?
 
-#### **3. How do I fetch external data using `libs.customHTTP`?**
+Absolutely. TBC libraries are designed to work together. You can combine `libs.openai_lib` for AI responses, `libs.Coinbase` for payments, `libs.CSV` for data storage, `libs.Webhook` for real-time updates, and `libs.Resources` for user points — all in the same bot. There's no limit to how many libraries you can use simultaneously.
 
-Use the `get` method to fetch data:
+### How do I make HTTP requests to external APIs?
+
+Use the built-in `HTTP` module (recommended) or `libs.customHTTP()`:
 
 ```python
-http_client = libs.customHTTP()
-response = http_client.get("https://api.example.com/data")
-bot.sendMessage(f"API Response: {response.json()}")
-http_client.close()
+# Using built-in HTTP (recommended since 4.9.0)
+response = HTTP.get("https://api.example.com/data")
+data = response.json()
+bot.sendMessage(f"Result: {data}")
+
+# POST request with JSON body
+response = HTTP.post("https://api.example.com/submit", json={"key": "value"})
 ```
 
-***
+---
 
-### **10.4 Broadcasting**
+## Broadcasting
 
-#### **1. Why is my broadcast not working?**
+### How does broadcasting work?
 
-Common reasons:
-
-1. You've exceeded the maximum of 2 running broadcasts per bot.
-2. The `function` or `command` used in the broadcast is invalid.
-
-#### **2. What are the limits for broadcasting?**
-
-* **User Limit**: 2 simultaneous broadcasts per bot.
-* **Global Limit**: 1000 simultaneous broadcasts across all bots.
-
-#### **3. How do I test a broadcast before sending it?**
-
-Use the `broadcast` function with a test run:
+Broadcasting sends a message or runs a command for all your bot's users at once. Use `Bot.broadcast()` with either a pre-defined Telegram function (like `send_message`, `send_photo`) or a custom command name. You can broadcast text, photos, videos, files, and more. Each bot can run 2 simultaneous broadcasts, and there's a global limit of 1,000 across all platform users.
 
 ```python
-Bot.broadcast(
-    function="send_message",
-    text="Testing broadcast system."
-)
+# Simple text broadcast
+Bot.broadcast(function="send_message", text="Big announcement!")
+
+# Run a command for all users
+Bot.broadcast(command="send_promo")
 ```
 
-***
+### Why is my broadcast not working?
 
-### **10.5 Webhooks**
+The most common reasons are: you already have 2 running broadcasts (the per-bot limit), the command name doesn't exist in your bot, or the broadcast function name is invalid. Check your running broadcasts with `Bot.getAllBroadcasts()` and stop any completed ones with `Bot.clearBroadcast()`.
 
-#### **1. What is a webhook, and how does it work in Telebot Creator?**
+---
 
-A webhook is a URL that allows your bot to receive real-time updates from external systems or trigger commands dynamically. Use `libs.Webhook.getUrlFor` to generate webhook URLs.
+## Webhooks
 
-#### **2. How do I generate a webhook URL?**
+### What are webhooks and how do I use them?
+
+Webhooks allow your bot to receive real-time data from external services like payment processors, form submissions, or any system that can send HTTP requests. Generate a webhook URL with `libs.Webhook.getUrlFor()`, give that URL to the external service, and TBC will automatically trigger the specified command when data arrives. Inside webhook commands, the incoming data is available in `options["json"]` and `options["data"]`.
 
 ```python
-webhook_url = libs.Webhook.getUrlFor(
-    command="process_data",
-    user_id=12345
-)
+# Generate webhook URL
+webhook_url = libs.Webhook.getUrlFor("payment_received", user_id=u)
 bot.sendMessage(f"Webhook URL: {webhook_url}")
 ```
 
-#### **3. How do I secure my webhook endpoints?**
+---
 
-* Use dynamically generated webhook URLs.
-* Validate requests by checking headers or access tokens.
+## Bot Management
 
-***
+### How do I transfer a bot to another account?
 
-### **10.6 Bot Transfer and Management**
-
-#### **1. How do I transfer a bot to another account?**
-
-Use the `Bot.Transfer` function:
+Use the `Bot.Transfer()` function in any command:
 
 ```python
 result = Bot.Transfer(
     email="newowner@example.com",
-    bot_id="123456",
-    bot_token="BOT_API_TOKEN",
+    bot_id=bot_id,
+    bot_token=bot_token,
     run_now=True
 )
-bot.sendMessage(f"Bot transferred successfully: {result['bot_id']}")
 ```
 
-#### **2. What happens to my points after transferring a bot?**
+Points stay with the original account. The new owner needs their own points. Transferred bots cannot be retrieved unless the new owner transfers them back. Deleted bots can be recovered within 90 days.
 
-Points remain with the original account. The new owner will need points in their account to run the transferred bot.
+### How do I manage multiple bots from one account?
 
-#### **3. Can I retrieve a transferred bot?**
+Use the `Account` class (added in version 4.8.0). It provides account-level operations across all your bots:
 
-No, once a bot is transferred, it cannot be retrieved unless the new owner transfers it back.
+```python
+# List all bots in your account
+bots = Account.get_bots_list()
 
-***
+# Save data accessible from any of your bots
+Account.saveData("shared_config", {"setting": "value"})
 
-### **10.7 Payment and Points**
+# Get stats across all bots
+stats = Account.getStats(time_frames=["24h", "7d"])
+```
 
-#### **1. How do I purchase more points?**
+---
 
-Points are completely free. You can request additional points by:
-* Asking admins in the TBC Help Group.
-* In future updates, using the points faucet to obtain unlimited points.
+## Points and Billing
 
-#### **2. How are points deducted for bot actions?**
+### How are points deducted?
 
-Each command execution costs 1 point. Broadcasts and API integrations may consume additional points based on usage.
+Each command execution costs exactly 1 point. This includes any command trigger — `/start`, callback queries, inline queries, webhook triggers, scheduled commands, and broadcast executions. Making HTTP requests, saving data, and using libraries within a command don't cost extra points — only the initial command trigger counts.
 
-#### **3. What happens if I run out of points?**
+### What happens if I run out of points?
 
-Your bot will stop functioning until points are replenished. You can easily request more points from the TBC Help Group admins at any time, free of charge.
+Your bot stops responding to messages until points are replenished. Points renew every month, or you can request additional points at any time for free from the admin team in the TBC Help Group. There's no limit to how many points you can request.
 
-#### **4. How many points do new accounts receive?**
+---
 
-New accounts automatically receive 100,000 points upon creation, enough to execute 100,000 commands.
+## Troubleshooting
 
-#### **5. Is there a limit to how many points I can request?**
+### Why is my bot not responding?
 
-No, you can request as many points as you need to run your bots. The platform is designed to be generous with points to ensure you can operate your bots without restrictions.
+Common causes: the bot is in Stopped status (click Start), the command name doesn't match what the user sent, there's a syntax error in your TPY code (check Error Logs), or you've run out of points. Always check the Error Logs section in your bot's dashboard for specific error messages.
 
-***
+### How do I debug errors?
 
-### **10.8 Troubleshooting**
-
-#### **1. Why is my bot not responding?**
-
-* **Cause**: Command not defined, or bot is not running or maybe the server is down.
-* **Solution**: Check the command list in the dashboard and start the bot if it's stopped.
-
-#### **2. What should I do if my webhook fails?**
-
-* **Cause**: Invalid webhook URL or unreachable endpoint.
-* **Solution**: Regenerate the webhook URL using `libs.Webhook.getUrlFor` and verify the endpoint.
-
-#### **3. How do I debug errors in my bot's commands?**
-
-Use try-except blocks to catch and log errors:
+Use try-except blocks and check the Error Logs:
 
 ```python
 try:
-    bot.sendMessage("Testing risky operation...")
+    result = some_operation()
+    bot.sendMessage(f"Success: {result}")
 except Exception as e:
-    bot.sendMessage(f"Error: {e}")
+    bot.sendMessage(f"Error occurred: {e}")
 ```
 
-***
+The Error Logs in your bot's dashboard show all runtime errors with timestamps, command names, and error details.

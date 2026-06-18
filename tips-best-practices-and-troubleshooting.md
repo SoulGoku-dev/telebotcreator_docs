@@ -1,5 +1,9 @@
 # Tips, Best Practices, and Troubleshooting
 
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
+
 #### **9. Tips, Best Practices, and Troubleshooting**
 
 This section provides essential guidance for optimizing bot performance, managing resources effectively, ensuring security, and troubleshooting common issues in Telebot Creator. By following these practices, you can create highly reliable, efficient, and secure bots.
@@ -34,7 +38,7 @@ This section provides essential guidance for optimizing bot performance, managin
     Bot.runCommandAfter(3600, "send_reminder")  # Execute a reminder after 1 hour
     ```
     
-    > **New in 4.9.0**: You can now schedule tasks up to 1 year (365 days) ahead, with a minimum interval of 0.1 seconds. Maximum scheduled tasks per user increased from 20 to 100.
+    > **Scheduling limits**: You can schedule tasks from a minimum interval of 1 second up to 366 days ahead. Each user can hold up to 50,000 scheduled tasks. Use `Bot.cancelScheduledTask(job_id)` to cancel a pending task.
     
 4. **Minimize Repeated API Calls**:
    * Cache data that doesn't change frequently (e.g., user statistics or configuration).
@@ -158,7 +162,7 @@ This section provides essential guidance for optimizing bot performance, managin
 
 * **Issue**: Broadcast does not execute or returns an error.
 * **Causes**:
-  * Too many running broadcasts (limit: 2 per bot, 1000 globally).
+  * Too many running broadcasts (limit: 3 per user, 5000 globally).
   * Invalid or unsupported `function`.
 * **Solution**:
   *   Check broadcast limits:

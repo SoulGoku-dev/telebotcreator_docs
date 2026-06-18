@@ -1,89 +1,83 @@
 # Conclusion and Next Steps
 
-#### **13. Conclusion and Next Steps**
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-Thank you for exploring the comprehensive documentation for Telebot Creator. This platform is designed to empower developers and businesses with the tools to build and manage highly functional Telegram bots. Whether you're a beginner or an advanced user, Telebot Creator offers endless possibilities to innovate, automate, and engage.
+*Last updated: June 2026 | Maintained by Telebot Creator Team*
 
-***
+---
 
-### **13.1 Summary of Key Features**
+## What You've Learned
 
-Here’s a recap of the major topics covered in this documentation:
+This documentation covers everything you need to build powerful Telegram bots with Telebot Creator:
 
-1. **Bot Creation**:
-   * Step-by-step guide to creating bots using the Bot API token.
-   * Customizing commands with TPY (Telebot Python).
-2. **Libraries and Integrations**:
-   * Leveraging `libs.Coinbase`, `libs.CSV`, `libs.Polygon`, and more to extend bot functionality.
-   * Automating cryptocurrency transactions, data management, and API integrations.
-3. **Advanced Features**:
-   * Creating dynamic workflows with `handleNextCommand` and `runCommand`.
-   * Managing broadcasts and multi-bot communication with `Bot.broadcast` and webhooks.
-4. **Best Practices and Troubleshooting**:
-   * Optimizing point usage.
-   * Debugging and handling errors effectively.
-   * Securing sensitive data and ensuring webhook integrity.
+| Topic | What You Learned |
+|---|---|
+| **Getting Started** | Account setup, bot creation, dashboard navigation |
+| **Commands** | Command syntax, variables, parameters, chaining, special commands |
+| **TPY Language** | Built-in functions, globals, classes (Bot, User, Account), security model |
+| **Libraries** | 30+ libraries for AI, payments, blockchain, data, HTTP, webhooks |
+| **Broadcasting** | Mass messaging, command broadcasts, callback URLs |
+| **Advanced Features** | Scheduled commands, webhooks, cross-bot communication, data transfer |
+| **Real-World Use Cases** | Referral bots, payment bots, survey bots, AI chatbots, notification bots |
 
-***
+---
 
-### **13.2 Getting the Most Out of Telebot Creator**
+## Ideas for Your Next Bot
 
-#### **Explore New Use Cases**
+Now that you know the platform, here are some bots you can build:
 
-Push the boundaries of what your bots can achieve:
+- **AI Assistant Bot** — Use `libs.openai_lib` or `libs.gemini_lib` to create a GPT-powered chatbot
+- **Crypto Payment Bot** — Accept payments with `libs.Coinbase` or `libs.TonLib`
+- **Referral & Rewards Bot** — Track referrals with `libs.Resources` and generate referral links
+- **Customer Support Bot** — Multi-step forms with `handleNextCommand` and ticket tracking with `User.saveData`
+- **Real-Time Notification Bot** — Use `libs.Webhook` to push alerts from external services
+- **Community Management Bot** — Membership checks, CAPTCHA, auto-moderation with the `@` handler
+- **Quiz & Game Bot** — Random questions with `libs.Random`, scoreboards with `libs.Resources`
+- **E-commerce Bot** — Product catalog, cart system, payment integration, order notifications
 
-* Experiment with libraries like `libs.Coinbase` for payment handling or `libs.Webhook` for real-time updates.
-* Combine features to create bots for referral systems, event management, and more.
+---
 
-#### **Leverage Multi-Bot Management**
+## Community & Support
 
-* Use `Bot.info` and `libs.Webhook.getUrlFor` to enable bots to communicate and share workloads seamlessly.
+| Resource | Link |
+|---|---|
+| **Telegram Help Group** | [t.me/telebotcreatorbetachat](https://t.me/telebotcreatorbetachat) |
+| **Documentation** | [help.telebotcreator.com](https://help.telebotcreator.com) |
+| **ChatGPT AI Assistant** | [Telebot Creator AI GPT](https://chatgpt.com/g/g-67ce8f8e7da081918cc244a92dc5aa55-telebot-creator-ai) |
+| **Website** | [telebotcreator.com](https://telebotcreator.com) |
 
-#### **Optimize Bot Performance**
+---
 
-* Analyze bot usage and performance metrics with `Bot.info`.
-* Ensure efficient workflows to handle large user bases or complex processes.
+## Version History
 
-***
+Telebot Creator tracks **two** independent version numbers:
 
-### **13.3 Community and Support**
+- **TBC platform version** — the Telebot Creator product (TPY runtime, libraries, dashboard). Current: **7.1.2**.
+- **Telegram Bot API version** — how much of Telegram's official Bot API the `bot` object supports. Current: **10.1**.
 
-#### **Join the Community**
+### TBC Platform Releases
 
-Connect with other developers and share your experiences in the official Telebot Creator Help Group:
+| Platform Version | Key Features |
+|---|---|
+| **7.1.2** (Current) | `libs.security` cryptographic toolkit, webhook request headers & client IP, Bot export/import + AI round-trip, public Docs MCP endpoint |
+| **7.1.0 – 7.1.1** | Broadcast V2 engine (faster, resumable, speed-controllable), stability and performance improvements |
+| **6.x – 7.0.0** | Editor and dashboard refresh, infrastructure hardening, expanded Telegram Bot API coverage |
+| **5.0.0** | Extended runtime (160s), `Account.getStats`, `Account.TransferData`, OpenRouter AI |
+| **4.9.0** | `time.sleep()`, TON blockchain, 120s timeout, 1-year scheduling |
+| **4.8.0** | Account class, `accountRes`, bot recovery, command aliases |
+| **4.7.0** | OpenAI & Gemini AI libraries, `adminRes`, data file exports |
 
-* [Join Now](http://t.me/telebotcreatorbetachat)
+### Telegram Bot API Coverage
 
-#### **Request Features or Report Bugs**
+| Bot API Level | Highlights Added in TBC |
+|---|---|
+| **10.1** (Current) | Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, Stars balance & subscriptions, reaction deletion, plus TBC-custom `sendRichMessage` / `sendLivePhoto` |
+| **7.x** | Paid media (Stars), business connections, message reactions, chat boosts, subscription invite links |
 
-We’re always looking to improve. Share your feedback or report issues:
+> See the [Telegram Bot API 10.1 update](telegram-bot-api-10.1-update.md) for the full list of newly supported methods.
 
-* Use the feedback form available on the platform.
-* Participate in community discussions to suggest enhancements.
+---
 
-***
+Thank you for choosing Telebot Creator. We're excited to see the bots you build.
 
-### **13.4 Looking Ahead**
-
-#### **Planned Updates**
-
-The Telebot Creator team is constantly evolving the platform. Here’s what’s coming next:
-
-1. **Enhanced User Interface**:
-   * A redesigned dashboard for easier bot management.
-2. **Expanded Library Support**:
-   * Additional libraries for advanced integrations.
-3. **Improved Analytics**:
-   * Real-time monitoring and usage insights for your bots.
-
-#### **Stay Updated**
-
-Keep an eye on the release notes and announcements for the latest features.
-
-***
-
-### **13.5 Thank You**
-
-We sincerely thank you for choosing Telebot Creator as your bot development platform. Your creativity and innovation drive the success of this community. We’re excited to see the amazing bots you’ll create.
-
-**Let’s build the future of automation together!**
+**Let's build the future of Telegram automation together.**

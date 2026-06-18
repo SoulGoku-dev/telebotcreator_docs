@@ -48,4 +48,6 @@ points.add(100)
 
 This update represents our commitment to providing the most powerful, flexible, and reliable bot development platform. Update now to take advantage of these exciting new features!
 
+*Posted at platform version 4.8.0. Current platform: 7.1.2 · Telegram Bot API 10.1.*
+
 #TelebotCreator #Bot #Telegram #Update 
