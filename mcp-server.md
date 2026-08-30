@@ -1,64 +1,151 @@
-# Telebot Creator MCP Server
+# MCP Server — Build Bots With AI
 
-The **Telebot Creator MCP** is a public, free [Model Context Protocol](https://modelcontextprotocol.io)
-server that gives any AI agent live access to the complete Telebot Creator
-documentation — and, paired with your own API key, the ability to **build and
-deploy real bots**.
+Connect Telebot Creator to Claude, Cursor, or any MCP-compatible AI and build
+your bots by describing what you want. Your AI can create bots, write commands,
+**actually run them**, read the errors, and fix them — all inside your own
+account.
+
+Free for every user.
+
+---
+
+## Connect in 3 steps
+
+**1.** Add this URL to your AI as a custom connector:
 
 ```
-URL:    https://api.telebotcreator.com/v2/mcp
-Auth:   none (public, free, read-only docs)
-Cost:   free for everyone
+https://api.telebotcreator.com/v2/mcp/build
 ```
 
-## Add it to your agent
+**2.** Click **Connect**.
 
-**Claude (Desktop / claude.ai / API connector):** add a custom connector with the
-URL above. No key, no sign-up.
+**3.** Paste your API key on the page that opens.
 
-**Any MCP client:** point it at `https://api.telebotcreator.com/v2/mcp` (Streamable
-HTTP / JSON-RPC, CORS open).
+Your key is in the dashboard under **Settings → API Key**. That's it — your AI is
+now linked to your account.
 
-## What the MCP gives you (tools)
+> **Docs only, no key needed.** If you just want your AI to read the Telebot
+> Creator documentation, use `https://api.telebotcreator.com/v2/mcp` instead.
+> It connects instantly with no sign-in and gives read-only doc access.
+
+---
+
+## What your AI can do
+
+### Build
 
 | Tool | What it does |
 |---|---|
-| `list_docs` | List every documentation page (filename, title, size). |
-| `search_docs` | Search the docs for a term; returns snippets with page + section. |
-| `get_doc` | Fetch one page by name (e.g. `tpy-language-reference`, `agent-build-guide`). |
-| `get_full_docs` | The entire documentation in one shot (bulk ingestion). |
+| `create_bot` | Import a bot into your account with its BotFather token |
+| `clone_bot` | Copy a whole bot — every command — into a new one |
+| `save_command` | Create or update one command |
+| `import_commands` | Create or update many commands at once |
+| `delete_command` | Move a command to the recycle bin (recoverable) |
+| `validate_tpy` | Syntax-check code before saving |
 
-Key pages an agent should pull: **`agent-build-guide`** (build + deploy workflow),
-`tpy-language-reference`, `tbc-libraries-libs`, `command-in-tpy`.
+### Test
 
-## Use the MCP to MAKE BOTS
+| Tool | What it does |
+|---|---|
+| `test_command` | **Really runs** a command and reports what happened |
+| `get_errors` | Recent runtime errors: command, message and line |
+| `get_pending_wait` | Check if a user is mid-flow in `handleNextCommand` |
+| `clear_wait` | Cancel a stuck flow so it can be retested |
+| `send_message` | Send a real message from your bot |
 
-The MCP itself is read-only docs — but it teaches the agent the **exact workflow
-and API** to build bots. With **your own Telebot Creator API key**, an agent can:
+### Manage
 
-- **Make a bot** — `POST /v2/create-bot`
-- **Create a command** — `POST /v2/bots/{botid}/commands`
-- **Edit a command** — `PUT /v2/bots/{botid}/commands/{command}`
-- **Deploy many commands at once** — `POST /v2/bots/{botid}/import-commands`
-  (additive by default — updates + adds, **deletes nothing**)
+| Tool | What it does |
+|---|---|
+| `list_bots` | Every bot on your account |
+| `get_bot` | One bot's details and running state |
+| `list_commands` | Every command name on a bot |
+| `get_command` | One command's source code |
+| `start_bot` / `stop_bot` | Start or stop receiving updates |
+| `rename_bot` | Change the display name |
+| `get_bot_stats` | Total users, points used, command count |
+| `delete_bot` | Permanently delete (requires confirmation) |
 
-All of these authenticate with `Authorization: Bearer <YOUR_TBC_API_KEY>`. It's
-**easy and safe**: imports are additive, so an agent can iterate without ever
-wiping your existing commands (deletion only happens on an explicit full rewrite).
+### Learn
 
-### 🔑 API-key rule for agents (important)
+| Tool | What it does |
+|---|---|
+| `list_docs` | Every documentation page |
+| `search_docs` | Search the docs |
+| `get_doc` | Fetch one page |
+| `get_full_docs` | The whole documentation at once |
 
-1. The agent should **look for the key in the project's `.env`** as `TBC_API_KEY`.
-2. **If it's not there, the agent must ASK you for your Telebot Creator API key**
-   before any create / edit / deploy. It must never invent or guess a key.
-3. You get the key from the TBC dashboard → account / API settings.
+The documentation is built in, so your AI writes correct TPY from the first try
+instead of guessing.
 
-The MCP (docs) needs **no key**. The key is only for the *actions* above, which
-hit the REST API — so you stay in full control of what gets created or changed.
+---
 
-## The recommended build flow
+## Just say what you want
 
-See **`get_doc agent-build-guide`** for the full, safe workflow: author commands
-locally (one file per command + a manifest), build an `import_ready.json`, then
-push it additively to your bot. The agent decides which commands to include and
-never deletes anything unless you explicitly ask for a total rewrite.
+```
+"Create an airdrop bot with referral tracking"
+"Add a daily bonus command to my bot"
+"Why is my /start command failing?"
+"Clone my bot and add a language picker"
+"Show me the errors on my bot from today"
+```
+
+Your AI will find the bot, write the code, save it, run it, read the error if
+there is one, and fix it — then tell you it works.
+
+---
+
+## Safe by design
+
+- **Your account only.** Every action is scoped to bots you own. There is no path
+  to anyone else's bot.
+- **Broken code never goes live.** Code is validated before saving and refused
+  with the exact reason if it will not compile.
+- **Your edits are respected.** Your AI reads the current code before changing
+  anything, so edits you made in the web editor are never overwritten.
+- **Nothing is silently deleted.** Saves and imports are additive. Deleting a
+  command puts it in the recycle bin; deleting a bot requires explicit
+  confirmation.
+
+---
+
+## Testing is what makes it work
+
+Most AI tools write code and hope. `test_command` feeds a real Telegram update
+through the same path a live message takes, so your AI sees the actual runtime
+error — undefined names, wrong arguments, Telegram API errors — and fixes them
+before you ever try the bot yourself.
+
+One thing to know when reading results: **"DID NOT RUN" is not a pass.** It means
+the update never reached the bot. Only a successful run with no recorded errors
+counts as working.
+
+---
+
+## Other ways to authenticate
+
+Most people use the Connect flow above. If your client can set custom headers,
+these also work on `https://api.telebotcreator.com/v2/mcp`:
+
+```
+Authorization: Bearer YOUR_API_KEY
+X-API-Key: YOUR_API_KEY
+```
+
+Keep your API key private — it grants full access to your bots. You can
+regenerate it any time from **Settings → API Key**, which instantly invalidates
+the old one.
+
+---
+
+## Troubleshooting
+
+**Only 4 tools appear.** You are connected to the public docs endpoint. Use
+`/v2/mcp/build` and complete the Connect step to get all 24.
+
+**"That API key was not recognised."** Copy the key again from **Settings → API
+Key** — it may have been regenerated.
+
+**Your AI writes `return` at the top of a command.** TPY commands are flat
+scripts, not functions. Tell it to use `raise ReturnCommand` instead. The server
+refuses this automatically, so it can never reach a live bot.

@@ -17,6 +17,7 @@
 * [Broadcasting](broadcast-function-in-tbc.md)
 * [Coinbase Payments](coinbase-library-tbc.md)
 * [TON Blockchain](ton-library-documentation.md)
+* [MCP Server — Build Bots With AI](mcp-server.md)
 * [Auto-Translation (92 languages)](auto-translation.md)
 * [Crypto Libraries (Web3, EVM)](crypto-libraries-documentation.md)
 
