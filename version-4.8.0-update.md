@@ -46,7 +46,7 @@ The Account class is globally accessible in your bot code through the `Account` 
 result = Account.get_bots_list()
 if result["ok"]:
     for bot_info in result["result"]:
-        Bot.sendMessage(f"Bot: {bot_info['name']}")
+        bot.sendMessage(f"Bot: {bot_info['name']}")
 ```
 
 No initialization is needed as the variable is automatically created with the correct authentication and database connections.
@@ -68,7 +68,7 @@ Account.saveData(name, data)
 **Example:**
 ```python
 result = Account.saveData("global_settings", {"theme": "dark", "notifications": True})
-Bot.sendMessage(f"Save result: {result['result']}")
+bot.sendMessage(f"Save result: {result['result']}")
 ```
 
 **Example Output:**
@@ -94,9 +94,9 @@ Account.getData(name)
 ```python
 settings = Account.getData("global_settings")
 if settings:
-    Bot.sendMessage(f"Theme: {settings['theme']}")
+    bot.sendMessage(f"Theme: {settings['theme']}")
 else:
-    Bot.sendMessage("No settings found")
+    bot.sendMessage("No settings found")
 ```
 
 **Example Output:**
@@ -121,7 +121,7 @@ Account.deleteData(name)
 **Example:**
 ```python
 result = Account.deleteData("temp_data")
-Bot.sendMessage(f"Delete result: {result['result']}")
+bot.sendMessage(f"Delete result: {result['result']}")
 ```
 
 **Example Output:**
@@ -148,14 +148,14 @@ Account.getDataFile(name, output_format="txt")
 ```python
 try:
     file = Account.getDataFile("report_data")
-    Bot.sendDocument(file)
+    bot.sendDocument(file)
 except ValueError as e:
-    Bot.sendMessage(f"Error: {str(e)}")
+    bot.sendMessage(f"Error: {str(e)}")
 ```
 
 **Example Output:**
 ```
-# Returns a file-like object that can be directly passed to Bot.sendDocument()
+# Returns a file-like object that can be directly passed to bot.sendDocument()
 # The file contains the stored data in text format
 ```
 
@@ -174,7 +174,7 @@ Account.getAllData(name=None, output_format="json")
 **Example:**
 ```python
 data_file = Account.getAllData("config_")
-Bot.sendDocument(data_file)
+bot.sendDocument(data_file)
 ```
 
 **Example Output:**
@@ -209,7 +209,7 @@ Account.deleteAllData(except_data=None, include_bot_data=False)
 **Example:**
 ```python
 result = Account.deleteAllData(except_data=["important_settings"], include_bot_data=True)
-Bot.sendMessage(f"Data cleared: {result['result']}")
+bot.sendMessage(f"Data cleared: {result['result']}")
 ```
 
 **Example Output:**
@@ -231,7 +231,7 @@ Account.info()
 **Example:**
 ```python
 info = Account.info()
-Bot.sendMessage(f"Account plan: {info.plan}, Points left: {info.points_left}")
+bot.sendMessage(f"Account plan: {info.plan}, Points left: {info.points_left}")
 ```
 
 **Example Output:**
@@ -261,7 +261,7 @@ Account.start_bot(botid)
 **Example:**
 ```python
 result = Account.start_bot("1234567")
-Bot.sendMessage(f"Start result: {result['result']}")
+bot.sendMessage(f"Start result: {result['result']}")
 ```
 
 **Example Output:**
@@ -286,7 +286,7 @@ Account.stop_bot(botid)
 **Example:**
 ```python
 result = Account.stop_bot("1234567")
-Bot.sendMessage(f"Stop result: {result['result']}")
+bot.sendMessage(f"Stop result: {result['result']}")
 ```
 
 **Example Output:**
@@ -311,7 +311,7 @@ Account.restart_bot(botid)
 **Example:**
 ```python
 result = Account.restart_bot("1234567")
-Bot.sendMessage(f"Restart result: {result['result']}")
+bot.sendMessage(f"Restart result: {result['result']}")
 ```
 
 **Example Output:**
@@ -339,9 +339,9 @@ Account.create_bot(bot_token, bot_name=None, bot_username=None)
 ```python
 result = Account.create_bot("123456789:ABCDEF-ghijklmnopqrstuvwxyz")
 if result["ok"]:
-    Bot.sendMessage(f"Created bot with ID: {result['botid']}")
+    bot.sendMessage(f"Created bot with ID: {result['botid']}")
 else:
-    Bot.sendMessage(f"Error: {result['result']}")
+    bot.sendMessage(f"Error: {result['result']}")
 ```
 
 **Example Output:**
@@ -368,7 +368,7 @@ Account.delete_bot(botid, permanent=False)
 **Example:**
 ```python
 result = Account.delete_bot("1234567")
-Bot.sendMessage(f"Delete result: {result['result']}")
+bot.sendMessage(f"Delete result: {result['result']}")
 ```
 
 **Example Output:**
@@ -394,7 +394,7 @@ Account.recover_bot(botid, new_token=None)
 **Example:**
 ```python
 result = Account.recover_bot("1234567")
-Bot.sendMessage(f"Recovery result: {result['result']}")
+bot.sendMessage(f"Recovery result: {result['result']}")
 ```
 
 **Example Output:**
@@ -418,7 +418,7 @@ Account.get_deleted_bots()
 bots = Account.get_deleted_bots()
 if bots["ok"] and bots["result"]:
     for bot_info in bots["result"]:
-        Bot.sendMessage(f"Bot {bot_info['name']} - Days remaining: {bot_info['days_remaining']}")
+        bot.sendMessage(f"Bot {bot_info['name']} - Days remaining: {bot_info['days_remaining']}")
 ```
 
 **Example Output:**
@@ -461,7 +461,7 @@ Account.get_deleted_bots_stats()
 stats = Account.get_deleted_bots_stats()
 if stats["ok"]:
     result = stats["result"]
-    Bot.sendMessage(f"Total deleted: {result['total']}, Recoverable: {result['recoverable']}")
+    bot.sendMessage(f"Total deleted: {result['total']}, Recoverable: {result['recoverable']}")
 ```
 
 **Example Output:**
@@ -497,7 +497,7 @@ Account.permanent_delete_bot(botid)
 **Example:**
 ```python
 result = Account.permanent_delete_bot("1234567")
-Bot.sendMessage(f"Permanent deletion result: {result['result']}")
+bot.sendMessage(f"Permanent deletion result: {result['result']}")
 ```
 
 **Example Output:**
@@ -519,7 +519,7 @@ Account.clear_expired_bots()
 **Example:**
 ```python
 result = Account.clear_expired_bots()
-Bot.sendMessage(f"Cleared expired bots: {result['result']}")
+bot.sendMessage(f"Cleared expired bots: {result['result']}")
 ```
 
 **Example Output:**
@@ -546,7 +546,7 @@ Account.clone_bot(botid, new_token=None)
 ```python
 result = Account.clone_bot("1234567", "987654321:ABCDEF-ghijklmnopqrstuvwxyz")
 if result["ok"]:
-    Bot.sendMessage(f"Created clone with ID: {result['botid']}")
+    bot.sendMessage(f"Created clone with ID: {result['botid']}")
 ```
 
 **Example Output:**
@@ -571,7 +571,7 @@ Account.get_bots_list()
 bots = Account.get_bots_list()
 if bots["ok"] and bots["result"]:
     for bot_info in bots["result"]:
-        Bot.sendMessage(f"Bot {bot_info['name']} - Status: {bot_info['status']}")
+        bot.sendMessage(f"Bot {bot_info['name']} - Status: {bot_info['status']}")
 ```
 
 **Example Output:**
@@ -615,7 +615,7 @@ Account.get_bot_info(botid)
 info = Account.get_bot_info("1234567")
 if info["ok"]:
     bot_info = info["result"]
-    Bot.sendMessage(f"Bot {bot_info['name']}: {bot_info['user_count']} users, {bot_info['command_count']} commands")
+    bot.sendMessage(f"Bot {bot_info['name']}: {bot_info['user_count']} users, {bot_info['command_count']} commands")
 ```
 
 **Example Output:**
@@ -651,7 +651,7 @@ Account.get_bot_status(botid)
 ```python
 status = Account.get_bot_status("1234567")
 if status["ok"]:
-    Bot.sendMessage(f"Bot status: {status['result']['status']}")
+    bot.sendMessage(f"Bot status: {status['result']['status']}")
 ```
 
 **Example Output:**
@@ -680,7 +680,7 @@ Account.get_bot_data(botid, name)
 ```python
 data = Account.get_bot_data("1234567", "bot_settings")
 if data["ok"]:
-    Bot.sendMessage(f"Bot settings: {data['result']}")
+    bot.sendMessage(f"Bot settings: {data['result']}")
 ```
 
 **Example Output:**
@@ -711,7 +711,7 @@ Account.set_bot_data(botid, name, data)
 **Example:**
 ```python
 result = Account.set_bot_data("1234567", "bot_settings", {"welcome_msg": "Hello!"})
-Bot.sendMessage(f"Save result: {result['result']}")
+bot.sendMessage(f"Save result: {result['result']}")
 ```
 
 **Example Output:**
@@ -739,8 +739,8 @@ Account.create_command(botid, command, code)
 
 **Example:**
 ```python
-result = Account.create_command("1234567", "/hello", "Bot.sendMessage('Hello, world!')")
-Bot.sendMessage(f"Command creation result: {result['result']}")
+result = Account.create_command("1234567", "/hello", "bot.sendMessage('Hello, world!')")
+bot.sendMessage(f"Command creation result: {result['result']}")
 ```
 
 **Example Output:**
@@ -766,7 +766,7 @@ Account.delete_command(botid, command)
 **Example:**
 ```python
 result = Account.delete_command("1234567", "/hello")
-Bot.sendMessage(f"Command deletion result: {result['result']}")
+bot.sendMessage(f"Command deletion result: {result['result']}")
 ```
 
 **Example Output:**
@@ -792,8 +792,8 @@ Account.edit_command(botid, command, code)
 
 **Example:**
 ```python
-result = Account.edit_command("1234567", "/hello", "Bot.sendMessage('Updated hello message!')")
-Bot.sendMessage(f"Command update result: {result['result']}")
+result = Account.edit_command("1234567", "/hello", "bot.sendMessage('Updated hello message!')")
+bot.sendMessage(f"Command update result: {result['result']}")
 ```
 
 **Example Output:**
@@ -820,7 +820,7 @@ Account.get_command_list(botid)
 commands = Account.get_command_list("1234567")
 if commands["ok"] and commands["result"]:
     for cmd in commands["result"]:
-        Bot.sendMessage(f"Command: {cmd['command']}, Has code: {cmd['has_code']}")
+        bot.sendMessage(f"Command: {cmd['command']}, Has code: {cmd['has_code']}")
 ```
 
 **Example Output:**
@@ -864,7 +864,7 @@ Account.get_command_info(botid, command)
 info = Account.get_command_info("1234567", "/hello")
 if info["ok"]:
     cmd_info = info["result"]
-    Bot.sendMessage(f"Command code: {cmd_info['code']}")
+    bot.sendMessage(f"Command code: {cmd_info['code']}")
 ```
 
 **Example Output:**
@@ -873,7 +873,7 @@ if info["ok"]:
   "ok": true,
   "result": {
     "command": "/hello",
-    "code": "Bot.sendMessage('Hello, world!')",
+    "code": "bot.sendMessage('Hello, world!')",
     "code_length": 31,
     "stats": {
       "executions": 342,
@@ -900,7 +900,7 @@ Account.get_command_usage(botid, command, period="all")
 ```python
 usage = Account.get_command_usage("1234567", "/hello", "week")
 if usage["ok"]:
-    Bot.sendMessage(f"Command usage: {usage['result']}")
+    bot.sendMessage(f"Command usage: {usage['result']}")
 ```
 
 **Example Output:**
@@ -939,7 +939,7 @@ Account.blockUser(user_id)
 **Example:**
 ```python
 result = Account.blockUser("123456789")
-Bot.sendMessage(f"Block result: {result['result']}")
+bot.sendMessage(f"Block result: {result['result']}")
 ```
 
 **Example Output:**
@@ -964,7 +964,7 @@ Account.unblockUser(user_id)
 **Example:**
 ```python
 result = Account.unblockUser("123456789")
-Bot.sendMessage(f"Unblock result: {result['result']}")
+bot.sendMessage(f"Unblock result: {result['result']}")
 ```
 
 **Example Output:**
@@ -991,7 +991,7 @@ Account.getBlockedUsers(botid)
 users = Account.getBlockedUsers("1234567")
 if users["ok"] and users["result"]:
     for user in users["result"]:
-        Bot.sendMessage(f"Blocked user: {user['user_id']}, Date: {user['blocked_date']}")
+        bot.sendMessage(f"Blocked user: {user['user_id']}, Date: {user['blocked_date']}")
 ```
 
 **Example Output:**
@@ -1026,12 +1026,12 @@ Account.getBlockedUsersFile(botid=None, output_format="csv")
 **Example:**
 ```python
 file = Account.getBlockedUsersFile("1234567", "json")
-Bot.sendDocument(file)
+bot.sendDocument(file)
 ```
 
 **Example Output:**
 ```
-# Returns a file-like object that can be directly passed to Bot.sendDocument()
+# Returns a file-like object that can be directly passed to bot.sendDocument()
 # For CSV format, the file contains columns: user_id, blocked_date
 # For JSON format, the file contains an array of objects with user_id and blocked_date fields
 ```
@@ -1054,7 +1054,7 @@ Account.get_bot_stats(botid)
 stats = Account.get_bot_stats("1234567")
 if stats["ok"]:
     bot_stats = stats["result"]
-    Bot.sendMessage(f"Bot {bot_stats['name']}: {bot_stats['users']['total']} users, {bot_stats['users']['active_30d']} active")
+    bot.sendMessage(f"Bot {bot_stats['name']}: {bot_stats['users']['total']} users, {bot_stats['users']['active_30d']} active")
 ```
 
 **Example Output:**
@@ -1102,7 +1102,7 @@ Account.get_bot_usage(botid, period="all")
 ```python
 usage = Account.get_bot_usage("1234567", "month")
 if usage["ok"]:
-    Bot.sendMessage(f"Bot usage: {usage['result']}")
+    bot.sendMessage(f"Bot usage: {usage['result']}")
 ```
 
 **Example Output:**
@@ -1158,7 +1158,7 @@ Account.get_bots_stats()
 stats = Account.get_bots_stats()
 if stats["ok"]:
     all_stats = stats["result"]
-    Bot.sendMessage(f"Total bots: {all_stats['total_bots']}, Total users: {all_stats['total_users']}")
+    bot.sendMessage(f"Total bots: {all_stats['total_bots']}, Total users: {all_stats['total_users']}")
 ```
 
 **Example Output:**
@@ -1211,7 +1211,7 @@ Account.get_stats()
 stats = Account.get_stats()
 if stats["ok"]:
     account_stats = stats["result"]
-    Bot.sendMessage(f"Account stats: {account_stats['bots']['total']} bots, {account_stats['users']['total']} users")
+    bot.sendMessage(f"Account stats: {account_stats['bots']['total']} bots, {account_stats['users']['total']} users")
 ```
 
 **Example Output:**
@@ -1257,14 +1257,14 @@ Account.export_bot(botid)
 ```python
 try:
     file = Account.export_bot("1234567")
-    Bot.sendDocument(file)
+    bot.sendDocument(file)
 except ValueError as e:
-    Bot.sendMessage(f"Export error: {str(e)}")
+    bot.sendMessage(f"Export error: {str(e)}")
 ```
 
 **Example Output:**
 ```
-# Returns a file-like object that can be directly passed to Bot.sendDocument()
+# Returns a file-like object that can be directly passed to bot.sendDocument()
 # The file contains a JSON object with the following structure:
 # {
 #   "bot": {
@@ -1275,8 +1275,8 @@ except ValueError as e:
 #     "_export_date": "2023-05-20 10:15:43"
 #   },
 #   "commands": [
-#     {"command": "/start", "code": "Bot.sendMessage('Welcome!')"},
-#     {"command": "/help", "code": "Bot.sendMessage('Help info')"}
+#     {"command": "/start", "code": "bot.sendMessage('Welcome!')"},
+#     {"command": "/help", "code": "bot.sendMessage('Help info')"}
 #   ],
 #   "global_data": [
 #     {"name": "settings", "data": {"language": "en"}}
@@ -1306,7 +1306,7 @@ Account.import_bot(import_data, new_token=None)
 # Assuming import_data contains valid bot export data
 result = Account.import_bot(import_data, "123456789:ABCDEF-ghijklmnopqrstuvwxyz")
 if result["ok"]:
-    Bot.sendMessage(f"Imported bot with ID: {result['botid']}")
+    bot.sendMessage(f"Imported bot with ID: {result['botid']}")
 ```
 
 **Example Output:**
@@ -1333,7 +1333,7 @@ Account.revoke_api()
 ```python
 result = Account.revoke_api()
 if result["ok"]:
-    Bot.sendMessage(f"New API key: {result['api_key']}")
+    bot.sendMessage(f"New API key: {result['api_key']}")
 ```
 
 **Example Output:**
@@ -1375,15 +1375,15 @@ account_points = libs.Resources.accountRes("subscription_points")
 
 # Add points
 new_value = account_points.add(100)
-Bot.sendMessage(f"Added points. New value: {new_value}")
+bot.sendMessage(f"Added points. New value: {new_value}")
 
 # Check current value
 current = account_points.value()
-Bot.sendMessage(f"Current points: {current}")
+bot.sendMessage(f"Current points: {current}")
 
 # Use points
 account_points.cut(50)
-Bot.sendMessage(f"Used 50 points. Remaining: {account_points.value()}")
+bot.sendMessage(f"Used 50 points. Remaining: {account_points.value()}")
 ```
 
 **Example Output:**
@@ -1439,14 +1439,14 @@ The new bot recovery system allows users to recover accidentally deleted bots wi
 # Get list of deleted bots
 deleted_bots = Account.get_deleted_bots()
 for bot_info in deleted_bots["result"]:
-    Bot.sendMessage(f"Bot: {bot_info['name']}, Days remaining: {bot_info['days_remaining']}")
+    bot.sendMessage(f"Bot: {bot_info['name']}, Days remaining: {bot_info['days_remaining']}")
 
 # Recover a bot
 Account.recover_bot("1234567")
 
 # Get stats about deleted bots
 stats = Account.get_deleted_bots_stats()
-Bot.sendMessage(f"Total deleted: {stats['result']['total']}, Recoverable: {stats['result']['recoverable']}")
+bot.sendMessage(f"Total deleted: {stats['result']['total']}, Recoverable: {stats['result']['recoverable']}")
 ```
 
 ## Coming Soon Features

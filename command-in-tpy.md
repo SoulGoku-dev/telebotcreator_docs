@@ -233,3 +233,28 @@ Commands can be chained together to create complex workflows. For example, a mul
 #### **Summary**
 
 Commands in TPY are the heart of every bot on Telebot Creator. By mastering command creation, parameter handling, and advanced techniques like chaining and scheduling, you can build bots that are interactive, intelligent, and highly functional.
+
+***
+
+## Stopping a command early
+
+**NEVER use a bare `return`.** This is the single most common mistake.
+  A TPY command is a **flat script compiled with `exec()`**, not a function, so
+  `return` at the top level is a hard `SyntaxError` and the command will not run
+  at all. To stop early, `raise ReturnCommand`:
+
+  ```python
+  # WRONG — SyntaxError: 'return' outside function. The whole command dies.
+  if not User.getData("verified"):
+      bot.sendMessage("Please verify first")
+      return
+
+  # RIGHT
+  if not User.getData("verified"):
+      bot.sendMessage("Please verify first")
+      raise ReturnCommand
+  ```
+
+  `return` is only legal **inside a `def` you wrote yourself** in the command.
+  Aliases `returncommand` and `returnCommand` also work.
+

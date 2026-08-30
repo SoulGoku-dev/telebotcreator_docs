@@ -1283,3 +1283,16 @@ subscription_points.add(100)
 current = subscription_points.value()
 bot.sendMessage(f"Account has {current} subscription points")
 ```
+
+
+## libs.translate — Auto-Translation
+
+Reply to every user in their own language, 92 supported. Flip **Settings → Auto-Translate** for zero-code translation, or call it directly:
+
+```python
+libs.translate.setUser("ru")        # remember this user's language
+libs.translate.setGlobal("ar")      # default for the whole bot
+libs.translate.text("Hello!", "hi") # translate any string
+```
+
+Wallet addresses, amounts, links, @usernames and emojis are never altered. Full guide: [Auto-Translation](auto-translation.md).

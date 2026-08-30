@@ -401,6 +401,34 @@ for bot_id in bot_ids:
 
 ***
 
+**⚠️ Chain limit on `Bot.runCommand`**
+
+One incoming user message may trigger a chain of at most **3 commands** through
+`Bot.runCommand` without new user input. So `/a` → `/b` → `/c` runs, but a further
+hop to `/d` is **refused silently** — the bot simply stops mid-flow with no error
+shown to the user.
+
+This exists to stop runaway loops. If you need a longer flow, do not chain:
+
+* **`Bot.handleNextCommand`** — waits for the user to reply, and starts a fresh chain.
+* **`Bot.runCommandAfter`** — a timer, and also starts a fresh chain.
+
+Both are exempt from the 3-command limit by design, so interactive and scheduled
+flows can be any length.
+
+```python
+# Chained (capped at 3)
+Bot.runCommand("step_2")
+
+# Not capped — a timer begins a new chain
+Bot.runCommandAfter(1, "step_2")
+```
+
+The cap is tunable per deployment via the redis key `runcommand_flow_max`
+(default `3`, `0` disables the guard).
+
+***
+
 #### **7.13 Enhanced Error Handling**
 
 **Logging Errors for Debugging**

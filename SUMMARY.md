@@ -17,6 +17,7 @@
 * [Broadcasting](broadcast-function-in-tbc.md)
 * [Coinbase Payments](coinbase-library-tbc.md)
 * [TON Blockchain](ton-library-documentation.md)
+* [Auto-Translation (92 languages)](auto-translation.md)
 * [Crypto Libraries (Web3, EVM)](crypto-libraries-documentation.md)
 
 ## Guides & Examples

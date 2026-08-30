@@ -143,7 +143,7 @@ Bot.broadcast(command="send_promo")
 
 ### Why is my broadcast not working?
 
-The most common reasons are: you already have 2 running broadcasts (the per-bot limit), the command name doesn't exist in your bot, or the broadcast function name is invalid. Check your running broadcasts with `Bot.getAllBroadcasts()` and stop any completed ones with `Bot.clearBroadcast()`.
+The most common reasons are: you already have 2 running broadcasts (the per-bot limit), the command name doesn't exist in your bot, or the broadcast function name is invalid. Check your running broadcasts with `Bot.listBroadcasts()` and stop any completed ones with `Bot.clearBroadcast()`.
 
 ---
 
