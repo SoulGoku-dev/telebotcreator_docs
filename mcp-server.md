@@ -76,7 +76,17 @@ now linked to your account.
 | `get_full_docs` | The whole documentation at once |
 
 The documentation is built in, so your AI writes correct TPY from the first try
-instead of guessing.
+instead of guessing. That includes the **Monetization** page, so you can simply
+ask for ads and get working code:
+
+```
+"Add a rewarded ad to my daily bonus command"
+```
+
+Your AI will write both halves — the `libs.tbcads.reward_ad(...)` call and the
+reward command it points at, with the `libs.tbcads.claim()` guard that stops
+anyone collecting the reward by typing the command name. Ask it to read
+`monetization.md` first if you want it to follow the full pattern.
 
 ---
 
@@ -85,6 +95,7 @@ instead of guessing.
 ```
 "Create an airdrop bot with referral tracking"
 "Add a daily bonus command to my bot"
+"Add a rewarded ad before the download and give 20 points when it is watched"
 "Why is my /start command failing?"
 "Clone my bot and add a language picker"
 "Show me the errors on my bot from today"
