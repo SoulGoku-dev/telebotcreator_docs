@@ -262,24 +262,19 @@ what you can withdraw, not a headline number you have to do maths on.
 
 ### What the numbers look like at the start
 
-CPM here means **your earnings per 1,000 impressions**. On this format it
-lands in the low tens of cents, so early earnings are fractions of a cent and
-the panel shows four decimals for them:
+CPM here means **your earnings per 1,000 impressions**. One impression is worth
+a small fraction of that, so with only a few impressions the amount is a
+fraction of a cent and the panel shows four decimals for it.
 
-| Impressions | Your CPM | Earned |
-|---|---|---|
-| 13 | $0.33 | $0.0043 |
-| 1,000 | $0.33 | $0.33 |
-| 100,000 | $0.33 | $33.00 |
+There is no single rate. CPM depends on which countries your users are in, the
+offers available that day, and how the network rates your traffic, so two bots,
+or the same bot in two different weeks, can earn different CPMs. Your own CPM
+is always shown in **Monetization → Stats**.
 
-CPM is not fixed. It moves with where your users are, the offers available that
-day, and how the network rates your traffic — the same bot can earn a different
-CPM week to week.
-
-That is not a bug and not a rounding error — it is simply what a handful of
-impressions is worth. Meaningful revenue needs volume, so put the ad where
-users actually pass through: a daily bonus, a download gate, a step in a flow
-people repeat.
+A tiny amount early on is not a bug and not a rounding error. It is simply what
+a handful of impressions is worth. Meaningful revenue needs volume, so put the
+ad where users actually pass through: a daily bonus, a download gate, a step in
+a flow people repeat.
 
 **Monetization → Payout**
 
