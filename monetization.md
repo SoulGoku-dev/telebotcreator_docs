@@ -266,10 +266,19 @@ CPM here means **your earnings per 1,000 impressions**. One impression is worth
 a small fraction of that, so with only a few impressions the amount is a
 fraction of a cent and the panel shows four decimals for it.
 
-There is no single rate. CPM depends on which countries your users are in, the
-offers available that day, and how the network rates your traffic, so two bots,
-or the same bot in two different weeks, can earn different CPMs. Your own CPM
-is always shown in **Monetization → Stats**.
+There is no single rate. CPM depends mostly on which countries your users are
+in, then on the offers available that day and how the network rates your
+traffic. As a guide, per 1,000 impressions:
+
+| Your users are in | CPM guide |
+|---|---|
+| Tier 1 countries, high-quality traffic | $5 – $10 |
+| Tier 2 countries | $2 – $4 |
+| Tier 3 countries | $0.40 – $2 |
+
+These are guide ranges, not fixed prices. Real users earn the most; VPN, proxy
+or low-quality traffic earns far less, whatever country it appears to come
+from. Your own CPM is always shown in **Monetization → Stats**.
 
 A tiny amount early on is not a bug and not a rounding error. It is simply what
 a handful of impressions is worth. Meaningful revenue needs volume, so put the
