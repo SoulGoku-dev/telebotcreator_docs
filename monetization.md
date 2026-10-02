@@ -273,8 +273,8 @@ traffic. As a guide, per 1,000 impressions:
 | Your users are in | CPM guide |
 |---|---|
 | Tier 1 countries, high-quality traffic | $5 – $10 |
-| Tier 2 countries | $2 – $4 |
-| Tier 3 countries | $0.40 – $2 |
+| Tier 2 countries | $2 – $5 |
+| Tier 3 countries | $0.50 – $2 |
 
 These are guide ranges, not fixed prices. Real users earn the most; VPN, proxy
 or low-quality traffic earns far less, whatever country it appears to come
