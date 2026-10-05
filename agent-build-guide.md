@@ -22,9 +22,10 @@ How an AI agent builds and edits a Telegram bot on Telebot Creator (TBC) using t
    scaffold of a brand-new bot only — never for edits.
 3. **Saves are ADDITIVE.** `save_command` upserts a single command and touches
    nothing else. Other commands are never affected.
-4. **Deleting is nuclear.** `delete_command` removes one command permanently.
-   `import_commands` with `remove_old_commands: true` wipes the whole bot first —
-   never use it unless the user explicitly asks to rewrite the bot from scratch.
+4. **Deleting is nuclear, and imports never do it.** `import_commands` only adds
+   and updates; it cannot remove anything. `delete_command` removes one command
+   permanently. A "full rewrite" is therefore an import plus deliberate
+   `delete_command` calls — and those need the user to ask for them.
 5. **TPY is not Python.** No `import`. No filesystem. A command is a flat script,
    so a top-level `return` is a `SyntaxError` (see §4).
 6. **A save is not a pass.** Code that saves can still crash at runtime. It is not
@@ -37,6 +38,7 @@ How an AI agent builds and edits a Telegram bot on Telebot Creator (TBC) using t
 Every change goes through this loop. Do not skip steps 2 or 5.
 
 ```
+0. export_commands          -> the WHOLE bot as plain text, to understand it first
 1. list_bots                -> find the target bot, confirm it with the user
 2. get_command              -> read the CURRENT live code (never edit blind)
 3. validate_tpy             -> catch `return`, `import`, syntax errors while drafting
@@ -47,6 +49,19 @@ Every change goes through this loop. Do not skip steps 2 or 5.
 
 Repeat 2→6 per command. Because saves are additive and single, a mistake is
 always contained to one command.
+
+Step 0 is a read, and it is worth doing once before anything else: one call gives
+you every command as real code, rather than a `get_command` per command. The text
+it returns looks like this, and `import_commands` takes the identical format —
+pass it as one string and write real code, never escape newlines into JSON:
+
+```
+=== /start ===
+bot.sendMessage("hi")
+
+=== .env ===
+TOKEN = "GP"
+```
 
 ### Reading `test_command` output
 
@@ -184,10 +199,11 @@ Key pages: `tpy-language-reference`, `tbc-libraries-libs`, `command-in-tpy`,
 | Add a command | `save_command` (one). Nothing else is touched. |
 | Edit a command | `get_command` first, then `save_command`, then `test_command`. |
 | Add several commands | One `save_command` each, testing between. Never a batch. |
-| Scaffold a brand-new bot | `import_commands` once, then switch to `save_command` for all edits. |
+| Understand an existing bot | `export_commands` once — every command as plain text. |
+| Scaffold a brand-new bot | `import_commands` once (plain text), then switch to `save_command` for all edits. |
 | Rename a command | Save under the new name, then `delete_command` the old one once the new one tests clean. |
 | Remove one command | `delete_command`. Permanent — confirm with the user. |
-| Full rewrite | `import_commands` + `remove_old_commands: true`. Destructive; explicit user request only. |
+| Full rewrite | `import_commands` for the new set, then `delete_command` each command that should go. Destructive; explicit user request only. |
 | Bot not responding | `get_bot` (is it running?), then `start_bot`, then `get_errors`. |
 
 ---

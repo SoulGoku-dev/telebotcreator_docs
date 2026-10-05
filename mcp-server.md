@@ -39,7 +39,7 @@ now linked to your account.
 | `create_bot` | Import a bot into your account with its BotFather token |
 | `clone_bot` | Copy a whole bot — every command — into a new one |
 | `save_command` | Create or update one command |
-| `import_commands` | Create or update many commands at once |
+| `import_commands` | Create or update many commands at once, from that same plain text |
 | `delete_command` | Move a command to the recycle bin (recoverable) |
 | `validate_tpy` | Syntax-check code before saving |
 
@@ -61,6 +61,7 @@ now linked to your account.
 | `get_bot` | One bot's details and running state |
 | `list_commands` | Every command name on a bot |
 | `get_command` | One command's source code |
+| `export_commands` | **The whole bot as plain text** — every command in one call |
 | `start_bot` / `stop_bot` | Start or stop receiving updates |
 | `rename_bot` | Change the display name |
 | `get_bot_stats` | Total users, points used, command count |
@@ -152,7 +153,7 @@ the old one.
 ## Troubleshooting
 
 **Only 4 tools appear.** You are connected to the public docs endpoint. Use
-`/v2/mcp/build` and complete the Connect step to get all 24.
+`/v2/mcp/build` and complete the Connect step to get the full set.
 
 **"That API key was not recognised."** Copy the key again from **Settings → API
 Key** — it may have been regenerated.
