@@ -39,7 +39,7 @@ now linked to your account.
 | `create_bot` | Import a bot into your account with its BotFather token |
 | `clone_bot` | Copy a whole bot — every command — into a new one |
 | `save_command` | Create or update one command |
-| `import_commands` | Create or update many commands at once, from that same plain text |
+| `import_commands` | Create or update many commands at once, from plain text in the format `export_commands` returns |
 | `delete_command` | Move a command to the recycle bin (recoverable) |
 | `validate_tpy` | Syntax-check code before saving |
 
