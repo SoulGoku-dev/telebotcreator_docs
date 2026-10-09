@@ -143,7 +143,7 @@ Bot.broadcast(command="send_promo")
 
 ### Can I bring my users from another bot platform (for example Bots.Business)?
 
-Yes. Export the user list there, then open the bot in Telebot Creator → **Manage → Import Users** and upload the file. JSON, CSV and plain text are accepted: a column or field with Telegram user IDs (`user`, `user_id`, `telegram_id`, `chat_id`, `id` …) or simply one ID per line. The import runs in the background with progress shown; only users the bot does not have yet are added, nothing is changed or removed. If you moved the same bot (same token), Telegram delivers your broadcasts to everyone who has ever started it; a new bot can only message people after they press Start in it.
+Yes. Export the user list there, then open the bot in Telebot Creator → **Manage → Import Users** and upload the file. JSON, CSV and plain text are accepted: a column or field with Telegram user IDs (`user`, `user_id`, `telegram_id`, `chat_id`, `id` …) or simply one ID per line. Every ID is then checked with Telegram through your bot, and only users the bot can actually reach are added; nothing already in the bot is changed or removed. The check runs at about 10 users a second, so a list of 90,000 takes a few hours; it continues in the background with progress shown and you can leave the page. Keep the same bot token when you move: Telegram lets a bot reach only people who have started it, so with a new bot nothing would be found until users press Start again.
 
 ### Why is my broadcast not working?
 
