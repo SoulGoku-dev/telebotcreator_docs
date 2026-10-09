@@ -141,6 +141,10 @@ Bot.broadcast(function="send_message", text="Big announcement!")
 Bot.broadcast(command="send_promo")
 ```
 
+### Can I bring my users from another bot platform (for example Bots.Business)?
+
+Yes. Export the user list there, then open the bot in Telebot Creator → **Manage → Import Users** and upload the file. JSON, CSV and plain text are accepted: a column or field with Telegram user IDs (`user`, `user_id`, `telegram_id`, `chat_id`, `id` …) or simply one ID per line. The import runs in the background with progress shown; only users the bot does not have yet are added, nothing is changed or removed. If you moved the same bot (same token), Telegram delivers your broadcasts to everyone who has ever started it; a new bot can only message people after they press Start in it.
+
 ### Why is my broadcast not working?
 
 The most common reasons are: you already have 2 running broadcasts (the per-bot limit), the command name doesn't exist in your bot, or the broadcast function name is invalid. Check your running broadcasts with `Bot.listBroadcasts()` and stop any completed ones with `Bot.clearBroadcast()`.

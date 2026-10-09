@@ -297,6 +297,38 @@ elif callback_data == "option2":
     bot.sendMessage("You selected Option 2!")
 ```
 
+**Button colours and premium emoji icons**
+
+A button is a plain dict, so every field Telegram defines for `InlineKeyboardButton` and `KeyboardButton` can be used as is. Two of them change how a button looks:
+
+| Field | Values | What it does |
+| --- | --- | --- |
+| `style` | `"primary"` (blue), `"success"` (green), `"danger"` (red) | Colours the button. Without it the app's default look is used. |
+| `icon_custom_emoji_id` | the id of a custom (premium) emoji | Shows that emoji in front of the button text. Telegram only renders it for bots that bought additional usernames on Fragment, or in messages the bot sends directly to private, group and supergroup chats when the bot's owner has Telegram Premium. |
+
+```python
+keyboard = [
+    [
+        {"text": "Buy now", "callback_data": "buy", "style": "success"},
+        {"text": "Cancel", "callback_data": "cancel", "style": "danger"},
+    ],
+    [{"text": "Help", "url": "https://help.telebotcreator.com", "style": "primary",
+      "icon_custom_emoji_id": "CUSTOM_EMOJI_ID"}],
+]
+bot.sendMessage("What would you like to do?", reply_markup={"inline_keyboard": keyboard})
+```
+
+The same two fields work on reply-keyboard buttons:
+
+```python
+bot.sendMessage("Menu", reply_markup={
+    "keyboard": [[{"text": "Balance", "style": "primary"}, {"text": "Delete account", "style": "danger"}]],
+    "resize_keyboard": True,
+})
+```
+
+To find a custom emoji's id, look at any message that contains it: `message.entities` holds an entry of type `custom_emoji` with its `custom_emoji_id`.
+
 ***
 
 #### **6.14 Using the Random Library**
