@@ -371,8 +371,8 @@ This library is designed to interact with all supported EVM chains. It offers fu
 
 * **get\_supported\_networks() -> Dict\[str, Dict\[str, Any]]**\
   Provides a list of all supported networks with their chain IDs and RPC endpoints.
-* **setKeys(private\_Key: str) -> str**\
-  Stores the sender's private key (linked to your current bot ID) in the MongoDB collection.
+* **Private keys are never stored on the server.** Every `sendNativeCoin` / `sendETHER` call must pass
+  `private_key=...` — keep it in your `.env` command and reference the variable.
 * **sendNativeCoin(...) -> str**\
   Sends native coins (like ETH) on the selected EVM chain. Features include automatic gas estimation, retry logic, and optional proxy support.
 * **sendETHER(..., decimals=None) -> str**\
@@ -724,7 +724,7 @@ Utility functions for generating random values — handy for games, giveaways, c
 | **libs.Oxapay**      | Oxapay payment integration                                        | `post`                                                              |
 | **libs.customHTTP**  | Performing HTTP requests with constraints                         | `get`, `post`, `put`, `delete`, `head`, `options`, `patch`, `close` |
 | **libs.TonLib**      | TON blockchain, jettons and TON Connect                           | `generateWallet`, `getBalance`, `sendTON`, `get_jetton_balance`, `create_ton_connect_session` |
-| **libs.web3lib**     | EVM-compatible blockchain transactions & balances                 | `setKeys`, `sendETHER`, `sendNativeCoin`, `getBalance`, `getTokenBalance`, `get_supported_networks` |
+| **libs.web3lib**     | EVM-compatible blockchain transactions & balances                 | `sendETHER`, `sendNativeCoin`, `getBalance`, `getTokenBalance`, `get_supported_networks` |
 | **libs.OpenCV**      | Image processing (OpenCV/NumPy)                                   | `read_image_from_bytes`, `resize`, `detect_faces`, `apply_filter`, `to_bytes` |
 | **libs.Pillow**      | Image editing (PIL)                                              | `open_from_bytes`, `resize`, `draw_text`, `add_watermark`, `to_bytes` |
 | **libs.openai_lib**  | OpenAI API integration for AI capabilities                        | `OpenAIClient`, `AIAssistant`, create_chat_completion                |

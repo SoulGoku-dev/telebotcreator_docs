@@ -22,7 +22,7 @@ account, no zones, no postback URLs and no external setup. Switch it on, add
 ## 2. Show an ad — one line
 
 ```python
-libs.tbcads.reward_ad("Watch a short ad to unlock your reward", then=".myreward")
+libs.tbcads.reward_ad("Watch a short ad to unlock your reward", then="/myreward")
 ```
 
 That is the whole integration. TBC sends the message. The user taps it and goes
@@ -50,7 +50,7 @@ shown = libs.tbcads.reward_ad(
     button="📺 Click here",
     after="after_text",
     after_text="<b>✅ Ad watched!</b>",
-    then=".myreward")
+    then="/myreward")
 
 if not shown:
     # No ad available right now — never leave the user stuck.
@@ -58,7 +58,7 @@ if not shown:
 ```
 
 ```python
-# .myreward — your reward code, whatever it is
+# /myreward — your reward code, whatever it is
 if not libs.tbcads.claim():
     raise ReturnCommand
 
@@ -112,11 +112,11 @@ If a view is not counted, `then` never runs. That is deliberate: an uncounted
 view earns nothing, so paying a reward for it would cost you money for free.
 
 ```python
-libs.tbcads.reward_ad("Watch to unlock the file", then=".sendfile")
+libs.tbcads.reward_ad("Watch to unlock the file", then="/sendfile")
 ```
 
 ```python
-# .sendfile
+# /sendfile
 if not libs.tbcads.claim():
     raise ReturnCommand          # not a verified ad view — stop here
 bot.sendDocument(FILE_ID, caption="Here is your file 📄")
@@ -124,7 +124,7 @@ bot.sendDocument(FILE_ID, caption="Here is your file 📄")
 
 ⚠️ **Always start a `then` command with `claim()`.** In TBC, any message whose
 text equals a command name runs that command — so without the check a user
-could simply type `.sendfile` and get the reward without watching anything.
+could simply type `/sendfile` and get the reward without watching anything.
 
 `claim()` takes **no arguments** inside a `then` command; it reads the bot and
 user from the running command. It returns `True` **exactly once per confirmed
@@ -135,13 +135,59 @@ Inside a `then` command: `u` and `chat_id` are the viewer, `bot_id` is your
 bot, and `message` and `params` are `None`. If your `@` command reads
 `message.text`, guard it with `if message:`.
 
-## 5. Examples
+## 5. Put the ad anywhere: `link()`
+
+`reward_ad()` sends its own message. When you want the ad inside **your**
+message, in your own keyboard or next to your other buttons, ask for just the
+link:
+
+```python
+ads_link = libs.tbcads.link()
+```
+
+That is the ad URL for the user running the command. Use it like any other URL:
+
+```python
+# /menu
+ads_link = libs.tbcads.link(then="/myreward")
+
+keyboard = [[{"text": "💰 Balance", "callback_data": "/balance"}]]
+if ads_link:
+    keyboard.insert(0, [{"text": "📺 Watch Ad (+10 points)", "url": ads_link}])
+
+bot.sendMessage("Choose an option:", reply_markup={"inline_keyboard": keyboard})
+```
+
+```python
+libs.tbcads.link(then=None, ttl=None)
+```
+
+| Option | What it does |
+|---|---|
+| `then` | optional. The command that runs once the view is confirmed, exactly as in `reward_ad()`. Start it with `claim()` |
+| `ttl` | seconds the link stays valid (default 900) |
+
+**Returns** the URL, or `None` if no ad is available. Always check it before
+you put it in a button.
+
+Three things to know:
+
+* **Make a new link each time you send the message.** One link counts one ad
+  view, belongs to that one user and is valid for 15 minutes. Do not save it or
+  reuse it for other users: the reward always goes to the user it was made for.
+* **Without `then`, nothing runs afterwards.** The view still counts for your
+  earnings; you simply give no reward.
+* **TBC does not edit your message.** With `reward_ad()` the button is removed
+  for you. Here the message is yours, so the button stays. Once the view is
+  confirmed, tapping it again only shows a short "already watched" page.
+
+## 6. Examples
 
 **Daily bonus**
 
 ```python
 # /bonus
-today = time.strftime("%Y-%m-%d")
+today = libs.DateAndTime.utcnow()["date"]      # "2026-10-12" (time has only time() and sleep())
 if User.getData("bonus_day") == today:
     bot.sendMessage("You already took today's bonus. Come back tomorrow!")
     raise ReturnCommand
@@ -152,13 +198,13 @@ if not libs.tbcads.reward_ad("Watch a short ad to claim today's bonus.",
                              button="🎁 Claim bonus",
                              after="after_text",
                              after_text="🎁 Bonus unlocked!",
-                             then=".bonus_paid"):
+                             then="/bonus_paid"):
     libs.Resources.userRes("points", u).add(20)
     bot.sendMessage("🎁 +20 bonus points")
 ```
 
 ```python
-# .bonus_paid
+# /bonus_paid
 if not libs.tbcads.claim():
     raise ReturnCommand
 libs.Resources.userRes("points", u).add(20)
@@ -171,7 +217,7 @@ bot.sendMessage("🎁 +20 points. See you tomorrow!")
 # /getfile
 if not libs.tbcads.reward_ad("The file is ready. Unlock it below.",
                              button="🔓 Unlock download",
-                             then=".sendfile"):
+                             then="/sendfile"):
     bot.sendDocument(FILE_ID)
 ```
 
@@ -179,62 +225,26 @@ if not libs.tbcads.reward_ad("The file is ready. Unlock it below.",
 
 ```python
 bot.sendMessage("Step 2 of 3 complete!")
-libs.tbcads.reward_ad("Watch an ad for a bonus", then=".bonus5")
+libs.tbcads.reward_ad("Watch an ad for a bonus", then="/bonus5")
 bot.sendMessage("Now send me your email:")
 handleNextCommand("save_email")
 ```
 
-## 6. Full manual control
-
-`reward_ad()` covers almost everything. If you want to build the message
-yourself — a custom keyboard, an ad inside an existing menu — use the lower
-level API.
-
-```python
-libs.tbcads.fetch_ad(bot_id, user_id, callback=None, ttl=None)
-```
-Returns `{"url": ..., "token": ...}` or `None`. Put `url` in a **url** button
-(not `web_app`). The `callback` command runs when the link is opened, and must
-start with `claim()`.
-
-```python
-libs.tbcads.claim()
-```
-`True` once per **confirmed** ad view, oldest first. A tap that the ad network
-did not count never pays. Arguments are optional — `claim(bot_id, user_id)`
-also works if you need another user.
-
-```python
-libs.tbcads.check(token)
-```
-The state of one ad session:
-
-| State | Meaning |
-|---|---|
-| `"pending"` | the link has not been opened |
-| `"clicked"` | opened, waiting for the ad network to confirm the view |
-| `"done"` | confirmed — this is when `claim()` pays |
-| `"expired"` | older than the 15 minute window |
-
-Useful for an *"I watched it"* button instead of a `then` command.
+## 7. Check if it's on
 
 ```python
 libs.tbcads.is_enabled(bot_id)
 ```
-`True` when monetization is on for this bot.
+`True` when monetization is on for this bot — handy for a small status command.
 
-```python
-ad = libs.tbcads.fetch_ad(bot_id, u, callback=".adreward")
-if ad:
-    keys = [[InlineKeyboardButton(text="📺 Watch Ad", url=ad["url"])]]
-    bot.sendMessage("Watch an ad to continue", reply_markup=InlineKeyboardMarkup(keys))
-```
+`reward_ad()` and `link()` are the whole ad API. `reward_ad()` shows the message,
+waits for the ad network to confirm the view, runs your `then` command and
+removes the button. `link()` hands you the URL and leaves the message to you.
+There is nothing lower-level to wire up yourself.
 
-With this route you remove the button yourself. `reward_ad()` does it for you.
+## 8. How it works
 
-## 7. How it works
-
-1. `reward_ad()` mints a **single-use link** for that one user, valid 15 minutes.
+1. `reward_ad()` or `link()` mints a **single-use link** for that one user, valid 15 minutes.
 2. The user taps it and is forwarded to the sponsored offer. Nothing is paid yet.
 3. The ad network verifies the view and, if it counts, calls TBC back — normally
    within a few seconds.
@@ -245,7 +255,7 @@ Opening the same link again only shows the ad — the reward is released once, b
 the first confirmed view. Every link is bound to one bot and one user, so a
 leaked link pays nobody, and a view the network rejects pays nobody.
 
-## 8. Earnings, statistics and payout
+## 9. Earnings, statistics and payout
 
 **Monetization → Stats** shows impressions, CPM and earnings per day and per
 bot, over any date range you pick. Every figure there is *your* earnings —
@@ -289,7 +299,7 @@ a flow people repeat.
 
 | | |
 |---|---|
-| **Hold** | the last **5 days** of earnings, while the traffic is verified |
+| **Hold** | the last **2 days** of earnings, while the traffic is verified |
 | **Approved** | verified earnings you can withdraw |
 | **Total balance** | Approved + Hold |
 | **Total withdrawals** | everything paid out so far |
@@ -297,7 +307,57 @@ a flow people repeat.
 The minimum payout is **$5**. Enter where to send it and press *Request
 payout*; the full approved balance is sent and appears under *History*.
 
-## 9. Rules
+## 10. Getting more impressions
+
+Turning ads on does **not** start the earnings. Enrolling only makes your bot
+eligible; nothing is shown until `libs.tbcads.reward_ad(...)` actually runs in
+one of your commands. By far the most common reason a bot earns `$0.00` is that
+the line was never added anywhere users reach.
+
+Once it is in, volume is the whole game. CPM is set by the network and moves on
+its own; the number of impressions is the part you control.
+
+**Put it where people already go.** One ad on a screen everyone passes beats
+five on screens nobody opens. Ranked by how well they tend to work:
+
+| Placement | Why it works |
+|---|---|
+| **Unlocking something they asked for** — a download, a file, a result | They already want it, so almost everyone taps |
+| **A daily bonus or streak** | Brings the same user back tomorrow, so one user counts many times |
+| **A retry, or skipping a wait** | Fires exactly when the user is motivated |
+| **A step inside a flow they repeat** | Rides traffic you already have |
+| A standalone "watch an ad" button on a menu | Only the curious ever press it |
+
+Section 6 has working code for the first three.
+
+**Give more than one chance per session.** A user who downloads three files can
+see three ads. Put the call in the command that repeats, not in `/start`.
+
+**Returning users are worth more than new ones.** Ten people who come back daily
+produce far more impressions in a month than a hundred who visit once. A daily
+bonus is the cheapest way to build that habit.
+
+**Always handle the no-ad case.** `reward_ad` returns `False` when no ad was
+available for that user at that moment. Give the reward yourself when it does,
+or users hit a dead end and stop coming back:
+
+```python
+if not libs.tbcads.reward_ad("Watch a short ad to unlock", then="/reward"):
+    give_the_reward_anyway()
+```
+
+**Say what the button is.** "Watch a short ad to unlock" converts about as well
+as anything vague, and users who know what they tapped come back. Labelling an
+ad as something else — a captcha, a "verify", a fake download button — is
+counted as fraudulent traffic: those impressions are not paid, and it puts the
+whole account at risk. See section 11.
+
+**What will not work:** tapping your own ads, asking friends or a group to tap,
+multiple accounts, emulators or scripted opening of links. That traffic is
+detected, removed from your earnings, and repeated attempts end the account.
+Real users on a bot they actually use is the only thing that pays.
+
+## 11. Rules
 
 Traffic that is not real — self-clicks, click farms, VPN or automated opening
 of links, asking users to tap ads from many accounts — is not paid, and
@@ -309,11 +369,11 @@ Faking the view is not.
 One ad per reward, a clear button, the reward delivered immediately. Users who
 trust your bot come back, and that is what pays.
 
-## 10. Troubleshooting
+## 12. Troubleshooting
 
 | Symptom | Cause |
 |---|---|
-| `reward_ad()` returns `False` | monetization is off for this bot, or it has fewer than 500 users. Check **Monetization → Bots**. |
+| `reward_ad()` returns `False`, or `link()` returns `None` | monetization is off for this bot, or it has fewer than 500 users. Check **Monetization → Bots**. |
 | Button stays after the ad | you used `after="keep"`. Use `"delete"` or `"after_text"`. |
 | Reward never arrives | most often the view was not counted by the ad network — nothing is owed, and the button stays so the user can retry. Otherwise: the `then` command name does not exist (it is case-sensitive), or the reward runs before `claim()`. |
 | Reward is a few seconds late | expected. TBC waits for the ad network to confirm the view before paying. |

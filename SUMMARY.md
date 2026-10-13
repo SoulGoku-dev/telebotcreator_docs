@@ -9,8 +9,13 @@
 
 ## Core Reference
 * [TPY Language Reference](tpy-language-reference.md)
+* [TPY Method Index](tpy-method-index.md)
 * [TBC Libraries (Libs)](tbc-libraries-libs.md)
 * [Bot Features and Functionalities](bot-features-and-functionalities.md)
+* [Keyboards and Buttons](keyboards-and-buttons.md)
+* [Files and Media](files-and-media.md)
+* [Payments (Telegram Stars and Invoices)](payments.md)
+* [Mini Apps (Web Apps)](mini-apps.md)
 * [Advanced Features](advanced-features.md)
 
 ## Libraries & Integrations

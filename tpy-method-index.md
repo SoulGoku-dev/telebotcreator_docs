@@ -1,0 +1,303 @@
+# TPY method index
+
+Every method a command can call on `bot`, `Bot`, `User` and `Account`, with its arguments in order, listed from the platform code on 2026-10-13. Use it to check an exact name or argument; the other pages explain how to use them.
+
+## bot
+
+Write a name in camelCase (`bot.sendMessage`) or snake_case (`bot.send_message`); both work.
+For the methods marked **(current chat)** leave `chat_id` out to send to the user who triggered the command, or pass `chat_id=...` for another chat. Arguments given without a name are taken in the order shown, so the text or file comes first.
+The current chat is always the user who triggered the command. In a group or channel pass `chat_id=message.chat.id` to answer there.
+Every other method needs its `chat_id` written out, for example `bot.sendInvoice(..., chat_id=u)` and `bot.deleteMessage(u, message.message_id)`.
+Text is sent with `parse_mode="html"` unless you pass another one; `parse_mode=""` sends it as plain text.
+
+- `bot.getFile(file_id)`
+- `bot.getFileUrl(file_id)`
+- `bot.downloadFile(file_path)`
+- `bot.logOut()`
+- `bot.close()`
+- `bot.setMessageReaction(chat_id, message_id, reaction=None, is_big=None)`
+- `bot.getUserProfilePhotos(user_id, offset=None, limit=None)`
+- `bot.getChat(chat_id)`
+- `bot.leaveChat(chat_id)`
+- `bot.getChatAdministrators(chat_id, return_bots=None)`
+- `bot.getChatMembersCount(chat_id)`
+- `bot.getChatMemberCount(chat_id)`
+- `bot.setChatStickerSet(chat_id, sticker_set_name)`
+- `bot.deleteChatStickerSet(chat_id)`
+- `bot.getChatMember(chat_id, user_id)`
+- `bot.replyText(chat_id, text, parse_mode=None, entities=None, disable_web_page_preview=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, reply_parameters=None, link_preview_options=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None)`
+- `bot.sendMessage(text, parse_mode=None, entities=None, disable_web_page_preview=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, reply_parameters=None, link_preview_options=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, direct_messages_topic_id=None, suggested_post_parameters=None, chat_id=None)` **(current chat)**
+- `bot.forwardMessage(chat_id, from_chat_id, message_id, disable_notification=None, protect_content=None, timeout=None, message_thread_id=None, direct_messages_topic_id=None, video_start_timestamp=None, message_effect_id=None, suggested_post_parameters=None)`
+- `bot.copyMessage(chat_id, from_chat_id, message_id, caption=None, parse_mode=None, caption_entities=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, reply_parameters=None, show_caption_above_media=None, allow_paid_broadcast=None, direct_messages_topic_id=None, video_start_timestamp=None, message_effect_id=None, suggested_post_parameters=None)`
+- `bot.deleteMessage(chat_id, message_id, timeout=None)`
+- `bot.deleteMessages(chat_id, message_ids)`
+- `bot.forwardMessages(chat_id, from_chat_id, message_ids, disable_notification=None, message_thread_id=None, protect_content=None)`
+- `bot.copyMessages(chat_id, from_chat_id, message_ids, disable_notification=None, message_thread_id=None, protect_content=None, remove_caption=None)`
+- `bot.sendDice(chat_id=None, emoji=None, disable_notification=None, reply_to_message_id=None, reply_markup=None, timeout=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None)` **(current chat)**
+- `bot.replyPhoto(chat_id, photo, caption=None, parse_mode=None, caption_entities=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, has_spoiler=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, show_caption_above_media=None, allow_paid_broadcast=None)`
+- `bot.replyPhoto(chat_id, photo, caption=None, parse_mode=None, caption_entities=None, disable_web_page_preview=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, has_spoiler=None, reply_parameters=None, business_connection_id=None, link_preview_options=None, message_effect_id=None, show_caption_above_media=None, allow_paid_broadcast=None)`
+- `bot.sendPhoto(photo, caption=None, parse_mode=None, caption_entities=None, disable_web_page_preview=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, has_spoiler=None, reply_parameters=None, business_connection_id=None, link_preview_options=None, message_effect_id=None, show_caption_above_media=None, allow_paid_broadcast=None, direct_messages_topic_id=None, suggested_post_parameters=None, chat_id=None)` **(current chat)**
+- `bot.sendAudio(audio, caption=None, duration=None, performer=None, title=None, reply_to_message_id=None, reply_markup=None, parse_mode=None, disable_notification=None, timeout=None, thumbnail=None, caption_entities=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, thumb=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendVoice(voice, caption=None, duration=None, reply_to_message_id=None, reply_markup=None, parse_mode=None, disable_notification=None, timeout=None, caption_entities=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendDocument(document, reply_to_message_id=None, caption=None, reply_markup=None, parse_mode=None, disable_notification=None, timeout=None, thumbnail=None, caption_entities=None, allow_sending_without_reply=None, visible_file_name=None, disable_content_type_detection=None, data=None, protect_content=None, message_thread_id=None, thumb=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendSticker(sticker, reply_to_message_id=None, reply_markup=None, disable_notification=None, timeout=None, allow_sending_without_reply=None, protect_content=None, data=None, message_thread_id=None, emoji=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendVideo(video, duration=None, width=None, height=None, thumbnail=None, caption=None, parse_mode=None, caption_entities=None, supports_streaming=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, data=None, message_thread_id=None, has_spoiler=None, thumb=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, show_caption_above_media=None, allow_paid_broadcast=None, cover=None, start_timestamp=None, direct_messages_topic_id=None, suggested_post_parameters=None, chat_id=None)` **(current chat)**
+- `bot.sendAnimation(animation, duration=None, width=None, height=None, thumbnail=None, caption=None, parse_mode=None, caption_entities=None, disable_notification=None, protect_content=None, reply_to_message_id=None, allow_sending_without_reply=None, reply_markup=None, timeout=None, message_thread_id=None, has_spoiler=None, thumb=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, show_caption_above_media=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendVideoNote(data, duration=None, length=None, reply_to_message_id=None, reply_markup=None, disable_notification=None, timeout=None, thumbnail=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, thumb=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendPaidMedia(star_count, media, caption=None, parse_mode=None, caption_entities=None, show_caption_above_media=None, disable_notification=None, protect_content=None, reply_parameters=None, reply_markup=None, business_connection_id=None, payload=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendMediaGroup(media, disable_notification=None, protect_content=None, reply_to_message_id=None, timeout=None, allow_sending_without_reply=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendLocation(latitude, longitude, live_period=None, reply_to_message_id=None, reply_markup=None, disable_notification=None, timeout=None, horizontal_accuracy=None, heading=None, proximity_alert_radius=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.editMessageLiveLocation(latitude, longitude, chat_id=None, message_id=None, inline_message_id=None, reply_markup=None, timeout=None, horizontal_accuracy=None, heading=None, proximity_alert_radius=None, live_period=None, business_connection_id=None)` **(current chat)**
+- `bot.stopMessageLiveLocation(chat_id=None, message_id=None, inline_message_id=None, reply_markup=None, timeout=None, business_connection_id=None)`
+- `bot.sendVenue(latitude, longitude, title, address, foursquare_id=None, foursquare_type=None, disable_notification=None, reply_to_message_id=None, reply_markup=None, timeout=None, allow_sending_without_reply=None, google_place_id=None, google_place_type=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendContact(phone_number, first_name, last_name=None, vcard=None, disable_notification=None, reply_to_message_id=None, reply_markup=None, timeout=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.sendChatAction(action, timeout=None, message_thread_id=None, business_connection_id=None, chat_id=None)` **(current chat)**
+- `bot.kickChatMember(chat_id, user_id, until_date=None, revoke_messages=None)`
+- `bot.banChatMember(chat_id, user_id, until_date=None, revoke_messages=None)`
+- `bot.unbanChatMember(chat_id, user_id, only_if_banned=False)`
+- `bot.restrictChatMember(chat_id, user_id, until_date=None, can_send_messages=None, can_send_media_messages=None, can_send_polls=None, can_send_other_messages=None, can_add_web_page_previews=None, can_change_info=None, can_invite_users=None, can_pin_messages=None, permissions=None, use_independent_chat_permissions=None)`
+- `bot.promoteChatMember(chat_id, user_id, can_change_info=None, can_post_messages=None, can_edit_messages=None, can_delete_messages=None, can_invite_users=None, can_restrict_members=None, can_pin_messages=None, can_promote_members=None, is_anonymous=None, can_manage_chat=None, can_manage_video_chats=None, can_manage_voice_chats=None, can_manage_topics=None, can_post_stories=None, can_edit_stories=None, can_delete_stories=None)`
+- `bot.setChatAdministratorCustomTitle(chat_id, user_id, custom_title)`
+- `bot.banChatSenderChat(chat_id, sender_chat_id)`
+- `bot.unbanChatSenderChat(chat_id, sender_chat_id)`
+- `bot.setChatPermissions(chat_id, permissions, use_independent_chat_permissions=None)`
+- `bot.createChatInviteLink(chat_id, name=None, expire_date=None, member_limit=None, creates_join_request=None)`
+- `bot.editChatInviteLink(chat_id, invite_link=None, name=None, expire_date=None, member_limit=None, creates_join_request=None)` **(current chat)**
+- `bot.createChatSubscriptionInviteLink(chat_id, subscription_period, subscription_price, name=None)`
+- `bot.editChatSubscriptionInviteLink(chat_id, invite_link, name=None)` **(current chat)**
+- `bot.revokeChatInviteLink(chat_id, invite_link)`
+- `bot.exportChatInviteLink(chat_id)`
+- `bot.approveChatJoinRequest(chat_id, user_id)`
+- `bot.declineChatJoinRequest(chat_id, user_id)`
+- `bot.setChatPhoto(chat_id, photo)`
+- `bot.deleteChatPhoto(chat_id)`
+- `bot.getMyCommands(scope=None, language_code=None)`
+- `bot.setMyName(name=None, language_code=None)`
+- `bot.getMyName(language_code=None)`
+- `bot.setMyDescription(description=None, language_code=None)`
+- `bot.getMyDescription(language_code=None)`
+- `bot.setMyShortDescription(short_description=None, language_code=None)`
+- `bot.getMyShortDescription(language_code=None)`
+- `bot.setChatMenuButton(chat_id=None, menu_button=None)`
+- `bot.getChatMenuButton(chat_id=None)`
+- `bot.setMyDefaultAdministratorRights(rights=None, for_channels=None)`
+- `bot.getMyDefaultAdministratorRights(for_channels=None)`
+- `bot.getBusinessConnection(business_connection_id)`
+- `bot.setMyCommands(commands, scope=None, language_code=None)`
+- `bot.deleteMyCommands(scope=None, language_code=None)`
+- `bot.setChatTitle(chat_id, title)`
+- `bot.setChatDescription(chat_id, description=None)`
+- `bot.pinChatMessage(chat_id, message_id, disable_notification=False, business_connection_id=None)`
+- `bot.unpinChatMessage(chat_id, message_id=None, business_connection_id=None)`
+- `bot.unpinAllChatMessages(chat_id)`
+- `bot.editMessageText(text=None, chat_id=None, message_id=None, inline_message_id=None, parse_mode=None, entities=None, disable_web_page_preview=None, reply_markup=None, link_preview_options=None, business_connection_id=None, timeout=None, rich_message=None)` **(current chat)**
+- `bot.editMessageMedia(media, chat_id=None, message_id=None, inline_message_id=None, reply_markup=None, business_connection_id=None, timeout=None)` **(current chat)**
+- `bot.editMessageReplyMarkup(chat_id=None, message_id=None, inline_message_id=None, reply_markup=None, business_connection_id=None, timeout=None)` **(current chat)**
+- `bot.sendGame(game_short_name, disable_notification=None, reply_to_message_id=None, reply_markup=None, timeout=None, allow_sending_without_reply=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)` **(current chat)**
+- `bot.setGameScore(user_id, score, force=None, chat_id=None, message_id=None, inline_message_id=None, disable_edit_message=None)`
+- `bot.getGameHighScores(user_id, chat_id=None, message_id=None, inline_message_id=None)`
+- `bot.sendInvoice(title, description, invoice_payload, provider_token, currency, prices, start_parameter=None, photo_url=None, photo_size=None, photo_width=None, photo_height=None, need_name=None, need_phone_number=None, need_email=None, need_shipping_address=None, send_phone_number_to_provider=None, send_email_to_provider=None, is_flexible=None, disable_notification=None, reply_to_message_id=None, reply_markup=None, provider_data=None, timeout=None, allow_sending_without_reply=None, max_tip_amount=None, suggested_tip_amounts=None, protect_content=None, message_thread_id=None, reply_parameters=None, message_effect_id=None, allow_paid_broadcast=None, chat_id=None)`
+- `bot.createInvoiceLink(title, description, payload, provider_token, currency, prices, max_tip_amount=None, suggested_tip_amounts=None, provider_data=None, photo_url=None, photo_size=None, photo_width=None, photo_height=None, need_name=None, need_phone_number=None, need_email=None, need_shipping_address=None, send_phone_number_to_provider=None, send_email_to_provider=None, is_flexible=None)`
+- `bot.sendPoll(question, options, is_anonymous=None, type=None, allows_multiple_answers=None, correct_option_id=None, explanation=None, explanation_parse_mode=None, open_period=None, close_date=None, is_closed=None, disable_notification=False, reply_to_message_id=None, reply_markup=None, allow_sending_without_reply=None, timeout=None, explanation_entities=None, protect_content=None, message_thread_id=None, reply_parameters=None, business_connection_id=None, question_parse_mode=None, question_entities=None, message_effect_id=None, allow_paid_broadcast=None, allows_revoting=None, shuffle_options=None, allow_adding_options=None, hide_results_until_closes=None, members_only=None, country_codes=None, correct_option_ids=None, explanation_media=None, description=None, description_parse_mode=None, description_entities=None, media=None, direct_messages_topic_id=None, suggested_post_parameters=None, chat_id=None)` **(current chat)**
+- `bot.stopPoll(chat_id, message_id, reply_markup=None, business_connection_id=None)`
+- `bot.answerShippingQuery(shipping_query_id, ok, shipping_options=None, error_message=None)`
+- `bot.answerPreCheckoutQuery(pre_checkout_query_id, ok, error_message=None)`
+- `bot.getStarTransactions(offset=None, limit=None)`
+- `bot.refundStarPayment(user_id, telegram_payment_charge_id)`
+- `bot.editMessageCaption(caption, chat_id=None, message_id=None, inline_message_id=None, parse_mode=None, caption_entities=None, reply_markup=None, show_caption_above_media=None, business_connection_id=None, timeout=None)` **(current chat)**
+- `bot.replyTo(message, text, **kwargs)`
+- `bot.answerInlineQuery(inline_query_id, results, cache_time=None, is_personal=None, next_offset=None, switch_pm_text=None, switch_pm_parameter=None, button=None)`
+- `bot.unpinAllGeneralForumTopicMessages(chat_id)`
+- `bot.answerCallbackQuery(callback_query_id, text=None, show_alert=None, url=None, cache_time=None)`
+- `bot.getUserChatBoosts(chat_id, user_id)`
+- `bot.setStickerSetThumbnail(name, user_id, thumbnail=None, format=None)`
+- `bot.setStickerSetThumb(name, user_id, thumb=None)`
+- `bot.getStickerSet(name)`
+- `bot.getCustomEmojiStickers(custom_emoji_ids)`
+- `bot.setStickerKeywords(sticker, keywords=None)`
+- `bot.setStickerMaskPosition(sticker, mask_position=None)`
+- `bot.setCustomEmojiStickerSetThumbnail(name, custom_emoji_id=None)`
+- `bot.setStickerSetTitle(name, title)`
+- `bot.deleteStickerSet(name)`
+- `bot.replaceStickerInSet(user_id, name, old_sticker, sticker)`
+- `bot.setStickerEmojiList(sticker, emoji_list)`
+- `bot.uploadStickerFile(user_id, png_sticker=None, sticker=None, sticker_format=None)`
+- `bot.createNewStickerSet(user_id, name, title, emojis=None, png_sticker=None, tgs_sticker=None, webm_sticker=None, contains_masks=None, sticker_type=None, mask_position=None, needs_repainting=None, stickers=None, sticker_format=None)`
+- `bot.addStickerToSet(user_id, name, emojis, png_sticker=None, tgs_sticker=None, webm_sticker=None, mask_position=None, sticker=None)`
+- `bot.setStickerPositionInSet(sticker, position)`
+- `bot.deleteStickerFromSet(sticker)`
+- `bot.createForumTopic(chat_id, name, icon_color=None, icon_custom_emoji_id=None)`
+- `bot.editForumTopic(chat_id, message_thread_id, name=None, icon_custom_emoji_id=None)` **(current chat)**
+- `bot.closeForumTopic(chat_id, message_thread_id)`
+- `bot.reopenForumTopic(chat_id, message_thread_id)`
+- `bot.deleteForumTopic(chat_id, message_thread_id)`
+- `bot.unpinAllForumTopicMessages(chat_id, message_thread_id)`
+- `bot.editGeneralForumTopic(chat_id, name)` **(current chat)**
+- `bot.closeGeneralForumTopic(chat_id)`
+- `bot.reopenGeneralForumTopic(chat_id)`
+- `bot.hideGeneralForumTopic(chat_id)`
+- `bot.unhideGeneralForumTopic(chat_id)`
+- `bot.getForumTopicIconStickers()`
+- `bot.answerWebAppQuery(web_app_query_id, result)`
+- `bot.getUpdates(offset=None, limit=None, timeout=None, allowed_updates=None)`
+- `bot.setWebhook(url=None, certificate=None, ip_address=None, max_connections=None, allowed_updates=None, drop_pending_updates=None, secret_token=None)`
+- `bot.deleteWebhook(drop_pending_updates=None)`
+- `bot.getWebhookInfo()`
+- `bot.deleteMessageReaction(chat_id, message_id, user_id=None, actor_chat_id=None)`
+- `bot.deleteAllMessageReactions(chat_id, user_id=None, actor_chat_id=None)`
+- `bot.sendRichMessage(rich_message, business_connection_id=None, message_thread_id=None, direct_messages_topic_id=None, disable_notification=None, protect_content=None, allow_paid_broadcast=None, message_effect_id=None, suggested_post_parameters=None, reply_parameters=None, reply_markup=None, chat_id=None)` **(current chat)**
+- `bot.sendRichMessageDraft(draft_id, rich_message, message_thread_id=None, chat_id=None)` **(current chat)**
+- `bot.sendMessageDraft(draft_id, text=None, message_thread_id=None, parse_mode=None, entities=None, chat_id=None)` **(current chat)**
+- `bot.sendLivePhoto(live_photo, photo, business_connection_id=None, message_thread_id=None, direct_messages_topic_id=None, caption=None, parse_mode=None, caption_entities=None, show_caption_above_media=None, has_spoiler=None, disable_notification=None, protect_content=None, allow_paid_broadcast=None, message_effect_id=None, suggested_post_parameters=None, reply_parameters=None, reply_markup=None, chat_id=None)` **(current chat)**
+- `bot.sendChecklist(business_connection_id, checklist, disable_notification=None, protect_content=None, message_effect_id=None, reply_parameters=None, reply_markup=None, chat_id=None)` **(current chat)**
+- `bot.editMessageChecklist(business_connection_id, message_id, checklist, reply_markup=None, chat_id=None)` **(current chat)**
+- `bot.getAvailableGifts()`
+- `bot.sendGift(gift_id, user_id=None, chat_id=None, pay_for_upgrade=None, text=None, text_parse_mode=None, text_entities=None)`
+- `bot.giftPremiumSubscription(user_id, month_count, star_count, text=None, text_parse_mode=None, text_entities=None)`
+- `bot.getUserGifts(user_id, exclude_unlimited=None, exclude_limited_upgradable=None, exclude_limited_non_upgradable=None, exclude_from_blockchain=None, exclude_unique=None, sort_by_price=None, offset=None, limit=None)`
+- `bot.getChatGifts(chat_id, exclude_unsaved=None, exclude_saved=None, exclude_unlimited=None, exclude_limited_upgradable=None, exclude_limited_non_upgradable=None, exclude_from_blockchain=None, exclude_unique=None, sort_by_price=None, offset=None, limit=None)`
+- `bot.getBusinessAccountGifts(business_connection_id, exclude_unsaved=None, exclude_saved=None, exclude_unlimited=None, exclude_limited_upgradable=None, exclude_limited_non_upgradable=None, exclude_unique=None, exclude_from_blockchain=None, sort_by_price=None, offset=None, limit=None)`
+- `bot.convertGiftToStars(business_connection_id, owned_gift_id)`
+- `bot.upgradeGift(business_connection_id, owned_gift_id, keep_original_details=None, star_count=None)`
+- `bot.transferGift(business_connection_id, owned_gift_id, new_owner_chat_id, star_count=None)`
+- `bot.getMyStarBalance()`
+- `bot.editUserStarSubscription(user_id, telegram_payment_charge_id, is_canceled)`
+- `bot.verifyUser(user_id, custom_description=None)`
+- `bot.verifyChat(chat_id, custom_description=None)`
+- `bot.removeUserVerification(user_id)`
+- `bot.removeChatVerification(chat_id)`
+- `bot.setUserEmojiStatus(user_id, emoji_status_custom_emoji_id=None, emoji_status_expiration_date=None)`
+- `bot.savePreparedInlineMessage(user_id, result, allow_user_chats=None, allow_bot_chats=None, allow_group_chats=None, allow_channel_chats=None)`
+- `bot.savePreparedKeyboardButton(user_id, button)`
+- `bot.setPassportDataErrors(user_id, errors)`
+- `bot.setMyProfilePhoto(photo)`
+- `bot.removeMyProfilePhoto()`
+- `bot.getUserProfileAudios(user_id, offset=None, limit=None)`
+- `bot.getUserPersonalChatMessages(user_id, limit)`
+- `bot.readBusinessMessage(business_connection_id, chat_id, message_id)`
+- `bot.deleteBusinessMessages(business_connection_id, message_ids)`
+- `bot.setBusinessAccountName(business_connection_id, first_name, last_name=None)`
+- `bot.setBusinessAccountUsername(business_connection_id, username=None)`
+- `bot.setBusinessAccountBio(business_connection_id, bio=None)`
+- `bot.setBusinessAccountProfilePhoto(business_connection_id, photo, is_public=None)`
+- `bot.removeBusinessAccountProfilePhoto(business_connection_id, is_public=None)`
+- `bot.setBusinessAccountGiftSettings(business_connection_id, show_gift_button, accepted_gift_types)`
+- `bot.getBusinessAccountStarBalance(business_connection_id)`
+- `bot.transferBusinessAccountStars(business_connection_id, star_count)`
+- `bot.postStory(business_connection_id, content, active_period, caption=None, parse_mode=None, caption_entities=None, areas=None, post_to_chat_page=None, protect_content=None)`
+- `bot.editStory(business_connection_id, story_id, content, caption=None, parse_mode=None, caption_entities=None, areas=None)`
+- `bot.deleteStory(business_connection_id, story_id)`
+- `bot.repostStory(business_connection_id, from_chat_id, from_story_id, active_period, post_to_chat_page=None, protect_content=None)`
+- `bot.approveSuggestedPost(chat_id, message_id, send_date=None)`
+- `bot.declineSuggestedPost(chat_id, message_id, comment=None)`
+- `bot.setChatMemberTag(chat_id, user_id, tag=None)`
+- `bot.answerGuestQuery(guest_query_id, result)`
+- `bot.answerChatJoinRequestQuery(chat_join_request_query_id, result)`
+- `bot.sendChatJoinRequestWebApp(chat_join_request_query_id, web_app_url)`
+- `bot.getManagedBotToken(user_id)`
+- `bot.replaceManagedBotToken(user_id)`
+- `bot.getManagedBotAccessSettings(user_id)`
+- `bot.setManagedBotAccessSettings(user_id, is_access_restricted, added_user_ids=None)`
+
+## Bot
+
+- `Bot.setAutoTranslate(enabled=True)`
+- `Bot.getAutoTranslate()`
+- `Bot.saveData(name, data, bot_id=None, api_key=None)`
+- `Bot.getData(name, bot_id=None, api_key=None)`
+- `Bot.deleteData(name, bot_id=None)`
+- `Bot.getDataFile(name, output_format='txt')`
+- `Bot.getAllData(output_format='json')`
+- `Bot.deleteAllData(except_data=None)`
+- `Bot.genRandomId()`
+- `Bot.gen_random_id()`
+- `Bot.genRandomErrorId()`
+- `Bot.genId()`
+- `Bot.stop(bot_id=None, api_key=None)`
+- `Bot.start(bot_id=None, api_key=None)`
+- `Bot.status(bot_id, api_key)`
+- `Bot.Transfer(email, bot_id, bot_token=None, run_now=False)`
+- `Bot.runCommandAfter(timeout, command, options=None)`
+- `Bot.cancelScheduledTask(job_id)`
+- `Bot.getBroadcastStatus(broadcast_id)`
+- `Bot.stopBroadcast(broadcast_id)`
+- `Bot.clearBroadcast(broadcast_id=None)`
+- `Bot.setBroadcastSpeed(broadcast_id, speed)`
+- `Bot.listBroadcasts(status=None, limit=20)`
+- `Bot.pauseBroadcast(broadcast_id)`
+- `Bot.resumeBroadcast(broadcast_id, speed=None)`
+- `Bot.getBroadcastProgress(broadcast_id)`
+- `Bot.rerunBroadcast(broadcast_id, speed=None)`
+- `Bot.broadcast(code=None, command=None, callback_url=None, bot_id=None, api_key=None, function=None, warnings=None, mode=None, bot_ids=None, speed=None, **kwargs)`
+- `Bot.handleNextCommand(command, options=None, cancel_at_command=False)`
+- `Bot.genCaptcha(mode, captcha=None)`
+- `Bot.runCommand(command, options=None)`
+- `Bot.info(bot_id=None, api_key=None)`
+- `Bot.getBotUsersFile(output_format='json', include_creation_date=False, include_last_active_date=False)`
+- `Bot.getStats(time_frames=None, bot_id=None, api_key=None)`
+- `Bot.blockUser(user_id)`
+- `Bot.unblockUser(user_id)`
+- `Bot.getBlockedUsers()`
+- `Bot.getBlockedUsersCount()`
+- `Bot.getBlockedUsersFile()`
+
+## User
+
+- `User.saveData(name, data, user=None, data_type=None, bot_id=None, api_key=None)`
+- `User.getData(name, user=None, bot_id=None, api_key=None)`
+- `User.deleteData(name, user=None, data_type=None, bot_id=None, api_key=None)`
+- `User.getDataFile(name, user=None, output_format='txt')`
+- `User.getAllData(name=None, output_format='json', old_data=False)`
+- `User.getAllDataOfUser(user, output_format='json')`
+- `User.deleteAllData(name=None, old_data=False, except_data=None)`
+- `User.deleteAllDataOfUser(user)`
+
+## Account
+
+- `Account.saveData(name, data)`
+- `Account.getData(name)`
+- `Account.deleteData(name)`
+- `Account.getDataFile(name, output_format='txt')`
+- `Account.getAllData(name=None, output_format='json')`
+- `Account.deleteAllData(except_data=None, include_bot_data=False)`
+- `Account.info()`
+- `Account.start_bot(botid)`
+- `Account.stop_bot(botid)`
+- `Account.restart_bot(botid)`
+- `Account.create_bot(bot_token, bot_name=None, bot_username=None)`
+- `Account.gen_random_id()`
+- `Account.delete_bot(botid, permanent=False)`
+- `Account.get_deleted_bots()`
+- `Account.recover_bot(botid, new_token=None)`
+- `Account.get_deleted_bots_stats()`
+- `Account.permanent_delete_bot(botid)`
+- `Account.clear_expired_bots()`
+- `Account.clone_bot(botid, new_token=None)`
+- `Account.get_bots_list()`
+- `Account.get_bot_info(botid)`
+- `Account.get_bot_status(botid)`
+- `Account.get_bot_data(botid, name)`
+- `Account.set_bot_data(botid, name, data)`
+- `Account.create_command(botid, command, code)`
+- `Account.delete_command(botid, command)`
+- `Account.edit_command(botid, command, code)`
+- `Account.get_command_list(botid)`
+- `Account.get_command_info(botid, command)`
+- `Account.get_command_usage(botid, command, period='all')`
+- `Account.blockUser(user_id)`
+- `Account.unblockUser(user_id)`
+- `Account.getBlockedUsers(botid)`
+- `Account.getBlockedUsersFile(botid=None, output_format='csv')`
+- `Account.get_blocked_users_count(botid=None)`
+- `Account.get_bots_stats()`
+- `Account.get_bot_stats(botid)`
+- `Account.get_bot_usage(botid, period='all')`
+- `Account.get_stats()`
+- `Account.export_bot(botid, format='json', include_bot_data=False)`
+- `Account.import_commands(import_data, botid, remove_old_command=False, format='json')`
+- `Account.parse_import_data(import_file, file_format='json')`
+- `Account.import_bot(import_data, new_token=None, format='json')`
+- `Account.revoke_api()`
+- `Account.getStats(time_frames=None, bot_ids=None)`
+- `Account.TransferData(from_bot, to_bot)`
+

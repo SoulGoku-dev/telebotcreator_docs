@@ -426,15 +426,17 @@ TPY offers various libraries to extend your bot's functionality. These libraries
     ```
 *   **libs.web3lib**
 
-    * `setKeys(private_key)`: Sets your private key for web3 transactions.
-    * `sendETHER(value, to, contract, rpc_url, gasPrice=None, private_key=None)`: Sends Ether or tokens.
-    * `sendPolygon(value, to, private_key=None)`: Sends MATIC tokens.
+    * `sendNativeCoin(value, to, private_key, network=..., ...)`: Sends the chain's native coin (BNB, ETH, MATIC…).
+    * `sendETHER(value, to, private_key, network=..., contract_address=..., decimals=18, ...)`: Sends an ERC-20/BEP-20 token via the contract's `transfer`.
+    * `getBalance(address, network=...)`, `getTokenBalance(address, contract_address, network=...)`, `get_supported_networks()`.
+    * Private keys are **never stored on the server**: pass `private_key=` on every call (keep it in your `.env` command).
 
     **Example:**
 
     ```python
-    libs.web3lib.setKeys("your_private_key")
-    libs.web3lib.sendETHER(1, "recipient_wallet_address", "contract_address", "https://rpc_url")
+    # .env command:  WALLET_KEY = "your_private_key"
+    tx = libs.web3lib.sendETHER(1, "recipient_wallet_address", private_key=WALLET_KEY,
+                                network="bsc", contract_address="token_contract_address")
     ```
 
 **3. Utility Libraries**
