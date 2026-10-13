@@ -162,6 +162,8 @@ Telebot Creator now features a modern, redesigned dashboard:
 ## All Documentation Pages
 
 - [How to create a Telegram bot: quick start](getting-started.md)
+- [BotFather: create a bot and get its token](botfather-and-bot-token.md)
+- [AI Telegram bot builder](ai-telegram-bot-builder.md)
 - [Telegram bot commands in TPY](command-in-tpy.md)
 - [TPY language reference](tpy-language-reference.md)
 - [TPY method index](tpy-method-index.md)
@@ -180,6 +182,9 @@ Telebot Creator now features a modern, redesigned dashboard:
 - [TON blockchain](ton-library-documentation.md)
 - [Crypto libraries (Web3, EVM)](crypto-libraries-documentation.md)
 - [Example bots and use cases](real-world-use-cases.md)
+- [How to make a ChatGPT Telegram bot](chatgpt-telegram-bot.md)
+- [How to add a bot to a Telegram group or channel](how-to-add-a-bot-to-a-telegram-group.md)
+- [Free Telegram bot hosting](free-telegram-bot-hosting.md)
 - [Tips and troubleshooting](tips-best-practices-and-troubleshooting.md)
 - [FAQ](frequently-asked-questions-faqs.md)
 - [Glossary](glossary-and-key-concepts.md)

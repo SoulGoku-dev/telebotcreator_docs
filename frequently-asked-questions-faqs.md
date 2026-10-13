@@ -25,7 +25,7 @@ Yes, Telebot Creator is 100% free to use. Points are unlimited and a command exe
 
 ### How do I create my first bot?
 
-Creating your first bot on Telebot Creator takes less than 5 minutes. First, register a free account at telebotcreator.com. Next, open Telegram and message @BotFather — use the `/newbot` command to create a new bot and copy the API token it gives you. Then go to the TBC dashboard, click "Add New Bot," paste your token, and click "Create Bot." Your bot appears on the dashboard in Stopped status. Click on it, go to Commands, add a `/start` command with code like `bot.sendMessage("Hello!")`, save it, and click Start. Your bot is now live on Telegram. For a detailed walkthrough with code examples, see the [Getting Started guide](getting-started.md).
+Creating your first bot on Telebot Creator takes less than 5 minutes. First, register a free account at telebotcreator.com. Next, open Telegram and message @BotFather — use the `/newbot` command to create a new bot and copy the API token it gives you. Then go to the TBC dashboard, click "Add New Bot," paste your token, and click "Create Bot." Your bot appears on the dashboard in Stopped status. Click on it, go to Commands, add a `/start` command with code like `bot.sendMessage("Hello!")`, save it, and click Start. Your bot is now live on Telegram. For a detailed walkthrough with code examples, see the [Getting Started guide](getting-started.md). Everything about tokens is in the [BotFather guide](botfather-and-bot-token.md), and what the free hosting includes is in [Free Telegram Bot Hosting](free-telegram-bot-hosting.md).
 
 ### What are the limitations of the free plan?
 
@@ -85,7 +85,7 @@ response = assistant.send_message(msg)
 bot.sendMessage(str(response.get("content")[0]['text']['value']))
 ```
 
-TBC also supports Gemini via `libs.gemini_lib` and OpenRouter for access to 100+ AI models. AI commands can run up to 160 seconds, giving plenty of time for complex AI responses.
+TBC also supports Gemini via `libs.gemini_lib` and OpenRouter for access to 100+ AI models. AI commands can run up to 160 seconds, giving plenty of time for complex AI responses. A complete bot, step by step: [How to Make a ChatGPT Telegram Bot](chatgpt-telegram-bot.md).
 
 ### How do I accept crypto payments?
 

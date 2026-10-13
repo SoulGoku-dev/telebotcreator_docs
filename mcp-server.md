@@ -12,6 +12,8 @@ account.
 
 Free for every user.
 
+> **No setup at all:** the dashboard has its own assistant. See [AI Telegram Bot Builder](ai-telegram-bot-builder.md).
+
 ---
 
 ## Connect in 3 steps

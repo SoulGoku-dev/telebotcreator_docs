@@ -544,7 +544,7 @@ Connect your bot with external services using the Webhook library.
 
 **16. libs.openai_lib**
 
-Provides a client for interacting with OpenAI's API and OpenRouter API, enabling AI-powered features in your bot.
+Provides a client for interacting with OpenAI's API and OpenRouter API, enabling AI-powered features in your bot. A complete bot, step by step: [How to Make a ChatGPT Telegram Bot](chatgpt-telegram-bot.md).
 
 * **Classes**:
   * `OpenAIClient`: Core client for interacting with OpenAI API or OpenRouter API.

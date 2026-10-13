@@ -5,6 +5,8 @@
 ## Getting Started
 * [Telebot Creator Docs: Build Telegram Bots](README.md)
 * [How to Create a Telegram Bot (Quick Start)](getting-started.md)
+* [BotFather: Create a Bot and Get Its Token](botfather-and-bot-token.md)
+* [AI Telegram Bot Builder](ai-telegram-bot-builder.md)
 * [Telegram Bot Commands in TPY](command-in-tpy.md)
 
 ## Core Reference
@@ -29,6 +31,9 @@
 
 ## Guides & Examples
 * [Telegram Bot Examples and Use Cases](real-world-use-cases.md)
+* [How to Make a ChatGPT Telegram Bot](chatgpt-telegram-bot.md)
+* [How to Add a Bot to a Telegram Group or Channel](how-to-add-a-bot-to-a-telegram-group.md)
+* [Free Telegram Bot Hosting](free-telegram-bot-hosting.md)
 * [Tips, Best Practices & Troubleshooting](tips-best-practices-and-troubleshooting.md)
 * [Telebot Creator FAQ](frequently-asked-questions-faqs.md)
 * [Glossary & Key Concepts](glossary-and-key-concepts.md)

@@ -7,7 +7,7 @@ description: >-
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-This guide shows how to create a Telegram bot from scratch on Telebot Creator: from registration to a working bot that is hosted for free. You do not need a server or prior programming experience, and the AI assistant in the dashboard can write the commands for you if you prefer.
+This guide shows how to create a Telegram bot from scratch on Telebot Creator: from registration to a working bot that is hosted for free. You do not need a server or prior programming experience, and the [AI assistant](ai-telegram-bot-builder.md) in the dashboard can write the commands for you if you prefer.
 
 ---
 
@@ -37,7 +37,7 @@ Before adding a bot to TBC, you need a **Bot API token** from Telegram:
 4. BotFather will give you a token like: `7123456789:AAFoXXR2e-Token-Example`
 5. **Copy this token** — you'll paste it into TBC in the next step
 
-> **Keep your token secret!** Anyone with your token can control your bot.
+> **Keep your token secret!** Anyone with your token can control your bot. How to find it again or replace it: [BotFather: Create a Bot and Get Its Token](botfather-and-bot-token.md).
 
 ---
 
@@ -157,7 +157,9 @@ Now that your bot is running, explore these topics:
 4. **[Real-World Use Cases](real-world-use-cases.md)** — Build referral bots, payment bots, AI chatbots, and more
 5. **[Keyboards and Buttons](keyboards-and-buttons.md)** — Inline buttons, reply keyboards and what a tap runs
 6. **[Payments](payments.md)** and **[Monetization](monetization.md)** — Sell in your bot and earn from rewarded ads
-7. **[Build Bots With AI](mcp-server.md)** — Let an AI assistant build and test bots for you
-8. **[FAQ](frequently-asked-questions-faqs.md)** — Common questions and quick answers
+7. **[AI Telegram Bot Builder](ai-telegram-bot-builder.md)** — Let the AI assistant in the dashboard build and test the bot for you
+8. **[How to Make a ChatGPT Telegram Bot](chatgpt-telegram-bot.md)** — An AI chat bot in a few lines
+9. **[How to Add a Bot to a Telegram Group or Channel](how-to-add-a-bot-to-a-telegram-group.md)** — Groups, channels and admin rights
+10. **[FAQ](frequently-asked-questions-faqs.md)** — Common questions and quick answers
 
 > **Need help?** Join the [TBC Community Group](https://t.me/telebotcreatorbetachat) on Telegram.
