@@ -13,11 +13,10 @@ bot.sendInvoice(
     provider_token="",
     currency="XTR",
     prices=[{"label": "Pro plan", "amount": 50}],
-    chat_id=u,
 )
 ```
 
-- `chat_id=u` is required. `sendInvoice` does not fill in the current chat by itself.
+- The invoice goes to the user who triggered the command. Add `chat_id=...` to send it to another chat.
 - For Stars use `currency="XTR"` and an empty `provider_token`. `amount` is the number of Stars.
 - For money through a provider, put the provider token from @BotFather in `provider_token`, the currency code (`"USD"`, `"EUR"`) in `currency`, and give `amount` in the smallest unit: `500` is 5.00.
 - `invoice_payload` is your own label for the purchase. The user never sees it, and you get it back when the payment arrives.
@@ -76,6 +75,6 @@ bot.refundStarPayment(int(u), charge)
 
 ## Checklist
 
-1. `/buy` (or a button) sends the invoice with `chat_id=u`.
+1. `/buy` (or a button) sends the invoice.
 2. `/handler_pre_checkout_query` answers `True`.
 3. `*` checks `message.get("successful_payment")` and delivers.

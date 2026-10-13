@@ -52,7 +52,6 @@ if doc:
 
 - `bot.getFileUrl(file_id)` gives a download link and `HTTP.get(link).content` gives the bytes. Telegram lets a bot download files of up to 20 MB.
 - The link contains the bot token. Never send it to a user and never save it.
-- On a bot with **Faster Response** turned on this download does not work. Pass the file on by its `file_id` instead.
 
 ## Common mistakes
 

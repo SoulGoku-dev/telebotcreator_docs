@@ -933,8 +933,7 @@ An image-processing toolkit built on **OpenCV (cv2)** and **NumPy**. Images are 
 *   **Example — resize a photo the user sent**:
 
     ```python
-    file_info = bot.getFile(message.photo[-1].file_id)
-    raw = HTTP.get(f"https://api.telegram.org/file/bot{bot_token}/{file_info.file_path}").content
+    raw = HTTP.get(bot.getFileUrl(message.photo[-1].file_id)).content
 
     img = libs.OpenCV.read_image_from_bytes(raw)
     small = libs.OpenCV.resize(img, width=320)
