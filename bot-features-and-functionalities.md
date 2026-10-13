@@ -520,25 +520,28 @@ Track and reward users for referring others to your bot.
     * Generate a unique referral link using `params` in the `/start` command.
 
     ```python
-    pythonCopyEditbot.sendMessage(f"Invite your friends using this link: t.me/{bot.username}?start={u}")
+    bot.sendMessage(f"Invite your friends using this link: t.me/{Bot.info().username}?start={u}")
     ```
 2.  **Track Referrals**:
 
     * When a new user joins using the link, log the referrer.
 
     ```python
-    pythonCopyEditreferrer = params
-    if referrer:
+    referrer = str(params)
+    if referrer.isdigit() and referrer != str(u) and not User.getData("invited_by"):
+        User.saveData("invited_by", referrer)
         referrer_points = libs.Resources.userRes("points", referrer)
         referrer_points.add(10)
         bot.sendMessage(f"User {referrer} has earned 10 points!")
     ```
+
+    For a plain `/start`, `params` is the text `None`, so check that it is a number before you reward anybody.
 3.  **Reward Top Referrers**:
 
     * Use `libs.Resources.userRes` to fetch the top contributors.
 
     ```python
-    pythonCopyEdittop_referrers = libs.Resources.userRes("points").getAllData(5)
+    top_referrers = libs.Resources.userRes("points").getAllData(5)
     bot.sendMessage(f"Top referrers: {top_referrers}")
     ```
 

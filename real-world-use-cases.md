@@ -31,7 +31,7 @@ A referral system tracks users who invite others to the bot and rewards them wit
 In the `/start` command, include the user’s ID as a parameter to generate a referral link:
 
 ```python
-bot.sendMessage(f"Invite your friends using this link: t.me/{bot.username}?start={u}")
+bot.sendMessage(f"Invite your friends using this link: t.me/{Bot.info().username}?start={u}")
 ```
 
 **Step 2: Track Referrals**
@@ -39,12 +39,15 @@ bot.sendMessage(f"Invite your friends using this link: t.me/{bot.username}?start
 In the `/start` command, check if a referral ID is provided:
 
 ```python
-referrer_id = params
-if referrer_id:
+referrer_id = str(params)
+if referrer_id.isdigit() and referrer_id != str(u) and not User.getData("invited_by"):
+    User.saveData("invited_by", referrer_id)
     referrer_points = libs.Resources.userRes("points", referrer_id)
     referrer_points.add(10)
     bot.sendMessage(f"User {referrer_id} has earned 10 points for referring you!")
 ```
+
+`params` is the text after `/start` in the invite link. For a plain `/start` it is the text `None`, so check that it is a number before you reward anybody. The check on `invited_by` makes sure a user is counted once, and never for inviting themselves.
 
 **Step 3: Reward Users**
 

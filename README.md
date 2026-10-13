@@ -19,9 +19,9 @@ TBC uses **TPY (Telebot Python)**, a custom scripting language based on Python. 
 
 | Metric | Value |
 |---|---|
-| **Active Bots** | 80,000+ |
-| **Total Bots Created** | 150,000+ |
-| **Telegram Users Served** | 20,000,000+ |
+| **Bots Running** | 240,000+ |
+| **Total Bots Created** | 420,000+ |
+| **Bot Users** | 60,000,000+ |
 | **TBC Platform Version** | 7.1.2 |
 | **Telegram Bot API** | 10.1 |
 | **Libraries** | 30+ built-in |

@@ -61,6 +61,8 @@ refer_id = params
 bot.sendMessage(f"You were referred by ID: {refer_id}.")
 ```
 
+When a command arrives with nothing after it (a plain `/start`), `params` is the text `None`. Check it before you use it, for example with `str(params).isdigit()` for a user ID.
+
 ***
 
 **3.4 Handling User Interactions**

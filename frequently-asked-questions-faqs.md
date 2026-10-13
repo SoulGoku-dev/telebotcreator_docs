@@ -17,7 +17,7 @@ Quick answers to the most common questions about Telebot Creator. If your questi
 
 ### What is Telebot Creator?
 
-Telebot Creator (TBC) is a free online platform for building, hosting, and managing Telegram bots. It uses TPY (Telebot Python), a custom scripting language based on Python, which includes over 30 built-in libraries for AI integration, cryptocurrency payments, data management, webhooks, and more. The platform hosts over 80,000 active bots serving more than 20 million Telegram users as of 2026. You don't need your own server — TBC handles all hosting, scaling, and infrastructure. Every new account receives 100,000 free execution points per month, making it completely free to build and run bots. Whether you're a complete beginner or an experienced developer, TBC provides the tools to create anything from simple auto-reply bots to complex AI-powered applications.
+Telebot Creator (TBC) is a free online platform for building, hosting, and managing Telegram bots. It uses TPY (Telebot Python), a custom scripting language based on Python, which includes over 30 built-in libraries for AI integration, cryptocurrency payments, data management, webhooks, and more. More than 240,000 bots are running on the platform, with over 60 million bot users, as of October 2026. You don't need your own server — TBC handles all hosting, scaling, and infrastructure. Points are unlimited and a command execution costs 0 points, so it is completely free to build and run bots. Whether you're a complete beginner or an experienced developer, TBC provides the tools to create anything from simple auto-reply bots to complex AI-powered applications.
 
 ### Is Telebot Creator really free?
 
