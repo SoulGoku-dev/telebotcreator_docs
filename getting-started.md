@@ -15,8 +15,8 @@ This guide shows how to create a Telegram bot from scratch on Telebot Creator: f
 
 1. Go to [telebotcreator.com/register](https://telebotcreator.com/register)
 2. Enter your email address and choose a strong password
-3. Complete the CAPTCHA verification
-4. Click **Register**
+3. Click **Send verification code**. A 6-digit code arrives in your email
+4. Enter the code and click **Create account**
 5. Log in with your email and password
 
 You'll land on the **Dashboard** — your home base for managing all your bots.

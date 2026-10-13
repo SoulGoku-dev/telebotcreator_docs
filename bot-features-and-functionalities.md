@@ -520,7 +520,8 @@ Track and reward users for referring others to your bot.
     * Generate a unique referral link using `params` in the `/start` command.
 
     ```python
-    bot.sendMessage(f"Invite your friends using this link: t.me/{Bot.info().username}?start={u}")
+    # Write your bot's username (without @) in place of YourBotUsername
+    bot.sendMessage(f"Invite your friends using this link: https://t.me/YourBotUsername?start={u}")
     ```
 2.  **Track Referrals**:
 

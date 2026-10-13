@@ -31,7 +31,8 @@ A referral system tracks users who invite others to the bot and rewards them wit
 In the `/start` command, include the user’s ID as a parameter to generate a referral link:
 
 ```python
-bot.sendMessage(f"Invite your friends using this link: t.me/{Bot.info().username}?start={u}")
+# Write your bot's username (without @) in place of YourBotUsername
+bot.sendMessage(f"Invite your friends using this link: https://t.me/YourBotUsername?start={u}")
 ```
 
 **Step 2: Track Referrals**
