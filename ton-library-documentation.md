@@ -1,3 +1,8 @@
+---
+description: >-
+  Use the TON blockchain in a Telegram bot: wallets, balances, transfers, jettons and TON Connect with the TON library of Telebot Creator.
+---
+
 # TON Library Documentation
 
 ## Introduction

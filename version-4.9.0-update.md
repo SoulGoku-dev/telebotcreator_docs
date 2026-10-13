@@ -1,3 +1,8 @@
+---
+description: >-
+  Telebot Creator 4.9.0: TON integration, time.sleep(), longer command timeouts, scheduling up to one year ahead, and bug fixes.
+---
+
 # Version 4.9.0 Update
 
 *Platform version at time of release: 4.9.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*

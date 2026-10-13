@@ -1,3 +1,8 @@
+---
+description: >-
+  Example Telegram bots with code: referral system, payment automation, surveys, crypto airdrop, notifications, event management and AI chatbot.
+---
+
 # Real-World Use Cases
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

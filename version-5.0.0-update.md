@@ -1,3 +1,8 @@
+---
+description: >-
+  Telebot Creator 5.0.0: longer command runtime, new statistics functions, data transfer between accounts and OpenRouter AI models.
+---
+
 # Version 5.0.0 Update
 
 *Platform version at time of release: 5.0.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*

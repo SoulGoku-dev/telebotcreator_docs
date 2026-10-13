@@ -1,8 +1,13 @@
+---
+description: >-
+  Official Telebot Creator documentation: create, host and manage Telegram bots for free with TPY, 30+ libraries, AI, payments, broadcasts and ads.
+---
+
 # Introduction to Telebot Creator
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-*Last updated: June 2026 | Maintained by Telebot Creator Team*
+*Last updated: October 2026 | Maintained by Telebot Creator Team*
 
 ## What is Telebot Creator?
 
@@ -75,19 +80,17 @@ Commands can:
 
 ---
 
-## Points System — It's Free
+## It's Free — Unlimited Points
 
-TBC uses a points system for bot hosting. Here's the deal:
+Bot hosting on TBC is free and there is no usage limit:
 
 | Feature | Details |
 |---|---|
-| **New Account Points** | 100,000 points free |
-| **Cost Per Command** | 1 point |
-| **Monthly Renewal** | Yes, every month |
-| **Extra Points** | Request free from admins anytime |
+| **Points** | Unlimited |
+| **Cost Per Command** | 0 points |
 | **Hidden Fees** | None — it's genuinely free |
 
-Each command execution (like responding to `/start`) costs 1 point. That means a new account can handle **100,000 command executions per month** for free.
+Running a command (like responding to `/start`) costs 0 points, so your bots can run as many commands as they need.
 
 ### Advertising Policy
 
@@ -103,6 +106,10 @@ TBC keeps the platform free through minimal, non-intrusive advertising:
 | Feature | Description |
 |---|---|
 | **Free Hosting** | No servers to manage. TBC hosts your bots for free. |
+| **Telebot Creator AI** | An AI assistant in the dashboard that builds, edits, tests and debugs your bots from a chat |
+| **Monetization** | Optional rewarded ads: you earn when your users watch them ([guide](monetization.md)) |
+| **Mini Apps** | Open web apps inside Telegram from your bot and get their data back ([guide](mini-apps.md)) |
+| **Auto-Translation** | Bot messages translated into 92 languages ([guide](auto-translation.md)) |
 | **AI Integration** | Built-in OpenAI (GPT-4o), Gemini, and OpenRouter support |
 | **Crypto Payments** | Coinbase Commerce, TON blockchain, Web3 (all EVM chains) |
 | **Broadcasting** | Send messages to all bot users at once |
@@ -149,6 +156,33 @@ Telebot Creator now features a modern, redesigned dashboard:
 - **Settings** — Update bot tokens, manage transfers, and configure bot options
 - **Notifications** — Real-time alerts for bot events
 - **Mobile-friendly** — Fully responsive design that works on all devices
+
+---
+
+## All Documentation Pages
+
+- [How to create a Telegram bot: quick start](getting-started.md)
+- [Telegram bot commands in TPY](command-in-tpy.md)
+- [TPY language reference](tpy-language-reference.md)
+- [TPY method index](tpy-method-index.md)
+- [Built-in libraries](tbc-libraries-libs.md)
+- [Bot features](bot-features-and-functionalities.md)
+- [Keyboards and buttons](keyboards-and-buttons.md)
+- [Files and media](files-and-media.md)
+- [Payments: Telegram Stars and invoices](payments.md)
+- [Telegram Mini Apps](mini-apps.md)
+- [Advanced features](advanced-features.md)
+- [Broadcast to all bot users](broadcast-function-in-tbc.md)
+- [Monetization with rewarded ads](monetization.md)
+- [Build bots with AI (MCP server)](mcp-server.md)
+- [Auto-translation into 92 languages](auto-translation.md)
+- [Coinbase payments](coinbase-library-tbc.md)
+- [TON blockchain](ton-library-documentation.md)
+- [Crypto libraries (Web3, EVM)](crypto-libraries-documentation.md)
+- [Example bots and use cases](real-world-use-cases.md)
+- [Tips and troubleshooting](tips-best-practices-and-troubleshooting.md)
+- [FAQ](frequently-asked-questions-faqs.md)
+- [Glossary](glossary-and-key-concepts.md)
 
 ---
 

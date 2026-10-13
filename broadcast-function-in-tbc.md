@@ -1,3 +1,8 @@
+---
+description: >-
+  Send a broadcast to every user of your Telegram bot: text, media and command broadcasts, limits, and what to check when one does not go out.
+---
+
 # Broadcast Function In TBC
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

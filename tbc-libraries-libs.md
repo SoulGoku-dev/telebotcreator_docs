@@ -1,3 +1,8 @@
+---
+description: >-
+  Reference for the built-in libraries of Telebot Creator: HTTP, Webhook, CSV, Resources, Random, DateAndTime, AI, payments, crypto and more.
+---
+
 # TBC Libraries (Libs)
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -384,7 +389,7 @@ This library is designed to interact with all supported EVM chains. It offers fu
 
 Additionally, the following aliases are available for token transfers:\
 `send_ether`, `sendether`, and `sendEther` (all reference the same function as `sendETHER`).\
-For more details please read [https://help.telebotcreator.com/crypto-libraries-documentation](https://help.telebotcreator.com/crypto-libraries-documentation).
+For more details please read [Crypto Libraries (Web3, EVM)](crypto-libraries-documentation.md).
 
 ***
 

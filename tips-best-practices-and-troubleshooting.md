@@ -1,3 +1,8 @@
+---
+description: >-
+  Tips and fixes for Telegram bots on Telebot Creator: faster commands, best practices, and how to solve the most common problems.
+---
+
 # Tips, Best Practices, and Troubleshooting
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -247,7 +252,7 @@ This section provides essential guidance for optimizing bot performance, managin
 
 #### **Monitor Bot Performance**
 
-*   Use `Bot.info()` to retrieve metrics like status, user engagement, and remaining points:
+*   Use `Bot.info()` to retrieve metrics like status and user engagement:
 
     ```python
     details = Bot.info(bot_id="123456")

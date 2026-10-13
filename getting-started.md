@@ -1,8 +1,13 @@
+---
+description: >-
+  How to create a Telegram bot step by step: get a token from BotFather, add the bot to Telebot Creator, write your first commands and start it.
+---
+
 # Getting Started
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
 
-This guide walks you through creating your first Telegram bot on Telebot Creator, from registration to a working bot. No prior programming experience required.
+This guide shows how to create a Telegram bot from scratch on Telebot Creator: from registration to a working bot that is hosted for free. You do not need a server or prior programming experience, and the AI assistant in the dashboard can write the commands for you if you prefer.
 
 ---
 
@@ -16,7 +21,7 @@ This guide walks you through creating your first Telegram bot on Telebot Creator
 
 You'll land on the **Dashboard** — your home base for managing all your bots.
 
-> **Free account includes**: 100,000 execution points per month, unlimited bots, access to all 30+ libraries.
+> **Free account includes**: unlimited points (a command costs 0 points), unlimited bots, access to all 30+ libraries.
 
 ---
 
@@ -150,6 +155,9 @@ Now that your bot is running, explore these topics:
 2. **[TPY Language Reference](tpy-language-reference.md)** — Full reference for all built-in functions, classes, and globals
 3. **[Libraries](tbc-libraries-libs.md)** — Explore 30+ libraries for AI, payments, data, and more
 4. **[Real-World Use Cases](real-world-use-cases.md)** — Build referral bots, payment bots, AI chatbots, and more
-5. **[FAQ](frequently-asked-questions-faqs.md)** — Common questions and quick answers
+5. **[Keyboards and Buttons](keyboards-and-buttons.md)** — Inline buttons, reply keyboards and what a tap runs
+6. **[Payments](payments.md)** and **[Monetization](monetization.md)** — Sell in your bot and earn from rewarded ads
+7. **[Build Bots With AI](mcp-server.md)** — Let an AI assistant build and test bots for you
+8. **[FAQ](frequently-asked-questions-faqs.md)** — Common questions and quick answers
 
 > **Need help?** Join the [TBC Community Group](https://t.me/telebotcreatorbetachat) on Telegram.

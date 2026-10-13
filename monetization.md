@@ -1,3 +1,8 @@
+---
+description: >-
+  Earn money from a Telegram bot with rewarded ads: turn ads on, show an ad with libs.tbcads, reward the user, and follow earnings and payouts.
+---
+
 # Monetization — Rewarded Ads (libs.tbcads)
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

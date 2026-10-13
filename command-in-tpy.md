@@ -1,3 +1,8 @@
+---
+description: >-
+  How Telegram bot commands work in Telebot Creator: create /start and other commands, read what the user sent, pass parameters and chain commands.
+---
+
 # Command in TPY
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

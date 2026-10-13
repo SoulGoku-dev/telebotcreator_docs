@@ -1,3 +1,8 @@
+---
+description: >-
+  Accept crypto payments in a Telegram bot with the Coinbase library: deposit addresses, a webhook for deposit notifications and transactions.
+---
+
 # Coinbase Library TBC
 
 #### **12. Coinbase Library (libs.Coinbase)**

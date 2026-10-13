@@ -1,3 +1,8 @@
+---
+description: >-
+  Open Telegram Mini Apps (Web Apps) from your bot with web_app buttons and read the data the page sends back to a TPY command.
+---
+
 # Mini Apps (Web Apps)
 
 A mini app is a web page that opens inside Telegram from a button of your bot. The page is yours: host it on any `https://` address. Telebot Creator runs the bot side.

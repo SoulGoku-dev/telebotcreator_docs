@@ -1,3 +1,8 @@
+---
+description: >-
+  Inline keyboards, reply keyboards and callback buttons for Telegram bots in TPY: how to build them and which command runs when a user taps.
+---
+
 # Keyboards and Buttons
 
 A keyboard is passed as `reply_markup` to any sending method. Write it as a plain dictionary.

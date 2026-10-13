@@ -1,3 +1,8 @@
+---
+description: >-
+  What a bot can do on Telebot Creator: user and bot data, keyboards, scheduled commands, command chaining, inline mode, admin tools and more.
+---
+
 # Bot Features and Functionalities
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -206,7 +211,7 @@ csv.add_row({"User": "Alice", "Points": 50})
 
 #### **6.10 Real-Time User Points**
 
-The `left_points` global variable tracks the remaining points for executing commands.
+The `left_points` global variable holds the account's points. Points are unlimited now and a command costs 0 points, so you do not need to check it.
 
 **Example**:
 

@@ -1,3 +1,8 @@
+---
+description: >-
+  Telebot Creator 4.7.0: OpenAI and Gemini libraries, adminRes, data file exports for users and bots, and other improvements.
+---
+
 # Version 4.7.0 Update
 
 *Platform version at time of release: 4.7.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*

@@ -1,3 +1,8 @@
+---
+description: >-
+  Complete TPY (Telebot Python) reference: built-in variables, the bot, Bot, User and Account classes, Telegram methods and the globals you can use.
+---
+
 # TPY Language Reference
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -115,7 +120,7 @@ TPY provides global objects and functions to help you build your bot without nee
 | **`params`**             | Stores additional parameters passed to a command (e.g., `/start referral_id`).              |
 | **`u`**                  | Represents the ID of the current user interacting with the bot.                             |
 | **`options`**            | Contains data passed to commands, such as webhook responses or additional input parameters. |
-| **`left_points`**        | Tracks the remaining points available for the bot in the current month.                     |
+| **`left_points`**        | The account's points. Points are unlimited and a command costs 0 points.                    |
 | **`isNumeric`**          | A helper function to check if a value is numeric.                                           |
 | **`MembershipCheck`**    | Verifies user membership in a group or channel.                                             |
 | **`encodejson`**         | Encodes a dictionary into a JSON string.                                                    |
@@ -170,7 +175,7 @@ The `Bot` class offers advanced methods to manage bots, handle broadcasts, manag
 
 ```python
 # Transfer a bot to another account and start it
-bot.Transfer(email="user@example.com", bot_id="12345", run_now=True)
+bot.Transfer(email="NEW_OWNER_EMAIL", bot_id="12345", run_now=True)
 
 # Start a broadcast
 bot.broadcast(command="send_newsletter", function="broadcast_news")

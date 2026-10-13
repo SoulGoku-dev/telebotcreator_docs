@@ -1,3 +1,8 @@
+---
+description: >-
+  Accept payments in a Telegram bot with Telegram Stars and invoices: send the invoice, approve the checkout, deliver after payment, refund.
+---
+
 # Payments (Telegram Stars and Invoices)
 
 A bot can sell digital goods for Telegram Stars, or other goods through a payment provider connected in @BotFather. A payment has three steps, each in its own command.

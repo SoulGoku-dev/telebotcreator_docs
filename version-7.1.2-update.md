@@ -1,3 +1,8 @@
+---
+description: >-
+  Telebot Creator 7.1.2: the security library (HMAC, Ed25519, AES, hashing) and webhook headers and client IP inside webhook commands.
+---
+
 # Version 7.1.2 Update
 
 *Released: April 2026 | Platform version: 7.1.2 · Telegram Bot API 10.1*

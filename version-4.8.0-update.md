@@ -1,3 +1,8 @@
+---
+description: >-
+  Telebot Creator 4.8.0: the Account class, account-level Resources, bot recovery within 90 days, command aliases and more.
+---
+
 # Version 4.8.0 Update
 
 *Platform version at time of release: 4.8.0 | Current platform: 7.1.2 · Telegram Bot API 10.1*
@@ -17,6 +22,8 @@ The version 4.8.0 update introduces several powerful enhancements to improve you
 ## Advertising and Points System
 
 ### Points System Enhancements
+
+> **Update (2026):** points are now unlimited and a command execution costs 0 points. The numbers below describe version 4.8.0.
 
 Telebot Creator continues to offer one of the most generous free bot hosting solutions available:
 
@@ -237,7 +244,7 @@ bot.sendMessage(f"Account plan: {info.plan}, Points left: {info.points_left}")
 **Example Output:**
 ```json
 {
-  "email": "user@example.com",
+  "email": "ACCOUNT_EMAIL",
   "plan": "Premium",
   "points_resetAt": "2023-06-01 00:00:00",
   "points_left": 8500,
@@ -1219,7 +1226,7 @@ if stats["ok"]:
 {
   "ok": true,
   "result": {
-    "email": "user@example.com",
+    "email": "ACCOUNT_EMAIL",
     "plan": "Premium",
     "points_left": 8500,
     "points_used": 23450,
@@ -1283,7 +1290,7 @@ except ValueError as e:
 #   ],
 #   "export_info": {
 #     "date": "2023-05-20 10:15:43",
-#     "exporter": "user@example.com",
+#     "exporter": "ACCOUNT_EMAIL",
 #     "version": "1.0"
 #   }
 # }

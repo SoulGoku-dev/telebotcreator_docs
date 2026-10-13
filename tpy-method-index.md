@@ -1,3 +1,8 @@
+---
+description: >-
+  Index of every bot method in TPY with its arguments: sendMessage, sendPhoto, editMessageText, answerCallbackQuery and the rest of the Bot API.
+---
+
 # TPY method index
 
 Every method a command can call on `bot`, `Bot`, `User` and `Account`, with its arguments in order, listed from the platform code on 2026-10-13. Use it to check an exact name or argument; the other pages explain how to use them.

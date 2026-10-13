@@ -1,3 +1,8 @@
+---
+description: >-
+  Where to go next with Telebot Creator: ideas for your next bot, community and support, and the version history of the platform.
+---
+
 # Conclusion and Next Steps
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

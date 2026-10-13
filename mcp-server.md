@@ -1,3 +1,8 @@
+---
+description: >-
+  Connect an AI assistant to Telebot Creator through the MCP server and let it build, test and manage your Telegram bots for you.
+---
+
 # MCP Server — Build Bots With AI
 
 Connect Telebot Creator to Claude, Cursor, or any MCP-compatible AI and build

@@ -1,3 +1,8 @@
+---
+description: >-
+  Telegram Bot API 10.1 in Telebot Creator: gifts, stories, business accounts, checklists, suggested posts, verification and Stars methods.
+---
+
 # Telegram Bot API 10.1 Update
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*

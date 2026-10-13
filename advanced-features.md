@@ -1,3 +1,8 @@
+---
+description: >-
+  Advanced Telebot Creator features: scheduled commands, webhooks, bot transfer and cloning, the Account class and working across several bots.
+---
+
 # Advanced Features
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -161,7 +166,7 @@ Bot.Transfer(email: str, bot_id: str, bot_token: Optional[str] = None, run_now: 
 ```python
 try:
     result = Bot.Transfer(
-        email="<newowner>@example.com",
+        email="NEW_OWNER_EMAIL",
         bot_id="123456",
         bot_token="YOUR_BOT_API_TOKEN",
         run_now=True
@@ -196,7 +201,7 @@ Bot.info(bot_id: Optional[str] = None, api_key: Optional[str] = None) -> dict
 * **`status`**: The bot's current status (e.g., "Working", "Stopped").
 * **`username`**: The bot's Telegram username.
 * **`first_name`**: The bot's first name.
-* **`account_points`**: Remaining points in the owner's account.
+* **`account_points`**: Points in the owner's account (points are unlimited).
 * **`userstat`**: Number of users interacting with the bot.
 
 **Usage Example**
@@ -263,7 +268,7 @@ The `Bot.Transfer` function allows seamless migration of bots from one account t
     ```python
     try:
         result = Bot.Transfer(
-            email="partner@example.com",
+            email="PARTNER_EMAIL",
             bot_id="123456",
             bot_token="API_TOKEN",
             run_now=True
@@ -281,7 +286,7 @@ Use the `Bot.Transfer` function for multiple bots by iterating through bot IDs.
 bots_to_transfer = ["123456", "654321"]
 for bot_id in bots_to_transfer:
     try:
-        Bot.Transfer(email="newowner@example.com", bot_id=bot_id, run_now=False)
+        Bot.Transfer(email="NEW_OWNER_EMAIL", bot_id=bot_id, run_now=False)
         bot.sendMessage(f"Bot ID {bot_id} transferred successfully.")
     except Exception as e:
         bot.sendMessage(f"Failed to transfer Bot ID {bot_id}: {e}")
@@ -309,7 +314,7 @@ The `Bot.info()` function is a powerful tool for retrieving comprehensive bot de
 
     ```python
     details = Bot.info(bot_id="123456", api_key="VALID_API_KEY")
-    if details.owner_email == "admin@example.com":
+    if details.owner_email == "ADMIN_EMAIL":
         bot.sendMessage("Ownership verified.")
     ```
 3.  **Integration with Dashboards**:

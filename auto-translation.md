@@ -1,3 +1,8 @@
+---
+description: >-
+  Translate your Telegram bot's messages into 92 languages automatically, or pick the language and translate text yourself with libs.translate.
+---
+
 # Auto-Translation (libs.translate)
 
 Your bot can reply to every user in their own language. 92 languages, no API key,

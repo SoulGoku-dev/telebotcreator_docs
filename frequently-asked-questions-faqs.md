@@ -1,3 +1,8 @@
+---
+description: >-
+  Answers to common Telebot Creator questions: is it free, how to create a bot, commands, libraries, broadcasts, webhooks, transfers and errors.
+---
+
 # Frequently Asked Questions (FAQs)
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -16,7 +21,7 @@ Telebot Creator (TBC) is a free online platform for building, hosting, and manag
 
 ### Is Telebot Creator really free?
 
-Yes, Telebot Creator is 100% free to use. Every new account receives 100,000 execution points per month, where each bot command execution costs just 1 point. This means you can handle 100,000 user interactions per month at no cost. There are no hidden fees, no credit card required, no premium tiers, and no limits on the number of bots you can create. If you need more points, you can request them for free from the admin team in the TBC Help Group on Telegram. The platform sustains itself through minimal, non-intrusive advertising — just 2-4 broadcast messages per month. All 30+ libraries, the code editor, broadcasting, webhooks, and every feature are available to all users at no charge.
+Yes, Telebot Creator is 100% free to use. Points are unlimited and a command execution costs 0 points, so there is no usage limit. There are no hidden fees, no credit card required, no premium tiers, and no limits on the number of bots you can create. The platform sustains itself through minimal, non-intrusive advertising — just 2-4 broadcast messages per month. All 30+ libraries, the code editor, broadcasting, webhooks, and every feature are available to all users at no charge.
 
 ### How do I create my first bot?
 
@@ -24,18 +29,11 @@ Creating your first bot on Telebot Creator takes less than 5 minutes. First, reg
 
 ### What are the limitations of the free plan?
 
-The free plan includes 100,000 execution points per month (1 point per command execution), a maximum of 2 simultaneous broadcasts per bot, and up to 160 seconds of execution time per command. There is a global limit of 1,000 simultaneous broadcasts across all platform users. Scheduled commands are limited to 100 per user per bot, with scheduling possible up to one year in advance. There are no limits on the number of bots you can create, the number of commands per bot, or which libraries you can use. All features including AI integration, blockchain libraries, webhooks, broadcasting, and the full Telegram Bot API are available to every user. If you need more points, simply request them for free from the admin team.
+The free plan includes unlimited points (a command execution costs 0 points), a maximum of 2 simultaneous broadcasts per bot, and up to 160 seconds of execution time per command. There is a global limit of 1,000 simultaneous broadcasts across all platform users. Scheduled commands are limited to 100 per user per bot, with scheduling possible up to one year in advance. There are no limits on the number of bots you can create, the number of commands per bot, or which libraries you can use. All features including AI integration, blockchain libraries, webhooks, broadcasting, and the full Telegram Bot API are available to every user.
 
-### How do I check my remaining points?
+### Is there a limit on points?
 
-You can check your remaining points directly from your bot's code using the built-in `left_points` variable. Add a command like `/points` to your bot with this code:
-
-```python
-points = left_points
-bot.sendMessage(f"You have {points} points remaining this month.")
-```
-
-You can also check your points from the TBC dashboard in the account settings section.
+No. Points are unlimited and running a command costs 0 points, so a bot never stops because of points. You do not need to check the `left_points` variable in your code.
 
 ### Will there be advertisements in my bot?
 
@@ -173,7 +171,7 @@ Use the `Bot.Transfer()` function in any command:
 
 ```python
 result = Bot.Transfer(
-    email="newowner@example.com",
+    email="NEW_OWNER_EMAIL",
     bot_id=bot_id,
     bot_token=bot_token,
     run_now=True
@@ -203,11 +201,11 @@ stats = Account.getStats(time_frames=["24h", "7d"])
 
 ### How are points deducted?
 
-Each command execution costs exactly 1 point. This includes any command trigger — `/start`, callback queries, inline queries, webhook triggers, scheduled commands, and broadcast executions. Making HTTP requests, saving data, and using libraries within a command don't cost extra points — only the initial command trigger counts.
+They are not. Running a command costs 0 points: `/start`, callback queries, inline queries, webhook triggers, scheduled commands and broadcasts are all free, and so are HTTP requests, saving data and using libraries inside a command.
 
 ### What happens if I run out of points?
 
-Your bot stops responding to messages until points are replenished. Points renew every month, or you can request additional points at any time for free from the admin team in the TBC Help Group. There's no limit to how many points you can request.
+You cannot run out. Points are unlimited.
 
 ---
 
@@ -215,7 +213,7 @@ Your bot stops responding to messages until points are replenished. Points renew
 
 ### Why is my bot not responding?
 
-Common causes: the bot is in Stopped status (click Start), the command name doesn't match what the user sent, there's a syntax error in your TPY code (check Error Logs), or you've run out of points. Always check the Error Logs section in your bot's dashboard for specific error messages.
+Common causes: the bot is in Stopped status (click Start), the command name doesn't match what the user sent, or there's a syntax error in your TPY code (check Error Logs). Always check the Error Logs section in your bot's dashboard for specific error messages.
 
 ### How do I debug errors?
 

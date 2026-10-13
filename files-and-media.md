@@ -1,3 +1,8 @@
+---
+description: >-
+  Receive, send and read files in a Telegram bot: photos, documents, video and voice, file links, and reading a file inside a TPY command.
+---
+
 # Files and Media
 
 A command cannot read or write files on a disk. A file is always one of three things: a Telegram `file_id`, a public link, or bytes kept in a variable.

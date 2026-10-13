@@ -1,3 +1,8 @@
+---
+description: >-
+  Glossary of Telebot Creator terms: TPY, commands, points, broadcasts, webhooks, Resources, bot transfer and the other key concepts.
+---
+
 # Glossary and Key Concepts
 
 *Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
@@ -42,8 +47,8 @@ Quick reference for key terms and concepts used in Telebot Creator.
 
 #### **4. Points**
 
-* **Definition**: The internal currency of Telebot Creator used to execute bot operations. Each command execution costs 1 point.
-* **Monthly Allocation**: Users receive 100,000 points per month for free.
+* **Definition**: The internal counter of Telebot Creator for bot operations. Points are unlimited and a command execution costs 0 points.
+* **Monthly Allocation**: Unlimited.
 *   **Usage**:
 
     ```python
@@ -89,7 +94,7 @@ Quick reference for key terms and concepts used in Telebot Creator.
 
     ```python
     result = Bot.Transfer(
-        email="newowner@example.com",
+        email="NEW_OWNER_EMAIL",
         bot_id="123456",
         bot_token="API_TOKEN",
         run_now=True
