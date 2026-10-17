@@ -28,8 +28,10 @@ https://api.telebotcreator.com/v2/mcp/build
 
 **3.** Paste your API key on the page that opens.
 
-Your key is in the dashboard under **Settings → API Key**. That's it — your AI is
-now linked to your account.
+Your key is made in the dashboard under **Settings → API Key** (Regenerate). It is
+shown once, right after you generate it: copy it then. Afterwards the dashboard shows
+only its first characters, because Telebot Creator does not keep the key itself.
+That's it — your AI is now linked to your account.
 
 > **Docs only, no key needed.** If you just want your AI to read the Telebot
 > Creator documentation, use `https://api.telebotcreator.com/v2/mcp` instead.
@@ -153,7 +155,8 @@ X-API-Key: YOUR_API_KEY
 
 Keep your API key private — it grants full access to your bots. You can
 regenerate it any time from **Settings → API Key**, which instantly invalidates
-the old one.
+the old one. A key is shown only once, when it is generated; it is stored only as a
+hash, so it cannot be read back later — not even from the database.
 
 ---
 
@@ -162,8 +165,9 @@ the old one.
 **Only 4 tools appear.** You are connected to the public docs endpoint. Use
 `/v2/mcp/build` and complete the Connect step to get the full set.
 
-**"That API key was not recognised."** Copy the key again from **Settings → API
-Key** — it may have been regenerated.
+**"That API key was not recognised."** Generate a new key in **Settings → API
+Key** and paste that one — a key cannot be read back after it is made, and yours
+may have been regenerated.
 
 **Your AI writes `return` at the top of a command.** TPY commands are flat
 scripts, not functions. Tell it to use `raise ReturnCommand` instead. The server
