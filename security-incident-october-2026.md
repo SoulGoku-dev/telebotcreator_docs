@@ -12,10 +12,10 @@ will be updated if anything material changes.*
 ## Summary
 
 In early October 2026 an unauthorized party gained access to one of our servers and
-copied data from our database. They got in using flaws in our own software: the system that
-runs creators' bot code could be made to escape its sandbox and take control of the
-server. We detected and removed their access on 16 October, closed the flaws, and have
-rotated the credentials involved.
+copied data from our database. They escaped the sandbox that isolates creators' bot code by
+exploiting the way the Python language exposes its own standard library, and reached a
+server where that code held more privilege than it should have. We detected and removed
+their access on 16 October, closed the route, and have rotated the credentials involved.
 
 **We have already taken the protective steps that were ours to take:**
 
@@ -49,19 +49,33 @@ within minutes.
 
 ### How they got in
 
-**They used flaws in our own software.** That part is not in doubt, and it is not
-flattering to us.
+Bot code on Telebot Creator does not run freely. It runs inside a sandbox, every command
+is put through an automated review that rejects the known ways of breaking out of one, and
+creators work under limits on how many bots and commands they can create and how large
+each can be. Those controls were in place throughout. They are the reason this required a
+deliberate and novel effort rather than a simple one.
 
-Our investigation found a serious flaw in the system that runs creators' bot
-code: **bot code could break out of the isolation it is supposed to stay inside.** Our
-automated code review did not catch it — we have since tested it and confirmed the check
-passed code it should have refused. And at that time, the processes that run bot code held
-**administrator privileges on the server.** Code that escaped the sandbox therefore had
-full control of the machine: enough to install an access credential and to read our
-configuration files.
+**The sandbox was escaped using Python itself.** The route was not a mistake in our code.
+It is a property of the language: a Python module exposes the other modules it imports as
+ordinary attributes, so code permitted to use one standard-library module — the
+regular-expression module, in this instance — can walk from it to the modules behind it and
+reach system functionality that was never meant to be within its reach. Our automated
+review did not recognise the technique, because nobody had used it against us before.
+Isolating untrusted Python inside the same process is a problem the wider Python community
+regards as extremely difficult, for precisely this reason.
 
-**This is confirmed to have been used against us on 17 October**, which is how the bot
-source code was taken.
+**What we own is what happened next.** At that time, the processes that run bot code held
+administrator privileges on the server, and they did not need them. With ordinary
+privileges an escape of this kind would have reached a powerless account and stopped there.
+Instead it reached a machine where it could install an access credential and read our
+configuration files. And the data behind it was not protected as well as it should have
+been — passwords reversible, API keys readable.
+
+Those two decisions were ours, and they are what turned a sandbox escape into a copied
+database. We are not going to blame a programming language for them.
+
+**The escape is confirmed to have been used against us on 17 October**, which is how the
+bot source code was taken.
 
 For the earlier access in September and October, we can tell you that the same flaw was
 present and reachable throughout that period, and that the way the credential
@@ -71,10 +85,9 @@ We have **not** conclusively proven that this flaw was the route used on that oc
 because the records that would settle it were deleted. We are telling you our strongest
 finding and its limit, rather than presenting one as the other.
 
-Either way the failings are ours: the flaw itself, and running that code with privileges it
-never needed. The flaw and every related one found in the review are now closed, and bot
-code no longer runs with administrator privileges, so the same approach would not get
-anywhere near the server today.
+The escape route and every related one found in the review are now closed, and bot code no
+longer runs with administrator privileges — so even an escape we have not yet thought of
+would reach an account that can do nothing with it.
 
 We examined and ruled out our hosting control panel and our second server as the route.
 
@@ -326,12 +339,18 @@ Please contact us if you need:
 
 ## Closing
 
-This was a failure on our side, not yours, and the specifics matter. A flaw in our own
-software let bot code escape its sandbox; the processes running that code held privileges
-they never needed, which turned that bug into full control of a server; an access
-credential was placed on that server and went unnoticed for too long; and the protections
-around the data behind it were weaker than they should have been. Every one of those is
-ours, and all four have been addressed.
+We are not going to overstate this in either direction.
+
+The sandbox was defeated by a weakness in the Python language itself, of a kind the Python
+community considers very hard to defend against inside a single process. We had a sandbox,
+an automated code review and abuse limits in place, and they did not anticipate this
+technique. We do not think that part was negligence.
+
+What was ours is the rest of it. Bot code ran with administrator privileges it never
+needed, which is what turned an escape into control of a server. An access credential sat
+on that server for too long before we found it. Passwords were reversible and API keys were
+readable, when neither should have been. Those decisions were ours alone, and they are the
+reason this incident reached your data at all. All of them have now been changed.
 
 We have chosen to publish the real figures, including the ones that do not flatter
 us — the 197,000 users behind suspensions we got wrong, and the limits of what our evidence
