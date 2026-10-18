@@ -361,10 +361,6 @@ and we have strengthened every layer in response: bot execution is now fully iso
 from any privileged context on our servers, passwords are one-way hashed, API keys are
 one-way hashed, and the specific exploit chain and every related one is closed.
 
-We have chosen to publish the real figures, including the ones that do not flatter us —
-the 197,000 users behind suspensions we got wrong, and the limits of what our evidence
-can prove.
-
 We have chosen to publish the real figures, including the ones that do not flatter
 us — the 197,000 users behind suspensions we got wrong, and the limits of what our evidence
 can prove.
