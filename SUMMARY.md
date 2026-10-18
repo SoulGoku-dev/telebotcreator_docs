@@ -10,7 +10,7 @@
 * [Telegram Bot Commands in TPY](command-in-tpy.md)
 
 ## Security
-* [Security Incident Report (October 2026)](security-incident-october-2026.md)
+* [Security Notice (October 2026)](security-notice-october-2026.md)
 
 ## Core Reference
 * [TPY Language Reference](tpy-language-reference.md)
