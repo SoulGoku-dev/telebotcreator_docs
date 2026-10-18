@@ -9,9 +9,6 @@
 * [AI Telegram Bot Builder](ai-telegram-bot-builder.md)
 * [Telegram Bot Commands in TPY](command-in-tpy.md)
 
-## Security
-* [Security Notice — October 2026](security-incident-october-2026.md)
-
 ## Core Reference
 * [TPY Language Reference](tpy-language-reference.md)
 * [TPY Method Index](tpy-method-index.md)
