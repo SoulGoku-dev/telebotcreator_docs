@@ -237,23 +237,23 @@ Because the investigation cannot conclusively establish the full extent of acces
 
 ---
 
-## 5. Data Not Confirmed as Copied
+## 5. Data Not Copied
 
-Our investigation distinguishes between information that was demonstrably exported and information that may have been accessible during the compromise.
+**Please note:** the Bot, User, and Account **Class data** referred to in this section is a different thing from the bot, end-user, and account **record** collections listed in Section 4. Class data is the key-value storage your bots use at runtime through `Bot.saveData` / `Bot.getData`, `User.saveData` / `User.getData`, and `Account.saveData` / `Account.getData`. It is held in separate collections from the record tables.
 
-We have not established evidence that every record in the Bot, User, or Account collections was copied.
+Based on the attacker's own staged files and server logs, the following data was **not copied**:
 
-In particular:
+- **Bot Class data** — the stored data your bots use at runtime (balances, user state, counters, settings, and anything else your bot code writes via `Bot.saveData`). The underlying collection holds hundreds of millions of documents and none of it is in the attacker's staged file.
+- **Account Class data** — the stored data held through `Account.saveData` / `Account.getData`.
+- **User Class data** — the stored data held through `User.saveData` / `User.getData`.
+- **Payout, payment, and advertising revenue records** — not in the attacker's staged file.
+- **Full account record table** beyond the limited fields disclosed in Section 4.6.
+- **Full 60,958,113-record end-user record table** — only the subset in Section 4.5 is confirmed as exported.
+- **Full 423,914-record bot record table.**
+- **Telegram private message contents and phone numbers** — these are not fields in any of our collections.
+- The attacker also staged a further 12 GB of material on October 17 which **failed to transfer** and was never sent.
 
-- The full 423,914-record bot collection is not confirmed as exported.
-- The full 60,958,113-record end-user collection is not confirmed as exported.
-- The full 71,895-record account collection is not confirmed as exported.
-- Telegram private message contents are not part of the identified exported end-user record structure.
-- Telegram phone numbers and display names are not fields in that identified end-user dataset.
-
-**Absence of confirmed export evidence is not proof that information was never accessed.**
-
-We will not represent potentially exposed data as definitively unaffected while investigation limitations remain.
+**Investigation limitation.** For the window in which the attacker held elevated access, they had the technical ability to read data directly. We have described what the evidence proves was taken; we cannot prove the negative beyond that, and we will not claim it.
 
 ---
 
