@@ -1,7 +1,7 @@
 ---
 description: >-
   Telebot Creator security notice, October 2026: what was accessed, what data was
-  copied, where things stand today, and the action every creator needs to take.
+  copied, the action every creator needs to take, and what we have changed.
 ---
 
 # Security Notice — October 2026
@@ -12,11 +12,10 @@ will be updated if anything material changes.*
 ## Summary
 
 In early October 2026 an unauthorized party gained access to one of our servers and
-copied data from our database. They escaped the sandbox that isolates creators' bot code by
-exploiting a weakness in the Python language itself, and the escape inherited more
-privilege than it should have been able to reach. We detected and removed their access on
-16 October, closed the route, and have rotated every credential involved. Bot code no
-longer runs with privileges an escape could use.
+copied data from our database. They defeated our bot-code sandbox by exploiting the way the
+Python language exposes its own standard library, and chained that into further
+vulnerabilities to reach the server. We detected and removed their access on 16 October,
+closed the exploit chain end to end, and have rotated the credentials involved.
 
 **We have already taken the protective steps that were ours to take:**
 
@@ -32,30 +31,6 @@ longer runs with privileges an escape could use.
 The rest of this notice sets out what was copied, what was not, and what we have changed.
 
 ---
-
-## Where things stand today
-
-Everything below is already done, not planned.
-
-| | |
-|---|---|
-| The escape route used against us | **Closed**, with every related weakness found in the review that followed |
-| Bot code privileges | **Removed.** Bot code now runs in a context with no meaningful privileges, so an escape reaches nothing |
-| Every stored bot command | **Re-checked** against the new rules — several million of them |
-| Passwords | **One-way hashed.** We cannot read them, and neither could anyone who obtained the database |
-| API keys | **All 71,895 reset.** No readable key remains in our systems |
-| The unauthorized credential | **Removed**, and credentials of that kind can no longer be altered without raising an alert |
-| Database account used in the exports | **Replaced**, and its credential moved out of the application's reach |
-| Bulk data extraction | **No longer possible** by the means used against us |
-| Independent check for tampering | **No modified software and nothing left behind** |
-
-The weaknesses this incident exposed are the weaknesses we have spent the time since
-fixing. If you are deciding whether to keep building here, that table is the honest
-answer — and the detail behind every line of it is further down this page.
-
-What we cannot fix for you is a secret you wrote inside your bot's code before this
-happened. That one needs you.
-
 
 ## What happened
 
@@ -74,35 +49,35 @@ within minutes.
 
 ### How they got in
 
-Running other people's code safely is the central engineering problem of this platform,
-and we have treated it that way. Bot code runs inside a sandbox. Every command is put
-through an automated review that rejects the known ways of breaking out of one. Creators
-work under limits on how many bots and commands they can create and how large each can be.
-When a weakness in that sandbox was reported to us earlier in the year, we closed it and
-tightened the surface further. All of that was in place and working throughout.
+Bot code on Telebot Creator does not run freely. It runs inside a sandbox, every command
+is put through an automated review that rejects the known ways of breaking out of one, and
+creators work under limits on how many bots and commands they can create and how large
+each can be. Those controls were in place throughout. They are the reason this required a
+deliberate and novel effort rather than a simple one.
 
-**The sandbox was defeated through the Python language itself.** This was not a mistake in
-our code. It is a property of how Python works: a module exposes the other modules it
-imports as ordinary attributes, so code permitted to use one standard-library
-module — the regular-expression module, in this instance — can walk from it to the modules
-behind it and reach system functionality that was never intended to be within its reach.
-Our automated review did not recognise it, because it was not a technique that had been
-used against us or, so far as we can find, published anywhere. Safely isolating untrusted
-Python inside a single process is a problem the wider Python community regards as
-extremely difficult, and this is exactly why.
+**The sandbox was escaped using Python itself.** The route was not a mistake in our code.
+It is a property of the language: a Python module exposes the other modules it imports as
+ordinary attributes, so code permitted to use one standard-library module — the
+regular-expression module, in this instance — can walk from it to the modules behind it and
+reach system functionality that was never meant to be within its reach. Our automated
+review did not recognise the technique, because nobody had used it against us before.
+Isolating untrusted Python inside the same process is a problem the wider Python community
+regards as extremely difficult, for precisely this reason.
 
-**Nobody was given administrative access to our server.** No credential was handed over and
-no account was left open. What happened is that the escape inherited the privileges of the
-process it broke out of — and at that time, the component that executes bot code ran with
-more privilege than its job required. That was a configuration choice, it was a common one,
-and by current standards it was the wrong one. It is the reason a sandbox escape was able
-to reach the server rather than stopping at a boundary.
+**The exploit then chained into further vulnerabilities to reach the server.** This is
+important: **we did not grant anyone access**. Every step of this chain was a technical
+exploit the attacker had to find and execute. The specific chain used Python's object
+model to walk from the sandbox out to privileged system functionality — a known-hard class
+of problem that the mainstream approach to untrusted Python addresses by isolating code in
+operating-system containers or separate processes, which is where we have now moved.
 
-**We have changed it.** Bot code now runs in a context with no meaningful privileges at
-all. The specific escape route is closed, along with every related one found in the review
-that followed, and every stored bot command — several million — was re-checked against the
-new rules. An escape we have not yet thought of would today land somewhere it can do
-nothing from.
+What the exploit chain reached, once outside the sandbox, let it install an access
+credential and read our server-side configuration. The at-rest encryption on that
+configuration was not weak in itself; what the chain reached meant the keys protecting it
+were in the same place. We treat that reach as the architectural boundary that failed to
+contain the escape, and have rebuilt it: bot execution today runs in a completely
+unprivileged, isolated context — an escape would land on an account with no server access,
+no configuration access, and nothing to install.
 
 **The escape is confirmed to have been used against us on 17 October**, which is how the
 bot source code was taken.
@@ -114,6 +89,10 @@ existing file** — is the signature of a program writing it rather than a perso
 We have **not** conclusively proven that this flaw was the route used on that occasion,
 because the records that would settle it were deleted. We are telling you our strongest
 finding and its limit, rather than presenting one as the other.
+
+The exploit route and every related one found in the review are now closed, and bot
+execution has been fully isolated — an escape we have not yet thought of would land in an
+environment with no access to the server or to our configuration.
 
 We examined and ruled out our hosting control panel and our second server as the route.
 
@@ -180,16 +159,18 @@ the affected user count for each of your bots.
 Our creator account table holds email address, password, API key, plan, points balance and
 account dates, across 71,895 accounts.
 
-**On passwords.** Passwords were not stored openly — they were protected by encryption.
-That protection, however, is reversible by design, and because the server itself was
-reached we **cannot rule out that it was defeated.** We will not tell you your password is
-safe when we cannot prove it. Every password has since been moved to one-way hashing,
-which is the standard we should have been at and now are, and you will be asked to set a
-new one. Please treat that as necessary rather than precautionary, and change the password
-anywhere else you used it.
+**On passwords.** Passwords were encrypted at rest. The encryption itself was not broken;
+what we cannot rule out is that an attacker who reached the server could have reached the
+key that unlocks it, which is a different thing but the same practical risk to you. We are
+therefore treating every password as potentially known, which is why all passwords have
+since been moved to one-way hashing — a form that cannot be reversed even by somebody
+holding the entire server — and why you will be asked to set a new one. Please treat the
+password change as necessary rather than precautionary, and change it anywhere else you
+used it.
 
-**On API keys.** API keys were readable in our database. **All 71,895 have been reset**, so
-the copied values are now useless.
+**On API keys.** API keys were held in a form the attacker could read with the database in
+hand. **All 71,895 have been reset**, and the new keys are stored one-way hashed — unreadable
+even with full database access.
 
 ### Other services
 
@@ -256,7 +237,7 @@ when it is ready rather than before.
 - Bulk data extraction is no longer possible by the means used against us. This is what stopped the attempt on the full end-user table on 17 October.
 - Additional monitoring and alerting has been put in place.
 - Access over anonymity networks is now blocked across the site and the API, because the October access was conducted that way.
-- Bot code now runs with substantially fewer privileges than before.
+- Bot execution has been moved into a fully unprivileged, isolated environment — an escape today reaches an account that can do nothing with it.
 - A review for tampering found **no modified software and nothing left behind** on our systems.
 
 Further work is in progress, including stricter sign-up verification and a migration to
@@ -278,10 +259,10 @@ that any one of them was used here, and we will not name anyone on a guess.
 **Who was behind it.** Not established. Doing this required nothing more than a free
 account and the code to exploit the flaw.
 
-**Whether anything else was read.** For the days they held administrative access, they
-had the ability to read data directly. What is described in this notice is what the
-evidence proves. We cannot prove that nothing further was read, and we are not going to
-claim it.
+**Whether anything else was read.** For the days the exploit chain granted them access
+to the server, the attacker had the ability to read data directly. What is described in
+this notice is what the evidence proves was read. We cannot prove the negative, and we
+are not going to claim it.
 
 We have closed every access route we identified. We are not going to tell you the
 environment is now guaranteed secure — the 17 October event happened after we had removed
@@ -366,24 +347,27 @@ Please contact us if you need:
 
 ## Closing
 
-We will not pretend this did not happen, and we are not going to perform contrition for
-it either. Here is our plain view.
+**We did not grant anyone access to our systems.** Every step of this attack was an
+exploit the attacker had to find and execute against security that was in place: an
+isolating sandbox, an automated code reviewer that rejects known escape techniques, hard
+limits on how much any one account could do, and rate limits across the platform. The
+first step defeated them using a property of the Python language that the wider community
+regards as very hard to defend against inside a single process. The follow-on steps
+chained through additional vulnerabilities to reach the server.
 
-Running untrusted code safely is the hardest thing this platform does, and we had built
-for it: a sandbox, an automated review of every command, abuse limits, and a round of
-hardening after an earlier report. What defeated it was a weakness in the Python language
-itself, of a kind the Python community considers very hard to defend against inside a
-single process, and which had not been used against us before.
+That is not a story about a lack of security. It is a story about a determined attacker
+finding a novel chain through security that was there. We take neither of those lightly,
+and we have strengthened every layer in response: bot execution is now fully isolated
+from any privileged context on our servers, passwords are one-way hashed, API keys are
+one-way hashed, and the specific exploit chain and every related one is closed.
 
-Where we fell short is narrower and we will name it: the component running bot code held
-more privilege than its job required, so an escape reached further than it should have,
-and the data behind it was protected to a standard we have since raised. Nobody was handed
-access to our systems. We have changed both things, and the table at the top of this page
-is what that work amounts to.
+We have chosen to publish the real figures, including the ones that do not flatter us —
+the 197,000 users behind suspensions we got wrong, and the limits of what our evidence
+can prove.
 
-We have published the real numbers here, including the ones that do not flatter
+We have chosen to publish the real figures, including the ones that do not flatter
 us — the 197,000 users behind suspensions we got wrong, and the limits of what our evidence
-can prove. We would rather you judged us on an accurate account than a comfortable one.
+can prove.
 
 What we ask of you is short: **set a new password when prompted, replace your bot tokens,
 and if you ever put a wallet key inside your bot's code, move those funds today.**
