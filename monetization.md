@@ -5,7 +5,7 @@ description: >-
 
 # Monetization — Rewarded Ads (libs.tbcads)
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 Earn money from your bot. A user taps **Watch Ad**, views a sponsored offer,
 and your bot delivers the reward automatically.

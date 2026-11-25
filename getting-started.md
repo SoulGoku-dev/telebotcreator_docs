@@ -5,7 +5,7 @@ description: >-
 
 # Getting Started
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 This guide shows how to create a Telegram bot from scratch on Telebot Creator: from registration to a working bot that is hosted for free. You do not need a server or prior programming experience, and the [AI assistant](ai-telegram-bot-builder.md) in the dashboard can write the commands for you if you prefer.
 

@@ -5,7 +5,7 @@ description: >-
 
 # Tips, Best Practices, and Troubleshooting
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 *Last updated: June 2026 | Maintained by Telebot Creator Team*
 

@@ -5,7 +5,7 @@ description: >-
 
 # Advanced Features
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 #### **7. Advanced Features**
 

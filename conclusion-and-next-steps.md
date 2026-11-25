@@ -5,7 +5,7 @@ description: >-
 
 # Conclusion and Next Steps
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 *Last updated: June 2026 | Maintained by Telebot Creator Team*
 
@@ -58,7 +58,7 @@ Now that you know the platform, here are some bots you can build:
 Telebot Creator tracks **two** independent version numbers:
 
 - **TBC platform version** — the Telebot Creator product (TPY runtime, libraries, dashboard). Current: **7.1.2**.
-- **Telegram Bot API version** — how much of Telegram's official Bot API the `bot` object supports. Current: **10.1**.
+- **Telegram Bot API version** — how much of Telegram's official Bot API the `bot` object supports. Current: **10.5**.
 
 ### TBC Platform Releases
 
@@ -76,10 +76,11 @@ Telebot Creator tracks **two** independent version numbers:
 
 | Bot API Level | Highlights Added in TBC |
 |---|---|
-| **10.1** (Current) | Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, Stars balance & subscriptions, reaction deletion, plus TBC-custom `sendRichMessage` / `sendLivePhoto` |
+| **10.5** (Current) | Every Telegram method and option: coloured buttons, ephemeral messages, HTML widgets, `setMySettings`, unique gifts, plus `callApi` for any method Telegram adds later |
+| **10.1** | Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, Stars balance & subscriptions, reaction deletion, rich messages (`sendRichMessage`) and live photos (`sendLivePhoto`) |
 | **7.x** | Paid media (Stars), business connections, message reactions, chat boosts, subscription invite links |
 
-> See the [Telegram Bot API 10.1 update](telegram-bot-api-10.1-update.md) for the full list of newly supported methods.
+> See the [Telegram Bot API 10.5 update](telegram-bot-api-10.5-update.md) and the [10.1 update](telegram-bot-api-10.1-update.md) for the full lists of newly supported methods.
 
 ---
 

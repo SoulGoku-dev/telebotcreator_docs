@@ -108,9 +108,9 @@ bot.sendMessage(f"Current Star balance: {balance.amount}")
 | `deleteMessageReaction` | Remove a reaction from a message. |
 | `deleteAllMessageReactions` | Remove all reactions from a message. |
 
-### ✨ TBC-Custom Methods
+### ✨ Rich Messages and Live Photos
 
-Two helpers unique to Telebot Creator complement the official API:
+Two Telegram methods of Bot API 10.0 – 10.1:
 
 | Method | Purpose |
 |---|---|

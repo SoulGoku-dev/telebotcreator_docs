@@ -5,7 +5,7 @@ description: >-
 
 # Introduction to Telebot Creator
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 *Last updated: October 2026 | Maintained by Telebot Creator Team*
 
@@ -23,10 +23,10 @@ TBC uses **TPY (Telebot Python)**, a custom scripting language based on Python. 
 | **Total Bots Created** | 420,000+ |
 | **Bot Users** | 60,000,000+ |
 | **TBC Platform Version** | 7.1.2 |
-| **Telegram Bot API** | 10.1 |
+| **Telegram Bot API** | 10.5 |
 | **Libraries** | 30+ built-in |
 
-> **Two version numbers, two different things.** The **TBC platform version** (currently **7.1.2**) tracks the Telebot Creator product itself — its TPY runtime, libraries, dashboard, and services. The **Telegram Bot API version** (currently **10.1**) tracks how much of Telegram's official Bot API the `bot` object supports. They are independent: a platform release can ship without changing the Bot API level, and a Bot API bump can ship without a platform version change.
+> **Two version numbers, two different things.** The **TBC platform version** (currently **7.1.2**) tracks the Telebot Creator product itself — its TPY runtime, libraries, dashboard, and services. The **Telegram Bot API version** (currently **10.5**) tracks how much of Telegram's official Bot API the `bot` object supports. They are independent: a platform release can ship without changing the Bot API level, and a Bot API bump can ship without a platform version change.
 
 ---
 
@@ -120,7 +120,7 @@ TBC keeps the platform free through minimal, non-intrusive advertising:
 | **Bot Transfer** | Transfer bot ownership to another account |
 | **Bot Recovery** | Recover deleted bots within 90 days |
 | **Inline Queries** | Handle inline mode, callback queries, payments, and all Telegram update types |
-| **Telegram Bot API 10.1** | Full coverage of the latest Telegram features — Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, and Stars |
+| **Telegram Bot API 10.5** | Full coverage of the latest Telegram features — Coloured buttons, Ephemeral messages, HTML widgets, Gifts, Stories, Business accounts, Checklists, Suggested posts, Verification, and Stars |
 | **Image Processing** | OpenCV and Pillow libraries for image manipulation |
 | **Code Editor** | Built-in TPY code editor with syntax highlighting and autocomplete |
 | **Bot Export / Import** | Export a bot to a portable file, import it back, and round-trip through the AI assistant |

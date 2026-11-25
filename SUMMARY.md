@@ -1,6 +1,6 @@
 # Table of Contents
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 ## Getting Started
 * [Telebot Creator Docs: Build Telegram Bots](README.md)
@@ -39,6 +39,7 @@
 * [Glossary & Key Concepts](glossary-and-key-concepts.md)
 
 ## Changelog
+* [Telegram Bot API 10.5 Update](telegram-bot-api-10.5-update.md)
 * [Telegram Bot API 10.1 Update](telegram-bot-api-10.1-update.md)
 * [Version 7.1.2: Security Library, Webhooks](version-7.1.2-update.md)
 * [Version 5.0.0: Stats, TransferData, AI](version-5.0.0-update.md)

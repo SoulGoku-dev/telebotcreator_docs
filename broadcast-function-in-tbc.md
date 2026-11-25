@@ -5,7 +5,7 @@ description: >-
 
 # Broadcast Function In TBC
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 #### **Broadcast Function Documentation (Broadcast V2)**
 

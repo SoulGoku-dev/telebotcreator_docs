@@ -5,7 +5,7 @@ description: >-
 
 # Bot Features and Functionalities
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 #### **6. Bot Features and Functionalities**
 
@@ -330,6 +330,15 @@ bot.sendMessage("Menu", reply_markup={
     "keyboard": [[{"text": "Balance", "style": "primary"}, {"text": "Delete account", "style": "danger"}]],
     "resize_keyboard": True,
 })
+```
+
+Button objects take the same two fields:
+
+```python
+kb = InlineKeyboardMarkup()
+kb.add(InlineKeyboardButton("Buy now", callback_data="buy", style="success"),
+       InlineKeyboardButton("Cancel", callback_data="cancel", style="danger"))
+bot.sendMessage("What would you like to do?", reply_markup=kb)
 ```
 
 To find a custom emoji's id, look at any message that contains it: `message.entities` holds an entry of type `custom_emoji` with its `custom_emoji_id`.

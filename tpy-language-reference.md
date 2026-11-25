@@ -5,7 +5,7 @@ description: >-
 
 # TPY Language Reference
 
-*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.1*
+*Telebot Creator Documentation — Platform v7.1.2 · Telegram Bot API 10.5*
 
 *Last updated: June 2026 | Maintained by Telebot Creator Team*
 
@@ -331,7 +331,7 @@ bot.sendPhoto(chat_id=123456789, photo="https://ibb.co/kyjq5Tm", caption="Welcom
 
 **4.4.3 Telegram Bot API 8.x – 10.1 Methods**
 
-TBC now tracks **Telegram Bot API 10.1**. The following methods were added on top of the 7.x baseline above. They follow the same naming rules — call them in **camelCase** (e.g. `bot.getAvailableGifts()`) or **snake\_case** (e.g. `bot.get_available_gifts()`). As with the rest of TBC, media parameters take a Telegram `file_id`, a public URL, or a structured `dict` — local file uploads are not supported in the sandbox.
+The following methods arrived with Bot API 8.x – 10.1, on top of the 7.x baseline above. They follow the same naming rules — call them in **camelCase** (e.g. `bot.getAvailableGifts()`) or **snake\_case** (e.g. `bot.get_available_gifts()`). As with the rest of TBC, media parameters take a Telegram `file_id`, a public URL, or a structured `dict` — local file uploads are not supported in the sandbox.
 
 | **Method** | **Arguments** | **Description** |
 | ----------------------------------- | --- | --- |
@@ -366,8 +366,8 @@ TBC now tracks **Telegram Bot API 10.1**. The following methods were added on to
 | `editUserStarSubscription` | `user_id` (Required), `telegram_payment_charge_id` (Required), `is_canceled` (Required) | Cancels or re-enables a user's Star subscription. |
 | `deleteMessageReaction` | `chat_id` (Required), `message_id` (Required), `user_id` (Optional), `actor_chat_id` (Optional) | Removes a reaction from a message. |
 | `deleteAllMessageReactions` | `chat_id` (Required), `user_id` (Optional), `actor_chat_id` (Optional) | Removes all reactions from a message. |
-| `sendRichMessage` | `rich_message` (Required), `business_connection_id` (Optional), plus standard send options | **TBC-custom** — sends a rich (structured) message. |
-| `sendLivePhoto` | `live_photo` (Required), `photo` (Required), `business_connection_id` (Optional), plus standard send options | **TBC-custom** — sends a live photo. |
+| `sendRichMessage` | `rich_message` (Required), `business_connection_id` (Optional), plus standard send options | Sends a rich (structured) message (Bot API 10.1). |
+| `sendLivePhoto` | `live_photo` (Required), `photo` (Required), `business_connection_id` (Optional), plus standard send options | Sends a live photo (Bot API 10.0). |
 
 > **Note:** Gift, Story, and Business-account methods require a **business connection** (`business_connection_id`) from a user who has linked their account to your bot. `sendGift` / `getAvailableGifts` / `getMyStarBalance` work with the bot's own token.
 
@@ -385,6 +385,30 @@ if gifts and gifts.gifts:
 balance = bot.getMyStarBalance()
 bot.sendMessage(f"Bot Star balance: {balance.amount}")
 ```
+
+**4.4.4 Telegram Bot API 10.2 – 10.5 Methods**
+
+TBC now tracks **Telegram Bot API 10.5**: every method and option of Telegram's reference is available. The methods below were added in 10.2 – 10.5; the [Telegram Bot API 10.5 update](telegram-bot-api-10.5-update.md) explains them with examples, and lists the options added to older methods (such as `ephemeral_message_parameters`). Arguments given without a name are taken in the order shown. A left-out `chat_id` means the user who ran the command.
+
+| **Method** | **Arguments** | **Description** |
+| ----------------------------------- | --- | --- |
+| `editEphemeralMessageText` | `receiver_user_id` (Required), `ephemeral_message_id` (Required), `text` (Optional), `parse_mode` (Optional), `entities` (Optional), `rich_message` (Optional), `link_preview_options` (Optional), `reply_markup` (Optional), `chat_id` (Optional) | Changes the text (or rich text) of an ephemeral message. |
+| `editEphemeralMessageCaption` | `receiver_user_id` (Required), `ephemeral_message_id` (Required), `caption` (Optional), `parse_mode` (Optional), `caption_entities` (Optional), `show_caption_above_media` (Optional), `reply_markup` (Optional), `chat_id` (Optional) | Changes the caption of an ephemeral message. |
+| `editEphemeralMessageMedia` | `receiver_user_id` (Required), `ephemeral_message_id` (Required), `media` (Required), `reply_markup` (Optional), `chat_id` (Optional) | Replaces the photo, video or file of an ephemeral message. |
+| `editEphemeralMessageReplyMarkup` | `receiver_user_id` (Required), `ephemeral_message_id` (Required), `reply_markup` (Optional), `chat_id` (Optional) | Changes only the buttons of an ephemeral message. |
+| `deleteEphemeralMessage` | `receiver_user_id` (Required), `ephemeral_message_id` (Required), `chat_id` (Optional) | Deletes an ephemeral message. |
+| `sendWidget` | `html` (Required), `message_thread_id` (Optional), `width` (Optional), `height` (Optional), `public_data` (Optional), `chat_data` (Optional), `caption` (Optional), `parse_mode` (Optional), `caption_entities` (Optional), `show_caption_above_media` (Optional), `allow_queries` (Optional), `is_shared` (Optional), `disable_notification` (Optional), `protect_content` (Optional), `allow_paid_broadcast` (Optional), `message_effect_id` (Optional), `reply_parameters` (Optional), `reply_markup` (Optional), `chat_id` (Optional) | Sends a message with an HTML widget (private chats only for now). |
+| `sendSharedWidget` | `widget_id` (Required), `message_thread_id` (Optional), `chat_data` (Optional), `caption` (Optional), `parse_mode` (Optional), `caption_entities` (Optional), `show_caption_above_media` (Optional), `disable_notification` (Optional), `protect_content` (Optional), `allow_paid_broadcast` (Optional), `message_effect_id` (Optional), `reply_parameters` (Optional), `reply_markup` (Optional), `chat_id` (Optional) | Sends a shared widget again. |
+| `answerWidgetQuery` | `widget_query_id` (Required), `data` (Optional) | Answers a widget's query, within 15 seconds. |
+| `editMessageWidgetData` | `message_id` (Optional), `inline_message_id` (Optional), `public_data` (Optional), `chat_data` (Optional), `chat_id` (Optional) | Changes the data of a widget in a message. |
+| `editSharedWidgetData` | `widget_id` (Required), `public_data` (Required), `cache_time` (Optional) | Changes the public data of a shared widget (at most once a second). |
+| `getUniqueGift` | `name` (Required) | Returns a unique gift by its name. |
+| `deleteBusinessAccountGift` | `business_connection_id` (Required), `owned_gift_id` (Required) | Deletes a regular gift owned by a connected business account. |
+| `getChatShareThemeBackdrops` | None | Returns the backdrops for the link-sharing screen. |
+| `setMySettings` | `supports_inline_queries` (Optional), `inline_query_placeholder` (Optional), `needs_inline_query_location` (Optional), `inline_feedback_share_denominator` (Optional), `can_join_groups` (Optional), `can_read_all_group_messages` (Optional), `can_connect_to_business` (Optional), `can_manage_bots` (Optional), `supports_guest_queries` (Optional), `supports_join_request_queries` (Optional), `has_topics_enabled` (Optional), `allows_users_to_create_topics` (Optional), `has_topic_sidebar` (Optional), `can_communicate_with_bots` (Optional), `callback_query_mode` (Optional) | Changes the bot's own settings; options not given stay as they are. `callback_query_mode` is refused. |
+| `callApi` | `method` (Required), `params` (Optional), other options by name | Calls any Bot API method by its name and returns Telegram's answer as it came. Nothing is filled in. |
+
+> **Note:** `setWebhook`, `deleteWebhook`, `getWebhookInfo`, `getUpdates`, `logOut` and `close` are not available in bot code, also not through `callApi` or `HTTP`: Telebot Creator delivers every update to your commands through its own webhook.
 
 #### **4.5 Libraries (libs)**
 
