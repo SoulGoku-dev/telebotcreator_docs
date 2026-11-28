@@ -27,6 +27,7 @@
 * [MCP Server — Build Bots With AI](mcp-server.md)
 * [Auto-Translation (92 languages)](auto-translation.md)
 * [Monetization: Earn With Rewarded Ads](monetization.md)
+* [IP Verification (Stop Fake Accounts)](ip-verification.md)
 * [Crypto Libraries (Web3, EVM)](crypto-libraries-documentation.md)
 
 ## Guides & Examples

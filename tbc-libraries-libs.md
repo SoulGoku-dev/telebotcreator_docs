@@ -735,6 +735,7 @@ Utility functions for generating random values — handy for games, giveaways, c
 | **libs.openai_lib**  | OpenAI API integration for AI capabilities                        | `OpenAIClient`, `AIAssistant`, create_chat_completion                |
 | **libs.gemini_lib**  | Google Gemini API integration for AI capabilities                 | `GeminiClient`, `GeminiAIAssistant`, create_chat_completion         |
 | **libs.security**    | Cryptographic toolkit — HMAC, Ed25519, AES, hashing              | `hmac_sign`, `hmac_verify`, `ed25519_verify`, `encrypt`, `decrypt`  |
+| **libs.IPVerify**    | Limit accounts per internet connection and block VPNs, checked in a Telegram Mini App ([guide](ip-verification.md)) | `send`, `link`, `status`, `is_verified`, `reset` |
 
 #### **5.6 Real-World Applications of Libraries**
 
